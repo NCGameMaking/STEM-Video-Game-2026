@@ -52,6 +52,70 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_l8qhw")
 
+[sub_resource type="Animation" id="Animation_6jape"]
+resource_name = "HoverBackward"
+length = 0.625
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Submarine:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.625),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(-1.5707964, 0, 0), Vector3(-1.7453293, 0, 0), Vector3(-1.8325957, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Submarine/BubbleController/Right:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Submarine/BubbleController/Left:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Submarine/BubbleController/Middle:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Submarine/BubbleController:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
 [sub_resource type="Animation" id="Animation_a07w3"]
 resource_name = "HoverBoost"
 length = 1.2083334
@@ -69,6 +133,54 @@ tracks/1/path = NodePath("Submarine")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = PackedFloat32Array(0, 1, -0.7071069, 0, 0, 0.70710665, 0.033333335, 1, -0.70641035, -1.3100131e-05, 0.00024220548, 0.7078025, 0.06666667, 1, -0.70473844, -4.448708e-05, 0.00082251144, 0.7094667, 0.1, 1, -0.70215696, -9.279825e-05, 0.0017157241, 0.7120201, 0.13333334, 1, -0.6987288, -0.00015667049, 0.0028966437, 0.7153807, 0.16666667, 1, -0.69451535, -0.00023473908, 0.0043400466, 0.7194648, 0.2, 1, -0.6893926, -0.0003290131, 0.0060830554, 0.72436225, 0.23333333, 1, -0.683677, -0.0004333899, 0.0080128545, 0.7297407, 0.26666668, 1, -0.6774309, -0.0005464993, 0.01010412, 0.7355168, 0.3, 1, -0.67071867, -0.0006669706, 0.012331495, 0.74160904, 0.33333334, 1, -0.66360635, -0.000793434, 0.014669619, 0.74793774, 0.36666667, 1, -0.65612364, -0.00092518615, 0.017105572, 0.7544589, 0.43333334, 1, -0.64071834, -0.001192432, 0.022046644, 0.76745856, 0.46666667, 1, -0.6331074, -0.0013225385, 0.024452183, 0.77367663, 0.5, 1, -0.62590796, -0.0014444817, 0.026706751, 0.7794382, 0.53333336, 1, -0.61993474, -0.0015448454, 0.02856232, 0.7841319, 0.56666666, 1, -0.61537516, -0.001620966, 0.029969681, 0.7876628, 0.6, 1, -0.6125746, -0.0016675142, 0.030830275, 0.78980964, 0.6333333, 1, -0.61268574, -0.001665669, 0.030796127, 0.7897247, 0.6666667, 1, -0.6176488, -0.0015830611, 0.029268816, 0.7859077, 0.7, 1, -0.63035697, -0.0013692606, 0.0253159, 0.77589136, 0.73333335, 1, -0.6463473, -0.0010953995, 0.020252563, 0.7627739, 0.76666665, 1, -0.6639333, -0.0007876439, 0.014562558, 0.74764955, 0.8, 1, -0.6815196, -0.00047256806, 0.008737204, 0.73174757, 0.8333333, 1, -0.69763047, -0.00017706593, 0.0032737276, 0.71645033, 0.8666667, 1, -0.709167, 3.8826107e-05, -0.00071784994, 0.7050402, 0.9, 1, -0.71531934, 0.00015549896, -0.0028749881, 0.69879186, 0.93333334, 1, -0.7172802, 0.0001929169, -0.0035667983, 0.69677573, 0.96666664, 1, -0.7166408, 0.00018070167, -0.0033409495, 0.6974344, 1, 1, -0.715457, 0.00015811942, -0.002923426, 0.6986507, 1.0333333, 1, -0.71383566, 0.00012726145, -0.0023529083, 0.7003094, 1.1, 1, -0.7104016, 6.215294e-05, -0.0011491287, 0.70379555, 1.1333333, 1, -0.70888054, 3.342034e-05, -0.0006178989, 0.70532835, 1.1666666, 1, -0.7076861, 1.0907159e-05, -0.00020165951, 0.70652694, 1.2083334, 1, -0.7071069, 0, 0, 0.70710665)
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Submarine/BubbleController/Left:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Submarine/BubbleController/Middle:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Submarine/BubbleController/Right:emitting")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Submarine/BubbleController:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_s8co7"]
 resource_name = "HoverForward"
@@ -87,6 +199,54 @@ tracks/1/path = NodePath("Submarine")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = PackedFloat32Array(0, 1, -0.7071069, 0, 0, 0.70710665, 0.033333335, 1, -0.7063956, 0.000112739035, 6.881052e-05, 0.7078172, 0.06666667, 1, -0.70468855, 0.0003828532, 0.00023367534, 0.70951664, 0.1, 1, -0.7020529, 0.00079861574, 0.000487437, 0.7121243, 0.13333334, 1, -0.69855297, 0.0013482962, 0.00082293595, 0.7155566, 0.16666667, 1, -0.69425166, 0.002020154, 0.0012330061, 0.7197285, 0.2, 1, -0.6890232, 0.0028314695, 0.0017281949, 0.72473174, 0.23333333, 1, -0.6831904, 0.0037297313, 0.0022764504, 0.73022723, 0.26666668, 1, -0.6768174, 0.004703149, 0.0028705779, 0.7361303, 0.3, 1, -0.66996986, 0.005739922, 0.003503375, 0.74235785, 0.33333334, 1, -0.66271544, 0.0068282466, 0.0041676355, 0.7488286, 0.36666667, 1, -0.65508497, 0.007962103, 0.0048596906, 0.7554977, 0.43333334, 1, -0.6393795, 0.010262018, 0.006263448, 0.7687974, 0.46666667, 1, -0.6316226, 0.011381717, 0.00694686, 0.77516145, 0.5, 1, -0.6242863, 0.012431149, 0.007587384, 0.78105986, 0.53333336, 1, -0.6182003, 0.01329486, 0.00811455, 0.7858663, 0.56666666, 1, -0.6135553, 0.013949937, 0.00851438, 0.7894826, 0.6, 1, -0.6107026, 0.0143505195, 0.0087588765, 0.7916817, 0.625, 1, -0.6095479, 0.014512269, 0.0088576, 0.7925669)
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Submarine/BubbleController/Left:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Submarine/BubbleController/Middle:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Submarine/BubbleController/Right:emitting")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Submarine/BubbleController:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_wqqa5"]
 resource_name = "HoverIdle"
@@ -106,6 +266,18 @@ tracks/1/path = NodePath("Submarine")
 tracks/1/interp = 0
 tracks/1/loop_wrap = true
 tracks/1/keys = PackedFloat32Array(0, 1, -0.7071069, 0, 0, 0.70710665)
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Submarine/BubbleController:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1.9166666),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, false]
+}
 
 [sub_resource type="Animation" id="Animation_45lfp"]
 resource_name = "PitchDown"
@@ -124,6 +296,54 @@ tracks/1/path = NodePath("Submarine")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = PackedFloat32Array(0, 1, -0.7071069, 0, 0, 0.70710665, 0.1, 1, -0.7061647, -7.906994e-06, 0.00027552928, 0.7080476, 0.13333334, 1, -0.70502734, -1.7437167e-05, 0.00060761976, 0.7091799, 0.16666667, 1, -0.7032327, -3.2443888e-05, 0.0011305453, 0.7109589, 0.2, 1, -0.70026255, -5.719231e-05, 0.0019929225, 0.7138826, 0.23333333, 1, -0.69617504, -9.107857e-05, 0.0031737364, 0.7178651, 0.26666668, 1, -0.6908019, -0.00013532367, 0.0047155167, 0.7230287, 0.3, 1, -0.68396485, -0.00019114222, 0.0066605797, 0.72948456, 0.33333334, 1, -0.67547315, -0.00025973885, 0.009050908, 0.737329, 0.36666667, 1, -0.66443276, -0.00034775646, 0.012118007, 0.7472498, 0.4, 1, -0.65114355, -0.0004520208, 0.015751231, 0.75879097, 0.43333334, 1, -0.6349118, -0.00057700096, 0.020106306, 0.77232283, 0.46666667, 1, -0.6156693, -0.0007219631, 0.025157657, 0.78760266, 0.5, 1, -0.59404016, -0.0008810067, 0.030699678, 0.8038489, 0.53333336, 1, -0.57326835, -0.0010300882, 0.0358946, 0.8185804, 0.56666666, 1, -0.5562184, -0.0011499232, 0.040070396, 0.83006877, 0.6, 1, -0.5451704, -0.0012264042, 0.042735443, 0.8372344, 0.625, 1, -0.5404773, -0.0012586226, 0.043858092, 0.8402138)
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Submarine/BubbleController:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Submarine/BubbleController/Left:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Submarine/BubbleController/Middle:emitting")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Submarine/BubbleController/Right:emitting")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_o131e"]
 resource_name = "PitchUp"
@@ -142,6 +362,117 @@ tracks/1/path = NodePath("Submarine")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = PackedFloat32Array(0, 1, -0.7071069, 0, 0, 0.70710665, 0.1, 1, -0.70804775, 7.907058e-06, -0.00027552925, 0.7061646, 0.13333334, 1, -0.70918, 1.7437282e-05, -0.00060761976, 0.7050273, 0.16666667, 1, -0.710959, 3.2443964e-05, -0.001130545, 0.7032326, 0.2, 1, -0.7138826, 5.7192006e-05, -0.001992923, 0.7002626, 0.23333333, 1, -0.71786505, 9.107822e-05, -0.0031737366, 0.6961751, 0.26666668, 1, -0.7230287, 0.00013532359, -0.0047155158, 0.69080186, 0.3, 1, -0.7294847, 0.00019114281, -0.0066605797, 0.68396467, 0.33333334, 1, -0.7373291, 0.00025974071, -0.009050907, 0.67547303, 0.36666667, 1, -0.7472499, 0.00034775923, -0.012118006, 0.6644326, 0.4, 1, -0.7587911, 0.0004520227, -0.01575123, 0.65114343, 0.43333334, 1, -0.7723229, 0.0005770019, -0.020106306, 0.6349117, 0.46666667, 1, -0.7876026, 0.0007219632, -0.025157658, 0.61566937, 0.5, 1, -0.8038489, 0.00088100444, -0.030699672, 0.59404016, 0.53333336, 1, -0.8185805, 0.0010300857, -0.035894588, 0.5732683, 0.56666666, 1, -0.8300688, 0.0011499234, -0.040070392, 0.5562183, 0.6, 1, -0.83723444, 0.001226405, -0.042735443, 0.5451703, 0.625, 1, -0.84021384, 0.0012586216, -0.043858085, 0.5404772)
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Submarine/BubbleController:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Submarine/BubbleController/Left:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Submarine/BubbleController/Middle:emitting")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Submarine/BubbleController/Right:emitting")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_1qcwb"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Submarine:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-1.5707964, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Submarine/BubbleController:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Submarine/BubbleController/Right:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Submarine/BubbleController/Left:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Submarine/BubbleController/Middle:emitting")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_yuwep"]
 resource_name = "RollLeft"
@@ -160,6 +491,54 @@ tracks/1/path = NodePath("Submarine")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = PackedFloat32Array(0, 1, -0.7071069, 0, 0, 0.70710665, 0.033333335, 1, -0.7070989, 0.0006742786, -0.0007648362, 0.70711386, 0.06666667, 1, -0.70707905, 0.0022996601, -0.0025864386, 0.70712614, 0.1, 1, -0.70704263, 0.0048158946, -0.0053743855, 0.7071342, 0.13333334, 1, -0.7069826, 0.008162707, -0.009038227, 0.70712614, 0.16666667, 1, -0.70689005, 0.012279748, -0.013487424, 0.70708823, 0.2, 1, -0.70675296, 0.01730317, -0.018802792, 0.7069989, 0.23333333, 1, -0.70656586, 0.02291538, -0.024631463, 0.7068472, 0.26666668, 1, -0.7063211, 0.029055439, -0.030882247, 0.7066206, 0.3, 1, -0.7060126, 0.03566225, -0.037463844, 0.70630795, 0.33333334, 1, -0.70563626, 0.042674586, -0.044284854, 0.7059003, 0.36666667, 1, -0.7051951, 0.05010753, -0.051244717, 0.70538145, 0.43333334, 1, -0.7041587, 0.06553783, -0.064954266, 0.7040216, 0.46666667, 1, -0.7036203, 0.073224634, -0.07143373, 0.7031742, 0.5, 1, -0.70311207, 0.080524296, -0.07740538, 0.70225185, 0.53333336, 1, -0.7026949, 0.0866079, -0.08224127, 0.70139533, 0.56666666, 1, -0.70236814, 0.091251634, -0.08587875, 0.7006975, 0.6, 1, -0.7021651, 0.094105475, -0.08808858, 0.7002492, 0.625, 1, -0.702084, 0.09526356, -0.088974975, 0.7000617)
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Submarine/BubbleController/Right:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Submarine/BubbleController/Left:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Submarine/BubbleController:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Submarine/BubbleController/Middle:emitting")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_he876"]
 resource_name = "RollRight"
@@ -178,36 +557,53 @@ tracks/1/path = NodePath("Submarine")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = PackedFloat32Array(0, 1, -0.7071069, 0, 0, 0.70710665, 0.033333335, 1, -0.70710987, -0.00067243376, 0.0007666711, 0.7071029, 0.06666667, 1, -0.7071134, -0.0022937797, 0.002592207, 0.7070918, 0.1, 1, -0.7071093, -0.0048043514, 0.005385519, 0.7070675, 0.13333334, 1, -0.70708704, -0.00814444, 0.009055494, 0.70702165, 0.16666667, 1, -0.7070343, -0.012254268, 0.01351094, 0.706944, 0.2, 1, -0.706932, -0.017271036, 0.018831462, 0.70681983, 0.23333333, 1, -0.70677066, -0.022877997, 0.024663635, 0.7066425, 0.26666668, 1, -0.70653915, -0.029014956, 0.030915806, 0.7064027, 0.3, 1, -0.7062278, -0.035621595, 0.037496224, 0.70609313, 0.33333334, 1, -0.70582867, -0.042637523, 0.044313088, 0.7057084, 0.36666667, 1, -0.7053311, -0.050080888, 0.051264193, 0.705246, 0.43333334, 1, -0.70405936, -0.06555114, 0.06494383, 0.70412064, 0.46666667, 1, -0.703297, -0.073264845, 0.07140107, 0.70349663, 0.5, 1, -0.7024894, -0.08059226, 0.0773464, 0.70287347, 0.53333336, 1, -0.7017551, -0.08670023, 0.08215593, 0.7023342, 0.56666666, 1, -0.7011607, -0.091362864, 0.0857715, 0.7019044, 0.6, 1, -0.7007808, -0.09422844, 0.08796696, 0.7016331, 0.625, 1, -0.7006231, -0.09539138, 0.08884719, 0.7015226)
-
-[sub_resource type="Animation" id="Animation_6jape"]
-resource_name = "HoverBackward"
-length = 0.625
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Submarine:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.4, 0.625),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector3(-1.5707964, 0, 0), Vector3(-1.7453293, 0, 0), Vector3(-1.8325957, 0, 0)]
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Submarine/BubbleController/Right:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
 }
-
-[sub_resource type="Animation" id="Animation_1qcwb"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Submarine:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Submarine/BubbleController/Left:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(-1.5707964, 0, 0)]
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Submarine/BubbleController/Middle:emitting")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Submarine/BubbleController:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_wcbqk"]
@@ -230,9 +626,24 @@ height = 3.9050293
 [node name="Submarine" type="CharacterBody3D"]
 
 [node name="Submarine" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.01800001, 0, 0, 0, -7.8680534e-10, 0.01800001, 0, -0.018000009, -7.8680545e-10, 0, 0, 0)
+transform = Transform3D(0.018000012, 0, 0, 0, -7.8680545e-10, 0.01800001, 0, -0.01800001, -7.8680545e-10, 0, 0, 0)
 mesh = SubResource("ArrayMesh_p1csd")
 skeleton = NodePath("")
+
+[node name="BubbleController" type="Node3D" parent="Submarine"]
+visible = false
+
+[node name="Left" parent="Submarine/BubbleController" instance=ExtResource("4_ue3ij")]
+transform = Transform3D(0.0036241463, 1.9998543, 10.929652, -0.0006631364, 10.929646, -1.9998535, -11.1111, -7.813242e-09, 0.003684316, 73.407036, 60.084328, -23.497532)
+amount = 20
+
+[node name="Middle" parent="Submarine/BubbleController" instance=ExtResource("4_ue3ij")]
+transform = Transform3D(-10.733479, -2.870465, 0.09738995, 0.105794884, -0.018633796, 11.110584, -2.8701677, 10.733905, 0.045331758, 0.008281589, 111.930466, -1.1025542)
+amount = 20
+
+[node name="Right" parent="Submarine/BubbleController" instance=ExtResource("4_ue3ij")]
+transform = Transform3D(0.003620612, -2.0601037, 10.918456, 0.0006831314, 10.918449, 2.060102, -11.111101, -8.4431235e-09, 0.0036844942, -74.24353, 59.34803, -26.72937)
+amount = 20
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -242,6 +653,3 @@ libraries = {
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 1.4198732e-08, -0.3248291)
 shape = SubResource("CapsuleShape3D_48gdx")
-
-[node name="BubblesBooster" parent="." instance=ExtResource("4_ue3ij")]
-transform = Transform3D(-0.99999994, 0, 0.00033155282, 0, 1, 0, -0.00033155282, 0, -0.99999994, 0, 0, 0)
