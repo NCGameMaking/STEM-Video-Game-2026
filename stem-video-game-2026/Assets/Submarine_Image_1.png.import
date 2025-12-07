@@ -2,7 +2,7 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bubyfvaqt73ul"
+uid="uid://c1n0lmkyeoaju"
 path.s3tc="res://.godot/imported/Submarine_Image_1.png-19637f83ee72211ad2ca4fd38bda6cf3.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
@@ -30,7 +30,7 @@ compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=8
-roughness/src_normal="res://Assets/Submarine_Image_2.png"
+roughness/src_normal="res://Submarine_Image_2.png"
 process/channel_remap/red=0
 process/channel_remap/green=1
 process/channel_remap/blue=2
