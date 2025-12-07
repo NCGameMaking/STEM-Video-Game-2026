@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://drlnkpor2ihmn"
-path.s3tc="res://.godot/imported/Submarine_Image_0.png-d48700397a9c02e6b9a4e9768d9502af.s3tc.ctex"
+uid="uid://cbe8740ggulre"
+path.s3tc="res://.godot/imported/Submarine(Better)_Image_1.png-3811e72db1d0d566880eae5f6e05c205.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "eab3584e518bbb6da442a871ca1a2334"
+"md5": "bf9bd07a75f14fcde8abef7617aa4c5e"
 }
 
 [deps]
 
-source_file="res://Assets/Submarine_Image_0.png"
-dest_files=["res://.godot/imported/Submarine_Image_0.png-d48700397a9c02e6b9a4e9768d9502af.s3tc.ctex"]
+source_file="res://Assets/Submarine(Better)_Image_1.png"
+dest_files=["res://.godot/imported/Submarine(Better)_Image_1.png-3811e72db1d0d566880eae5f6e05c205.s3tc.ctex"]
 
 [params]
 
@@ -29,8 +29,8 @@ compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
-roughness/mode=0
-roughness/src_normal=""
+roughness/mode=8
+roughness/src_normal="res://Assets/Submarine(Better)_Image_2.png"
 process/channel_remap/red=0
 process/channel_remap/green=1
 process/channel_remap/blue=2
