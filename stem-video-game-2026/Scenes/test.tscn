@@ -1,0 +1,47 @@
+[gd_scene load_steps=6 format=3 uid="uid://d3i0slw7f74ly"]
+
+[ext_resource type="PackedScene" uid="uid://c4w6g3xh6tgwh" path="res://Scenes/submarine.tscn" id="1_37kl0"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_mf4mk"]
+size = Vector2(30, 30)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_37kl0"]
+points = PackedVector3Array(1.0158731, 0.015873017, 1.0158731, -1.0158731, -0.015873017, -1.0158731, -1.0158731, 0.015873017, -1.0158731, 1.0158731, -0.015873017, -1.0158731, -1.0158731, -0.015873017, 1.0158731, -1.0158731, 0.015873017, 1.0158731, 1.0158731, 0.015873017, -1.0158731, 1.0158731, -0.015873017, 1.0158731)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_37kl0"]
+top_radius = 5.0
+bottom_radius = 5.0
+height = 5.0
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_8uh7m"]
+points = PackedVector3Array(0.8948945, 2.5, 4.7696567, -0.920646, -2.494078, -4.9120364, -1.5340847, -2.4919534, -4.755116, 0.921582, -2.4940062, 4.911897, 4.6220646, 2.5, -1.4905763, -4.770591, 2.5, -0.89378536, -4.26921, -2.476383, 2.5912058, 4.9120884, -2.4936087, 0.92029536, -0.89396036, 2.5, -4.7696567, 3.045566, -2.4733028, -3.9588425, -2.981736, 2.5, 3.8758714, 3.8756964, 2.5, 2.9811525, -4.26921, -2.476383, -2.5912058, 1.9383152, 2.5, -4.4717283, -2.981736, 2.5, -3.8758714, -1.5340847, -2.4919534, 4.755116, 3.045566, -2.4733028, 3.9588425, 4.7553086, -2.4915605, -1.5335463, -4.4726043, 2.5, 1.9379357, -4.9120884, -2.4936087, 0.92029536, 3.8756964, 2.5, -2.9811525, 4.770591, 2.5, 0.89378536, 0.921582, -2.4940062, -4.911897, -0.89396036, 2.5, 4.7696567, 2.5342886, 2.5, 4.1738, 4.26921, -2.476383, 2.5912058, -4.9120884, -2.4936087, -0.92029536, -4.1746173, 2.5, -2.5337927, -3.045566, -2.4733028, 3.9588425, -3.045566, -2.4733028, -3.9588425, 4.26921, -2.476383, -2.5912058, 4.9120884, -2.4936087, -0.92029536)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_mf4mk")
+
+[node name="RigidBody3D" type="RigidBody3D" parent="MeshInstance3D"]
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/RigidBody3D"]
+shape = SubResource("ConvexPolygonShape3D_37kl0")
+
+[node name="Submarine" parent="." instance=ExtResource("1_37kl0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.827342, 0)
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.650843, 2.327509, -1.6987858)
+mesh = SubResource("CylinderMesh_37kl0")
+
+[node name="RigidBody3D" type="RigidBody3D" parent="MeshInstance3D2"]
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D2/RigidBody3D"]
+shape = SubResource("ConvexPolygonShape3D_8uh7m")
