@@ -2,14 +2,28 @@
 
 [ext_resource type="PackedScene" uid="uid://dh5gnd5jsg0pr" path="res://Player(Submarine)/Submarine.glb" id="1_0aaev"]
 [ext_resource type="Script" uid="uid://ceohesj4hi6xp" path="res://Player(Submarine)/submarine_player.gd" id="1_ejc7h"]
+[ext_resource type="Script" uid="uid://cmptiq22odmku" path="res://Player(Submarine)/camera_3d.gd" id="3_edi88"]
 [ext_resource type="Texture2D" uid="uid://b8l6ri8x87cd8" path="res://Textures/SeaFloorTexture.jpg" id="3_ic8dy"]
 [ext_resource type="Script" uid="uid://bt64jp6ikvu64" path="res://Scripts/decal.gd" id="4_edi88"]
+[ext_resource type="Texture2D" uid="uid://31gyfso4dq2f" path="res://Textures/ProgressBarUnder.png" id="6_lctq1"]
+[ext_resource type="Texture2D" uid="uid://dwt8p4v6bgrud" path="res://Textures/ProgressBarUnder-1.png.png" id="7_63aei"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ejc7h"]
-radius = 1.0839844
+radius = 1.0830078
 height = 3.0065918
 
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_edi88"]
+radius = 0.37890625
+height = 0.826355
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_5b24m"]
+radius = 0.37890625
+height = 0.826355
+
 [node name="Submarine" type="RigidBody3D" unique_id=1193379588]
+collision_layer = 2
+axis_lock_angular_x = true
+axis_lock_angular_z = true
 gravity_scale = 0.0
 linear_damp = 1.0
 angular_damp = 2.0
@@ -20,22 +34,51 @@ turn_speed = 2.0
 [node name="Submarine" parent="." unique_id=1486210889 instance=ExtResource("1_0aaev")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=638662589]
+[node name="Body" type="CollisionShape3D" parent="." unique_id=638662589]
 transform = Transform3D(1.9106855e-15, -4.371139e-08, 1, -1, -4.371139e-08, 0, 4.371139e-08, -1, -4.371139e-08, 0, 0, -1.113)
 shape = SubResource("CapsuleShape3D_ejc7h")
 
+[node name="RightBooster" type="CollisionShape3D" parent="." unique_id=690613539]
+transform = Transform3D(0.017298914, -0.22130719, 0.97505075, -0.9955963, 0.08604899, 0.037193954, -0.092133425, -0.97140044, -0.2188441, 1.019124, -0.28264257, -0.35933146)
+shape = SubResource("CapsuleShape3D_edi88")
+
+[node name="LeftBooster" type="CollisionShape3D" parent="." unique_id=1804047811]
+transform = Transform3D(0.056576777, 0.23519543, 0.97030014, -0.9955962, 0.086048976, 0.037193947, -0.07474548, -0.9681316, 0.23902807, -0.9834322, -0.28264257, -0.35933146)
+shape = SubResource("CapsuleShape3D_5b24m")
+
 [node name="CameraMount" type="SpringArm3D" parent="." unique_id=1167787147]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 5)
-collision_mask = 0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 3)
 margin = 0.2
 
 [node name="Camera3D" type="Camera3D" parent="CameraMount" unique_id=1755736940]
 transform = Transform3D(1, -1.131334e-08, -1.489429e-09, 1.131334e-08, 0.9659258, 0.25881904, -1.489429e-09, -0.25881904, 0.9659258, 0, 0, 0)
+script = ExtResource("3_edi88")
 
 [node name="Decal" type="Decal" parent="." unique_id=1015713932]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.113)
 texture_albedo = ExtResource("3_ic8dy")
 modulate = Color(0.43529412, 1, 1, 1)
 script = ExtResource("4_edi88")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="." unique_id=2128067560]
+transform = Transform3D(1, 0, 0, 0, 0.9809314, 0.19435419, 0, -0.19435419, 0.9809314, 0, 0.69770944, -2.063864)
+light_color = Color(1, 1, 0.80784315, 1)
+spot_range = 9.441227
+spot_angle = 17.289597
+
+[node name="ProgressBar" type="TextureProgressBar" parent="." unique_id=749772371]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -225.0
+offset_right = 225.0
+grow_vertical = 0
+scale = Vector2(0.5, 0.5)
+tooltip_text = "Stamina"
+step = 10.0
+value = 10.0
+fill_mode = 5
+texture_under = ExtResource("6_lctq1")
+texture_progress = ExtResource("7_63aei")
 
 [editable path="Submarine"]
