@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://k0dusg4vo85n"]
+
+[ext_resource type="PackedScene" uid="uid://dh5gnd5jsg0pr" path="res://Player(Submarine)/Submarine.glb" id="1_0aaev"]
+[ext_resource type="Script" uid="uid://ceohesj4hi6xp" path="res://Player(Submarine)/submarine_player.gd" id="1_ejc7h"]
+[ext_resource type="Texture2D" uid="uid://b8l6ri8x87cd8" path="res://Textures/SeaFloorTexture.jpg" id="3_ic8dy"]
+[ext_resource type="Script" uid="uid://bt64jp6ikvu64" path="res://Scripts/decal.gd" id="4_edi88"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ejc7h"]
+radius = 1.0839844
+height = 3.0065918
+
+[node name="Submarine" type="RigidBody3D" unique_id=1193379588]
+gravity_scale = 0.0
+linear_damp = 1.0
+angular_damp = 2.0
+script = ExtResource("1_ejc7h")
+speed = 20.0
+turn_speed = 2.0
+
+[node name="Submarine" parent="." unique_id=1486210889 instance=ExtResource("1_0aaev")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=638662589]
+transform = Transform3D(1.9106855e-15, -4.371139e-08, 1, -1, -4.371139e-08, 0, 4.371139e-08, -1, -4.371139e-08, 0, 0, -1.113)
+shape = SubResource("CapsuleShape3D_ejc7h")
+
+[node name="CameraMount" type="SpringArm3D" parent="." unique_id=1167787147]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 5)
+collision_mask = 0
+margin = 0.2
+
+[node name="Camera3D" type="Camera3D" parent="CameraMount" unique_id=1755736940]
+transform = Transform3D(1, -1.131334e-08, -1.489429e-09, 1.131334e-08, 0.9659258, 0.25881904, -1.489429e-09, -0.25881904, 0.9659258, 0, 0, 0)
+
+[node name="Decal" type="Decal" parent="." unique_id=1015713932]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.113)
+texture_albedo = ExtResource("3_ic8dy")
+modulate = Color(0.43529412, 1, 1, 1)
+script = ExtResource("4_edi88")
+
+[editable path="Submarine"]
