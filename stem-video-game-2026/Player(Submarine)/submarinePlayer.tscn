@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://bt64jp6ikvu64" path="res://Scripts/decal.gd" id="4_edi88"]
 [ext_resource type="Texture2D" uid="uid://31gyfso4dq2f" path="res://Textures/ProgressBarUnder.png" id="6_lctq1"]
 [ext_resource type="Texture2D" uid="uid://dwt8p4v6bgrud" path="res://Textures/ProgressBarUnder-1.png.png" id="7_63aei"]
+[ext_resource type="Texture2D" uid="uid://bye78m870lq4y" path="res://Textures/SubmarineWindSymbol.png" id="8_63aei"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ejc7h"]
 radius = 1.0830078
@@ -66,12 +67,14 @@ light_color = Color(1, 1, 0.80784315, 1)
 spot_range = 9.441227
 spot_angle = 17.289597
 
-[node name="ProgressBar" type="TextureProgressBar" parent="." unique_id=749772371]
+[node name="SprintBar" type="TextureProgressBar" parent="." unique_id=749772371]
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -225.0
-offset_right = 225.0
+offset_left = 14.0
+offset_top = -192.0
+offset_right = 239.0
+offset_bottom = 33.0
 grow_vertical = 0
 scale = Vector2(0.5, 0.5)
 tooltip_text = "Stamina"
@@ -80,5 +83,40 @@ value = 10.0
 fill_mode = 5
 texture_under = ExtResource("6_lctq1")
 texture_progress = ExtResource("7_63aei")
+
+[node name="SubmarineWindSymbol" type="TextureRect" parent="SprintBar" unique_id=1848614273]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 49.999985
+offset_right = 838.91064
+offset_bottom = 540.0
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("8_63aei")
+
+[node name="SprintBar2" type="TextureProgressBar" parent="." unique_id=1072429656]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 108.0
+offset_top = -115.0
+offset_right = 333.0
+offset_bottom = 110.0
+grow_vertical = 0
+scale = Vector2(0.5, 0.5)
+tooltip_text = "Stamina"
+step = 10.0
+value = 10.0
+fill_mode = 5
+texture_under = ExtResource("6_lctq1")
+texture_progress = ExtResource("7_63aei")
+
+[node name="SubmarineWindSymbol" type="TextureRect" parent="SprintBar2" unique_id=1730422820]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 49.999985
+offset_right = 838.91064
+offset_bottom = 540.0
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("8_63aei")
 
 [editable path="Submarine"]
