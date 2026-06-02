@@ -1,5 +1,5 @@
 extends RigidBody3D
-
+#MUST MAKE THIS A STATE MACHINE!!!
 @export var speed = 500.0
 @export var boost_speed = 1000.0
 @export var turn_speed = 10.0 
