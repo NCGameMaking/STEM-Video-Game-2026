@@ -8,6 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://31gyfso4dq2f" path="res://Textures/ProgressBarUnder.png" id="6_lctq1"]
 [ext_resource type="Texture2D" uid="uid://dwt8p4v6bgrud" path="res://Textures/ProgressBarUnder-1.png.png" id="7_63aei"]
 [ext_resource type="Texture2D" uid="uid://bye78m870lq4y" path="res://Textures/SubmarineWindSymbol.png" id="8_63aei"]
+[ext_resource type="Texture2D" uid="uid://bdk5wick526s1" path="res://Textures/SubmarineWindSymbol-2.png.png" id="9_htine"]
+[ext_resource type="Texture2D" uid="uid://b3lq7ll8jop42" path="res://Textures/SubmarineSymbol.png" id="10_ac5wi"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ejc7h"]
 radius = 1.0830078
@@ -93,7 +95,7 @@ offset_bottom = 540.0
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("8_63aei")
 
-[node name="SprintBar2" type="TextureProgressBar" parent="." unique_id=1072429656]
+[node name="HealthBar" type="TextureProgressBar" parent="." unique_id=1072429656]
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
@@ -110,13 +112,22 @@ fill_mode = 5
 texture_under = ExtResource("6_lctq1")
 texture_progress = ExtResource("7_63aei")
 
-[node name="SubmarineWindSymbol" type="TextureRect" parent="SprintBar2" unique_id=1730422820]
+[node name="SubmarineShield" type="TextureRect" parent="HealthBar" unique_id=2001327707]
 layout_mode = 0
-offset_left = 30.0
-offset_top = 49.999985
-offset_right = 838.91064
-offset_bottom = 540.0
+offset_left = -212.0
+offset_top = -210.0
+offset_right = 379.0
+offset_bottom = 381.0
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("9_htine")
+
+[node name="SubmarineSymbol" type="TextureRect" parent="HealthBar/SubmarineShield" unique_id=1812978343]
+layout_mode = 0
+offset_left = 234.0
+offset_top = 228.0
+offset_right = 825.0
+offset_bottom = 819.0
 scale = Vector2(0.2, 0.2)
-texture = ExtResource("8_63aei")
+texture = ExtResource("10_ac5wi")
 
 [editable path="Submarine"]
