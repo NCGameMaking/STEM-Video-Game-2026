@@ -10,6 +10,10 @@
 [ext_resource type="Texture2D" uid="uid://bye78m870lq4y" path="res://Textures/SubmarineWindSymbol.png" id="8_63aei"]
 [ext_resource type="Texture2D" uid="uid://bdk5wick526s1" path="res://Textures/SubmarineWindSymbol-2.png.png" id="9_htine"]
 [ext_resource type="Texture2D" uid="uid://b3lq7ll8jop42" path="res://Textures/SubmarineSymbol.png" id="10_ac5wi"]
+[ext_resource type="Script" uid="uid://cnmkbpx38shwi" path="res://Player(Submarine)/debug_ui.gd" id="11_ac5wi"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ac5wi"]
+bounce = 0.01
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ejc7h"]
 radius = 1.0830078
@@ -27,12 +31,16 @@ height = 0.826355
 collision_layer = 2
 axis_lock_angular_x = true
 axis_lock_angular_z = true
+physics_material_override = SubResource("PhysicsMaterial_ac5wi")
 gravity_scale = 0.0
-linear_damp = 1.0
-angular_damp = 2.0
+can_sleep = false
+linear_damp = 2.0
+angular_damp = 4.0
 script = ExtResource("1_ejc7h")
-speed = 20.0
-turn_speed = 2.0
+strafe_force = 50.0
+vertical_force = 30.0
+sprint_multiplier = 1.5
+mouse_sensitivity = 0.01
 
 [node name="Submarine" parent="." unique_id=1486210889 instance=ExtResource("1_0aaev")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
@@ -122,6 +130,7 @@ scale = Vector2(1.1, 1.1)
 texture = ExtResource("9_htine")
 
 [node name="SubmarineSymbol" type="TextureRect" parent="HealthBar/SubmarineShield" unique_id=1812978343]
+visible = false
 layout_mode = 0
 offset_left = 234.0
 offset_top = 228.0
@@ -129,5 +138,22 @@ offset_right = 825.0
 offset_bottom = 819.0
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("10_ac5wi")
+
+[node name="DebugUI" type="CanvasLayer" parent="." unique_id=1878473591]
+script = ExtResource("11_ac5wi")
+
+[node name="PanelContainer" type="PanelContainer" parent="DebugUI" unique_id=217235351]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MarginContainer" type="MarginContainer" parent="DebugUI/PanelContainer" unique_id=82419324]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="DebugLabel" type="Label" parent="DebugUI/PanelContainer/MarginContainer" unique_id=1816406093]
+layout_mode = 2
 
 [editable path="Submarine"]
