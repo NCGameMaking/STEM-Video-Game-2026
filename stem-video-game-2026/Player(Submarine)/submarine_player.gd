@@ -12,7 +12,7 @@ var current_state : SubState = SubState.IDLE
 #var mouse_input_x : float = 0.0
 
 @onready var debug_ui = $DebugUI
-@onready var camera = $CameraMount/Camera3D
+@onready var camera = $CameraMount/SpringArm3D/Camera3D
 
 var mouse_input : float = 0.0
 
@@ -57,7 +57,7 @@ func process_movement_state(state):
 		force_vector += state.transform.basis.z * move_force
 	if Input.is_action_pressed("Move_left"):
 		force_vector -= state.transform.basis.x * strafe_force
-	if Input.is_action_pressed("Move_backward"):
+	if Input.is_action_pressed("Move_right"):
 		force_vector += state.transform.basis.x * strafe_force
 	if Input.is_action_pressed("Move_up"):
 		force_vector += state.transform.basis.y * vertical_force
