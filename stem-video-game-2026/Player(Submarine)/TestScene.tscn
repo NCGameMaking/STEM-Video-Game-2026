@@ -1,19 +1,19 @@
-[gd_scene format=3 uid="uid://dvwdfbanfbpam"]
+[gd_scene load_steps=9 format=3 uid="uid://dvwdfbanfbpam"]
 
 [ext_resource type="PackedScene" uid="uid://k0dusg4vo85n" path="res://Player(Submarine)/submarinePlayer.tscn" id="1_h65ki"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_mn54l"]
-sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
-ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
 
 [sub_resource type="Sky" id="Sky_h65ki"]
 sky_material = SubResource("ProceduralSkyMaterial_mn54l")
 
 [sub_resource type="Environment" id="Environment_m65y2"]
 background_mode = 1
-background_color = Color(0.08085794, 0.06686289, 0.23934874, 1)
+background_color = Color(0.0808579, 0.0668629, 0.239349, 1)
 sky = SubResource("Sky_h65ki")
-ambient_light_color = Color(0.21960784, 0.38039216, 0.5921569, 1)
+ambient_light_color = Color(0.219608, 0.380392, 0.592157, 1)
 ambient_light_energy = 0.5
 tonemap_mode = 2
 glow_enabled = true
@@ -36,71 +36,71 @@ size = Vector3(5, 15, 30)
 [sub_resource type="BoxShape3D" id="BoxShape3D_h65ki"]
 size = Vector3(5, 15, 30)
 
-[node name="TestScene" type="Node3D" unique_id=837944269]
+[node name="TestScene" type="Node3D"]
 
-[node name="Submarine" parent="." unique_id=1193379588 instance=ExtResource("1_h65ki")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.3522396, 0)
+[node name="Submarine" parent="." instance=ExtResource("1_h65ki")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.35224, 0)
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=441677701]
-transform = Transform3D(-0.8660254, -0.43301278, 0.25000003, 2.7805946e-08, 0.49999994, 0.86602545, -0.50000006, 0.75, -0.4330126, 0, 426.4319, 0)
-light_color = Color(0.27450982, 1, 1, 1)
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 2.78059e-08, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 426.432, 0)
+light_color = Color(0.27451, 1, 1, 1)
 light_volumetric_fog_energy = 2.0
 shadow_enabled = true
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1835376119]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_m65y2")
 
-[node name="Seafloor" type="StaticBody3D" parent="." unique_id=1075137316]
+[node name="Seafloor" type="StaticBody3D" parent="."]
 collision_mask = 0
 
-[node name="SeaFloor" type="MeshInstance3D" parent="Seafloor" unique_id=376154683]
+[node name="SeaFloor" type="MeshInstance3D" parent="Seafloor"]
 mesh = SubResource("PlaneMesh_mtfic")
 skeleton = NodePath("../..")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Seafloor" unique_id=262569250]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Seafloor"]
 shape = SubResource("BoxShape3D_4ucdn")
 
-[node name="box" type="StaticBody3D" parent="." unique_id=1321739261]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.167371, 1.7060041, 0)
+[node name="box" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.1674, 1.706, 0)
 collision_mask = 0
 axis_lock_angular_x = true
 axis_lock_angular_z = true
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="box" unique_id=1883012711]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="box"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0)
 mesh = SubResource("BoxMesh_h65ki")
 skeleton = NodePath("../..")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="box" unique_id=328497280]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.701638, -0.011769295)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="box"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.70164, -0.0117693)
 shape = SubResource("BoxShape3D_h65ki")
 
-[node name="box2" type="StaticBody3D" parent="." unique_id=1744293045]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 58.062157, 1.7060041, 10.841107)
+[node name="box2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 58.0622, 1.706, 10.8411)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="box2" unique_id=1201049785]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="box2"]
 mesh = SubResource("BoxMesh_h65ki")
 skeleton = NodePath("../..")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="box2" unique_id=201526485]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="box2"]
 shape = SubResource("BoxShape3D_h65ki")
 
-[node name="box3" type="StaticBody3D" parent="." unique_id=1037972883]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.478588, 1.706008, 40.76668)
+[node name="box3" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.4786, 1.70601, 40.7667)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="box3" unique_id=1435309974]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="box3"]
 mesh = SubResource("BoxMesh_h65ki")
 skeleton = NodePath("../..")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="box3" unique_id=990586482]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="box3"]
 shape = SubResource("BoxShape3D_h65ki")
 
-[node name="box4" type="StaticBody3D" parent="." unique_id=864703343]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38.22668, 1.706008, -39.70718)
+[node name="box4" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38.2267, 1.70601, -39.7072)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="box4" unique_id=750695582]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="box4"]
 mesh = SubResource("BoxMesh_h65ki")
 skeleton = NodePath("../..")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="box4" unique_id=652881118]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="box4"]
 shape = SubResource("BoxShape3D_h65ki")
