@@ -222,13 +222,14 @@ radius = 0.25
 height = 0.5
 
 [sub_resource type="Curve" id="Curve_7r4gt"]
-_data = [Vector2(0, 0.21212113), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 2
+_data = [Vector2(0, 0.26621932), 0.0, 0.48686722, 0, 0, Vector2(0.24778761, 0.31096202), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
 
 [sub_resource type="CurveTexture" id="CurveTexture_ic8dy"]
 curve = SubResource("Curve_7r4gt")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_7r4gt"]
+particle_flag_rotate_y = true
 emission_shape = 6
 emission_ring_axis = Vector3(0, 0, 1)
 emission_ring_height = 1.0
@@ -236,7 +237,7 @@ emission_ring_radius = 0.27
 emission_ring_inner_radius = 0.0
 emission_ring_cone_angle = 90.0
 direction = Vector3(1, 0, -1)
-gravity = Vector3(0, 0.5, 5)
+gravity = Vector3(0, 0, 0)
 scale_curve = SubResource("CurveTexture_ic8dy")
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_edi88"]
@@ -252,8 +253,58 @@ shader_parameter/smoothness = 0.05999999865888
 
 [sub_resource type="SphereMesh" id="SphereMesh_ic8dy"]
 material = SubResource("ShaderMaterial_lctq1")
-radius = 0.063
-height = 0.125
+radius = 0.032
+height = 0.063
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_5b24m"]
+particle_flag_rotate_y = true
+emission_shape_scale = Vector3(1, 1, 2)
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 1.0
+emission_ring_radius = 0.27
+emission_ring_inner_radius = 0.0
+emission_ring_cone_angle = 90.0
+direction = Vector3(0, 1, 0)
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_ic8dy")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_lctq1"]
+particle_flag_rotate_y = true
+emission_shape_scale = Vector3(1, 1, 2)
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 1.0
+emission_ring_radius = 0.27
+emission_ring_inner_radius = 0.0
+emission_ring_cone_angle = 90.0
+direction = Vector3(0, -1, 0)
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_ic8dy")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ic8dy"]
+emission_shape_scale = Vector3(1, 1, 2)
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 1.0
+emission_ring_radius = 0.27
+emission_ring_inner_radius = 0.0
+emission_ring_cone_angle = 90.0
+direction = Vector3(6, 0, 0)
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_ic8dy")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_edi88"]
+emission_shape_scale = Vector3(1, 1, 2)
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 1.0
+emission_ring_radius = 0.27
+emission_ring_inner_radius = 0.0
+emission_ring_cone_angle = 90.0
+direction = Vector3(-6, 0, 0)
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_ic8dy")
 
 [node name="Submarine" type="RigidBody3D" unique_id=2124491561]
 collision_layer = 2
@@ -285,7 +336,7 @@ shape = SubResource("CapsuleShape3D_ejc7h")
 [node name="SpringArm3D" type="SpringArm3D" parent="CameraMount" unique_id=26905443]
 transform = Transform3D(1, 0, 0, 0, 0.9848077, 0.17364818, 0, -0.17364818, 0.9848077, 0, 4, 5)
 
-[node name="Camera3D" type="Camera3D" parent="CameraMount/SpringArm3D" unique_id=1126493837]
+[node name="ThirdPersonCamera" type="Camera3D" parent="CameraMount/SpringArm3D" unique_id=1126493837]
 
 [node name="DebugUI" type="CanvasLayer" parent="." unique_id=423904913]
 script = ExtResource("2_ejc7h")
@@ -302,13 +353,56 @@ layout_mode = 2
 
 [node name="Bubble" type="MeshInstance3D" parent="." unique_id=1095750654]
 transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0.6962613)
+visible = false
 material_override = SubResource("ShaderMaterial_5b24m")
 transparency = 0.01
 mesh = SubResource("SphereMesh_lctq1")
 
-[node name="GPUParticles3D" type="GPUParticles3D" parent="." unique_id=1203056104]
+[node name="CenterBooster" type="GPUParticles3D" parent="." unique_id=1203056104]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.9536139)
 amount = 40
 lifetime = 3.0
 process_material = SubResource("ParticleProcessMaterial_7r4gt")
+draw_pass_1 = SubResource("SphereMesh_ic8dy")
+
+[node name="DiveBooster" type="GPUParticles3D" parent="." unique_id=728395137]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -5.9604645e-08, 1.4490967, -1.4123824)
+amount = 40
+lifetime = 3.0
+process_material = SubResource("ParticleProcessMaterial_5b24m")
+draw_pass_1 = SubResource("SphereMesh_ic8dy")
+
+[node name="ClimbBooster" type="GPUParticles3D" parent="." unique_id=668801941]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -5.9604645e-08, -1.9368192, -1.4123824)
+amount = 40
+lifetime = 3.0
+process_material = SubResource("ParticleProcessMaterial_lctq1")
+draw_pass_1 = SubResource("SphereMesh_ic8dy")
+
+[node name="LeftBooster" type="GPUParticles3D" parent="." unique_id=1179325416]
+transform = Transform3D(0.9928326, 0, -0.11951304, 0, 1, 0, 0.11951304, 0, 0.9928326, -1.1223519, -0.32346204, 0.41686857)
+amount = 40
+lifetime = 3.0
+process_material = SubResource("ParticleProcessMaterial_7r4gt")
+draw_pass_1 = SubResource("SphereMesh_ic8dy")
+
+[node name="RightBooster" type="GPUParticles3D" parent="." unique_id=855515933]
+transform = Transform3D(0.989935, 0, 0.14152327, 0, 1, 0, -0.14152327, 0, 0.989935, 1.1394895, -0.32346204, 0.41686857)
+amount = 40
+lifetime = 3.0
+process_material = SubResource("ParticleProcessMaterial_7r4gt")
+draw_pass_1 = SubResource("SphereMesh_ic8dy")
+
+[node name="StrafeLeftBooster" type="GPUParticles3D" parent="." unique_id=325301969]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -1.4435813, 0.035120606, -1.3454419)
+amount = 80
+lifetime = 3.0
+process_material = SubResource("ParticleProcessMaterial_ic8dy")
+draw_pass_1 = SubResource("SphereMesh_ic8dy")
+
+[node name="StrafeRightBooster" type="GPUParticles3D" parent="." unique_id=1669207284]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 1.8190019, 0.035120606, -1.3454419)
+amount = 80
+lifetime = 3.0
+process_material = SubResource("ParticleProcessMaterial_edi88")
 draw_pass_1 = SubResource("SphereMesh_ic8dy")

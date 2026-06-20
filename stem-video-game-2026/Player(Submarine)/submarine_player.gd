@@ -3,6 +3,11 @@ extends RigidBody3D
 enum SubState {IDLE, MOVEMENT, SPRINTING}
 var current_state : SubState = SubState.IDLE
 
+@export var normal_fov : float = 75
+@export var sprint_fov : float = 85
+@export var zoom_speed : float = 5
+
+
 @export var move_force : float = 50.0
 @export var strafe_force : float = 1000.0
 @export var vertical_force : float = 40.0
@@ -12,7 +17,15 @@ var current_state : SubState = SubState.IDLE
 #var mouse_input_x : float = 0.0
 
 @onready var debug_ui = $DebugUI
-@onready var camera = $CameraMount/SpringArm3D/Camera3D
+@onready var third_person_camera = $CameraMount/SpringArm3D/ThirdPersonCamera
+
+@onready var center_booster = $CenterBooster
+@onready var dive_booster = $DiveBooster
+@onready var climb_booster = $ClimbBooster
+@onready var left_booster = $LeftBooster
+@onready var right_booster = $RightBooster
+@onready var strafe_left_booster = $StrafeLeftBooster
+@onready var strafe_right_booster = $StrafeRightBooster
 
 var mouse_input : float = 0.0
 
@@ -27,11 +40,32 @@ func _unhandled_input(event):
 		mouse_input = -event.relative.x * mouse_sensitivity
 
 func _integrate_forces(state):
+	
+	var is_moving_forward = Input.is_action_pressed("Move_forward")
+	left_booster.emitting = is_moving_forward
+	center_booster.emitting = is_moving_forward
+	right_booster.emitting = is_moving_forward
+	
+	if is_moving_forward:
+		if current_state == SubState.SPRINTING:
+			left_booster.amount_ratio = 1.5
+			center_booster.amount_ratio = 1.5
+			right_booster.amount_ratio = 1.5
+		else:
+			left_booster.amount_ratio = 1.0
+			center_booster.amount_ratio = 1.0
+			right_booster.amount_ratio = 1.0
+	strafe_left_booster.emitting = Input.is_action_pressed("Move_right")
+	strafe_right_booster.emitting = Input.is_action_pressed("Move_left")
+	
+	climb_booster.emitting = Input.is_action_pressed("Move_up")
+	dive_booster.emitting = Input.is_action_pressed("Move_down")
+	
 	if mouse_input != 0.0:
 		var rotation_increment = Basis(Vector3.UP, mouse_input)
 		state.transform.basis = state.transform.basis * rotation_increment
 		mouse_input = 0.0
-		
+
 	match current_state:
 		SubState.IDLE:
 			process_idle_state(state)
@@ -41,9 +75,17 @@ func _integrate_forces(state):
 			process_sprinting_state(state)
 	if debug_ui:
 		debug_ui.update_property("Current State", get_state_string())
+		debug_ui.update_property("FPS: ", Engine.get_frames_per_second())
 		debug_ui.update_property("Linear Velocity", state.linear_velocity.snapped(Vector3(0.1, 0.1, 0.1)))
 		debug_ui.update_property("Speed (m/s)", "%0.2f" % state.linear_velocity.length())
-
+	
+	var target_fov = normal_fov
+	if current_state == SubState.SPRINTING:
+		target_fov = sprint_fov
+	
+	third_person_camera.fov = lerp(third_person_camera.fov, target_fov, state.step * zoom_speed)
+		
+		
 func process_idle_state(state):
 	if Input.is_action_pressed("Move_forward") or Input.is_action_pressed("Move_backward") or Input.is_action_pressed("Move_left") or Input.is_action_pressed("Move_right") or Input.is_action_pressed("Move_down") or Input.is_action_pressed("Move_up"):
 		current_state = SubState.MOVEMENT
@@ -86,35 +128,6 @@ func process_sprinting_state(state):
 	
 	if not Input.is_action_pressed("Sprint"):
 		current_state = SubState.MOVEMENT
-#
-#func _physics_process(delta):
-	#
-	#var move_speed = speed
-	#
-	#if Input.is_action_pressed("Sprint"):
-		#move_speed = boost_speed
-		#camera.fov = lerp(camera.fov, 85.0, delta * 2.0)
-	#else:
-		#camera.fov = lerp(camera.fov, 75.0, delta * 2.0)
-		#
-	## 1. Forward/Backward (Z axis)
-	#var f_input = Input.get_axis("Move_backward", "Move_forward")
-	#apply_central_force(-global_transform.basis.z * f_input * speed)
-	#
-	## 2. Turning (Y axis)
-	#var steer_input = Input.get_axis("Rotate_right", "Rotate_left")
-	## We use 'apply_torque' to spin, but with lower power
-	#apply_torque(Vector3(0, steer_input * turn_speed, 0))
-#
-	## 3. STRAFING (X Axis)
-	#var s_input = Input.get_axis("Move_left", "Move_right")
-	#apply_central_force(global_transform.basis.x * s_input * move_speed)
-#
-	## 4. Vertical Height (Y axis)
-	#if Input.is_action_pressed("Move_up"):
-		#apply_central_force(Vector3.UP * speed)
-	#if Input.is_action_pressed("Move_down"):
-		#apply_central_force(Vector3.DOWN * speed)
 
 func get_state_string() -> String:
 	match current_state:
@@ -122,3 +135,4 @@ func get_state_string() -> String:
 		SubState.MOVEMENT: return "MOVING"
 		SubState.SPRINTING: return "SPRINTING"
 	return "UNKNOWN"
+	
