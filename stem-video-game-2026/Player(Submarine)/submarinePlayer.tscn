@@ -208,6 +208,17 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_rec66")
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_ic8dy"]
+viewport_path = NodePath("CenterViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_edi88"]
+resource_local_to_scene = true
+albedo_texture = SubResource("ViewportTexture_ic8dy")
+
+[sub_resource type="BoxMesh" id="BoxMesh_ic8dy"]
+material = SubResource("StandardMaterial3D_edi88")
+size = Vector3(15.83, 0.25, 13.195)
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8d4ox"]
 resource_name = "chrome.002"
 cull_mode = 2
@@ -215,10 +226,15 @@ albedo_color = Color(0.8803151, 0.8803151, 0.8803151, 1)
 metallic = 1.0
 roughness = 0.2992126
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_5b24m"]
+viewport_path = NodePath("RightViewport")
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5rl1p"]
+resource_local_to_scene = true
 resource_name = "BlackOuterShell"
 cull_mode = 2
 albedo_color = Color(0.39407128, 0.39407128, 0.39407128, 1)
+albedo_texture = SubResource("ViewportTexture_5b24m")
 metallic = 0.8436364
 roughness = 0.33636364
 
@@ -288,10 +304,15 @@ albedo_color = Color(0.8803151, 0.8803151, 0.8803151, 1)
 metallic = 1.0
 roughness = 0.2992126
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_lctq1"]
+viewport_path = NodePath("LeftViewport")
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_itc7n"]
+resource_local_to_scene = true
 resource_name = "BlackOuterShell.002"
 cull_mode = 2
 albedo_color = Color(0.39407128, 0.39407128, 0.39407128, 1)
+albedo_texture = SubResource("ViewportTexture_lctq1")
 metallic = 0.8436364
 roughness = 0.33636364
 
@@ -478,22 +499,26 @@ mouse_sensitivity = 0.01
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
 
 [node name="Stand" type="MeshInstance3D" parent="Submarine" unique_id=1706096544]
-transform = Transform3D(0.035131942, -4.7399515e-09, 1.1102233e-16, 1.8626451e-09, 0.08940174, -1.7451248e-16, -1.110223e-16, 4.440892e-16, 0.035131946, 2.3335214, 0.09828216, -0.006246823)
+transform = Transform3D(0.035131942, -4.7399515e-09, 1.110223e-16, 1.8626451e-09, 0.08940174, -1.7451248e-16, -1.110223e-16, 4.440892e-16, 0.035131946, 2.2535264, 0.09828216, -0.006246826)
 mesh = SubResource("ArrayMesh_eid71")
 skeleton = NodePath("")
 
 [node name="SteeringWheel" type="MeshInstance3D" parent="Submarine" unique_id=760044046]
-transform = Transform3D(-5.6409294e-10, 0.011954336, -0.0010458654, -9.059825e-10, -0.0010458654, -0.011954336, -0.012, -4.8298465e-10, 9.516987e-10, 2.2584546, 0.23677537, -0.0062468257)
+transform = Transform3D(-7.614842e-10, 0.011276311, -0.004104238, -5.933537e-10, -0.004104238, -0.011276311, -0.011999999, -5.126219e-10, 8.180129e-10, 2.1784596, 0.23677537, -0.0062468294)
 mesh = SubResource("ArrayMesh_wj6oo")
 skeleton = NodePath("")
 
+[node name="SteeringWheelScreen" type="MeshInstance3D" parent="Submarine/SteeringWheel" unique_id=1085761349]
+transform = Transform3D(0.9999998, -9.2370556e-14, 1.7763568e-14, -6.3948846e-14, 1, -5.9604645e-08, 3.5527137e-14, 5.9604645e-08, 1, -5.9604645e-08, -5.4035645, 0.70806885)
+mesh = SubResource("BoxMesh_ic8dy")
+
 [node name="Monitor2" type="MeshInstance3D" parent="Submarine" unique_id=1410493022]
-transform = Transform3D(0.1751917, 0.010142566, -0.11542047, -0.02683, 0.066227846, 0.017676244, 0.09267155, 4.4334564e-10, 0.22331515, 2.301037, -0.040274117, 0.38096768)
+transform = Transform3D(0.2692463, 0.012739501, -0.1597497, -0.041751932, 0.10001708, 0, 0.12555161, 0.0059405267, 0.3425843, 2.27, -0.04866085, 0.38096768)
 mesh = SubResource("ArrayMesh_hojvm")
 skeleton = NodePath("")
 
 [node name="Monitor1" type="MeshInstance3D" parent="Submarine" unique_id=1416764782]
-transform = Transform3D(0.17918134, 0.010142567, 0.10524878, -0.027440999, 0.066227846, -0.016118487, -0.084504664, 4.4334567e-10, 0.22840072, 2.287373, -0.04093491, -0.4115911)
+transform = Transform3D(0.2692463, 0.0127395, 0.15974972, -0.041751932, 0.10001707, 0, -0.12555161, -0.0059405263, 0.34258434, 2.27, -0.04932164, -0.3964536)
 mesh = SubResource("ArrayMesh_n3w01")
 skeleton = NodePath("")
 
@@ -579,3 +604,9 @@ amount = 80
 lifetime = 3.0
 process_material = SubResource("ParticleProcessMaterial_edi88")
 draw_pass_1 = SubResource("SphereMesh_ic8dy")
+
+[node name="LeftViewport" type="SubViewport" parent="." unique_id=1253523314]
+
+[node name="CenterViewport" type="SubViewport" parent="." unique_id=105656255]
+
+[node name="RightViewport" type="SubViewport" parent="." unique_id=1444582360]
