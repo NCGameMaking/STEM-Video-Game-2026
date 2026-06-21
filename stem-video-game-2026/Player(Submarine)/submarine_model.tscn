@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://bcpmyuccquhjq"]
+
+[ext_resource type="PackedScene" uid="uid://dh5gnd5jsg0pr" path="res://Player(Submarine)/Submarine.glb" id="1_4fvo4"]
+
+[node name="Submarine" unique_id=1486210889 instance=ExtResource("1_4fvo4")]
