@@ -331,6 +331,9 @@ skeleton = NodePath("")
 transform = Transform3D(-4.371139e-08, 0, 1, -0.9999942, -0.0034034294, -4.3711136e-08, 0.0034034294, -0.9999942, 1.4877218e-10, 0, 0.0012783633, -0.97607934)
 shape = SubResource("CapsuleShape3D_ejc7h")
 
+[node name="FirstPersonCamera" type="Camera3D" parent="." unique_id=1826677329]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.41521108, -1.6383755)
+
 [node name="CameraMount" type="Node3D" parent="." unique_id=1486210889]
 
 [node name="SpringArm3D" type="SpringArm3D" parent="CameraMount" unique_id=26905443]

@@ -18,6 +18,7 @@ var current_state : SubState = SubState.IDLE
 
 @onready var debug_ui = $DebugUI
 @onready var third_person_camera = $CameraMount/SpringArm3D/ThirdPersonCamera
+@onready var first_person_camera = $FirstPersonCamera
 
 @onready var center_booster = $CenterBooster
 @onready var dive_booster = $DiveBooster
@@ -27,10 +28,19 @@ var current_state : SubState = SubState.IDLE
 @onready var strafe_left_booster = $StrafeLeftBooster
 @onready var strafe_right_booster = $StrafeRightBooster
 
+@export var sway_amount: float  = 0.5
+@export var sway_speed: float  = 4.0
+@onready var camera_mount = $CameraMount
+
 var mouse_input : float = 0.0
+var is_first_person: bool = false
+var fp_camera_base_pos : Vector3 = Vector3.ZERO
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	third_person_camera.current = true
+	fp_camera_base_pos = first_person_camera.position
+
 func _process(delta):
 	if Input.is_key_pressed(KEY_ESCAPE):
 		get_tree().quit()
@@ -38,6 +48,13 @@ func _process(delta):
 func _unhandled_input(event):
 	if event is InputEventMouseMotion:
 		mouse_input = -event.relative.x * mouse_sensitivity
+	
+	if event.is_action_pressed("Toggle_camera"):
+		is_first_person = !is_first_person
+		if is_first_person:
+			first_person_camera.current = true
+		else:
+			third_person_camera.current = true
 
 func _integrate_forces(state):
 	
@@ -82,10 +99,40 @@ func _integrate_forces(state):
 	var target_fov = normal_fov
 	if current_state == SubState.SPRINTING:
 		target_fov = sprint_fov
-	
-	third_person_camera.fov = lerp(third_person_camera.fov, target_fov, state.step * zoom_speed)
+	if is_first_person:
+		first_person_camera.fov = lerp(third_person_camera.fov, target_fov, state.step * zoom_speed)
+	else:
+		third_person_camera.fov = lerp(third_person_camera.fov, target_fov, state.step * zoom_speed)
 		
+	if not is_first_person and camera_mount:
+		var target_sway = Vector3.ZERO
 		
+		if Input.is_action_pressed("Move_left"):
+			target_sway.x = sway_amount
+		if Input.is_action_pressed("Move_right"):
+			target_sway.x = -sway_amount
+		if Input.is_action_pressed("Move_up"):
+			target_sway.y = -sway_amount * 0.5
+		if Input.is_action_pressed("Move_down"):
+			target_sway.y = sway_amount * 0.5
+		camera_mount.position = camera_mount.position.lerp(target_sway, state.step * sway_speed)
+			
+	if is_first_person and first_person_camera:
+		var target_fp_sway = Vector3.ZERO
+		
+		if Input.is_action_pressed("Move_left"):
+			target_fp_sway.x = sway_amount * 0.1
+		if Input.is_action_pressed("Move_right"):
+			target_fp_sway.x = -sway_amount * 0.1
+		if Input.is_action_pressed("Move_up"):
+			target_fp_sway.y = -sway_amount * 0.1
+		if Input.is_action_pressed("Move_down"):
+			target_fp_sway.y = sway_amount * 0.1
+			
+		var final_target = fp_camera_base_pos + target_fp_sway
+		first_person_camera.position = first_person_camera.position.lerp(final_target,state.step * sway_speed)
+
+			
 func process_idle_state(state):
 	if Input.is_action_pressed("Move_forward") or Input.is_action_pressed("Move_backward") or Input.is_action_pressed("Move_left") or Input.is_action_pressed("Move_right") or Input.is_action_pressed("Move_down") or Input.is_action_pressed("Move_up"):
 		current_state = SubState.MOVEMENT
