@@ -14,8 +14,6 @@ var current_state : SubState = SubState.IDLE
 @export var sprint_multiplier : float = 2.0
 @export var mouse_sensitivity : float = 0.1
 
-#var mouse_input_x : float = 0.0
-
 @onready var debug_ui = $DebugUI
 @onready var third_person_camera = $CameraMount/SpringArm3D/ThirdPersonCamera
 @onready var first_person_camera = $FirstPersonCamera
