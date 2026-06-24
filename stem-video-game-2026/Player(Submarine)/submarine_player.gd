@@ -26,6 +26,10 @@ var current_state : SubState = SubState.IDLE
 @onready var strafe_left_booster = $StrafeLeftBooster
 @onready var strafe_right_booster = $StrafeRightBooster
 
+@onready var top_screen = $Submarine/TopScreen
+@onready var top_viewport = $TopViewport
+
+
 @export var sway_amount: float  = 0.5
 @export var sway_speed: float  = 4.0
 @onready var camera_mount = $CameraMount
@@ -39,6 +43,18 @@ func _ready():
 	third_person_camera.current = true
 	fp_camera_base_pos = first_person_camera.position
 
+	if has_node("TopScreen") and has_node("TopViewport"):
+		var screen_mesh = $TopScreen
+		var viewport_node = $TopViewport
+		
+		var mat = screen_mesh.get_active_material(0)
+		if mat:
+			mat.albedo_texture = viewport_node.get_texture()
+			print("Texture successfully linked at runtime!")
+		else:
+			print("Error: Could not find material on Surface 0")
+	else:
+		print("Error: Script can't find TopScreen or TopViewport nodes. Check the names!")
 func _process(delta):
 	if Input.is_key_pressed(KEY_ESCAPE):
 		get_tree().quit()
@@ -129,7 +145,6 @@ func _integrate_forces(state):
 			
 		var final_target = fp_camera_base_pos + target_fp_sway
 		first_person_camera.position = first_person_camera.position.lerp(final_target,state.step * sway_speed)
-
 			
 func process_idle_state(state):
 	if Input.is_action_pressed("Move_forward") or Input.is_action_pressed("Move_backward") or Input.is_action_pressed("Move_left") or Input.is_action_pressed("Move_right") or Input.is_action_pressed("Move_down") or Input.is_action_pressed("Move_up"):

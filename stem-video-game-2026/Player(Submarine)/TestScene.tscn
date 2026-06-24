@@ -38,9 +38,6 @@ size = Vector3(5, 15, 30)
 
 [node name="TestScene" type="Node3D" unique_id=1353779000]
 
-[node name="Submarine" parent="." unique_id=1811531866 instance=ExtResource("1_h65ki")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.35224, 0)
-
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=496842331]
 transform = Transform3D(-0.866025, -0.433013, 0.25, 2.78059e-08, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 426.432, 0)
 light_color = Color(0.27451, 1, 1, 1)
@@ -104,3 +101,6 @@ skeleton = NodePath("../..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="box4" unique_id=1443722332]
 shape = SubResource("BoxShape3D_h65ki")
+
+[node name="Submarine" parent="." unique_id=2124491561 instance=ExtResource("1_h65ki")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.050616, 0)

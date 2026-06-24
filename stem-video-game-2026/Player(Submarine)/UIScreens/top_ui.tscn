@@ -1,0 +1,62 @@
+[gd_scene format=3 uid="uid://cpnygyog7vw83"]
+
+[node name="TopUI" type="Control" unique_id=148449744]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1712124460]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -121.0
+offset_right = 546.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.5729503, 0.77813107, 0.944333, 1)
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=2062636822]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -220.0
+offset_top = -4.0
+offset_right = -220.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer" unique_id=1492257533]
+layout_mode = 2
+theme_override_constants/separation = 83
+
+[node name="LevelLabel" type="Label" parent="CenterContainer/HBoxContainer" unique_id=1556609880]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 40
+text = "ZONE:01"
+
+[node name="RingLabel" type="Label" parent="CenterContainer/HBoxContainer" unique_id=2069810883]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.0071466384, 0.0042570746, 0.006484672, 1)
+theme_override_font_sizes/font_size = 40
+text = "RINGS: 0/12"
+
+[node name="HullLabel" type="Label" parent="CenterContainer/HBoxContainer" unique_id=1877733496]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.0071466384, 0.0042570746, 0.006484672, 1)
+theme_override_font_sizes/font_size = 40
+text = "HULL INTEGRITY"
+
+[node name="HullProgressBar" type="ProgressBar" parent="CenterContainer/HBoxContainer/HullLabel" unique_id=487521577]
+layout_mode = 0
+offset_left = 341.0
+offset_top = 4.0
+offset_right = 735.0
+offset_bottom = 63.0
+theme_override_font_sizes/font_size = 40
