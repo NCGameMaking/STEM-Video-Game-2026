@@ -43,18 +43,15 @@ func _ready():
 	third_person_camera.current = true
 	fp_camera_base_pos = first_person_camera.position
 
-	if has_node("TopScreen") and has_node("TopViewport"):
-		var screen_mesh = $TopScreen
-		var viewport_node = $TopViewport
-		
-		var mat = screen_mesh.get_active_material(0)
-		if mat:
-			mat.albedo_texture = viewport_node.get_texture()
-			print("Texture successfully linked at runtime!")
-		else:
-			print("Error: Could not find material on Surface 0")
-	else:
-		print("Error: Script can't find TopScreen or TopViewport nodes. Check the names!")
+	var screen_mesh = $Submarine/TopScreen
+	var viewport_node = $TopViewport
+
+	var mat = screen_mesh.get_active_material(0)
+	if mat:
+		mat.albedo_texture = viewport_node.get_texture()
+		mat.uv1_scale = Vector3(-2.0, 2.0, 2.0) 
+		print("Texture successfully linked at runtime!")
+
 func _process(delta):
 	if Input.is_key_pressed(KEY_ESCAPE):
 		get_tree().quit()

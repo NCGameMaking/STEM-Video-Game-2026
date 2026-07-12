@@ -1,6 +1,24 @@
 [gd_scene format=3 uid="uid://cpnygyog7vw83"]
 
+[ext_resource type="Shader" uid="uid://bmaj7wosgwa1l" path="res://Player(Submarine)/UIScreens/top_uiFlicker.gdshader" id="1_phrh4"]
+[ext_resource type="FontFile" uid="uid://dpums2cf8f1mt" path="res://Fonts/Futureworld-ZGwJ.ttf" id="1_rqunx"]
+[ext_resource type="Texture2D" uid="uid://ccqtmjkwupaoe" path="res://Player(Submarine)/UIScreens/HealthBarSingleEmpty.png" id="2_srtwg"]
+[ext_resource type="Texture2D" uid="uid://cb0o4yq3c7o6" path="res://Player(Submarine)/UIScreens/SingleHealthBarUnder.png" id="3_phrh4"]
+[ext_resource type="Texture2D" uid="uid://cnd7b2mxt0dje" path="res://Player(Submarine)/UIScreens/HealthBarGreenFull.png" id="4_eyqk2"]
+[ext_resource type="Texture2D" uid="uid://cu3um2rdfd2l8" path="res://Player(Submarine)/UIScreens/HackingScreen.png" id="6_eyqk2"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_eyqk2"]
+shader = ExtResource("1_phrh4")
+
+[sub_resource type="Theme" id="Theme_2cnjv"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_srtwg"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2cnjv"]
+shader = ExtResource("1_phrh4")
+
 [node name="TopUI" type="Control" unique_id=148449744]
+material = SubResource("ShaderMaterial_eyqk2")
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -8,55 +26,78 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=1712124460]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -121.0
-offset_right = 546.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.5729503, 0.77813107, 0.944333, 1)
+[node name="Parallax2D" type="Parallax2D" parent="." unique_id=1153514162]
+repeat_size = Vector2(0, 302.9)
+autoscroll = Vector2(0, -170)
 
-[node name="CenterContainer" type="CenterContainer" parent="." unique_id=2062636822]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -220.0
-offset_top = -4.0
-offset_right = -220.0
-offset_bottom = -4.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="HackingScreen" type="Sprite2D" parent="Parallax2D" unique_id=1431533249]
+position = Vector2(407, 60)
+texture = ExtResource("6_eyqk2")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer" unique_id=1492257533]
-layout_mode = 2
-theme_override_constants/separation = 83
-
-[node name="LevelLabel" type="Label" parent="CenterContainer/HBoxContainer" unique_id=1556609880]
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 40
-text = "ZONE:01"
-
-[node name="RingLabel" type="Label" parent="CenterContainer/HBoxContainer" unique_id=2069810883]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.0071466384, 0.0042570746, 0.006484672, 1)
-theme_override_font_sizes/font_size = 40
-text = "RINGS: 0/12"
-
-[node name="HullLabel" type="Label" parent="CenterContainer/HBoxContainer" unique_id=1877733496]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.0071466384, 0.0042570746, 0.006484672, 1)
-theme_override_font_sizes/font_size = 40
-text = "HULL INTEGRITY"
-
-[node name="HullProgressBar" type="ProgressBar" parent="CenterContainer/HBoxContainer/HullLabel" unique_id=487521577]
+[node name="RingLabel" type="Label" parent="." unique_id=2069810883]
 layout_mode = 0
-offset_left = 341.0
-offset_top = 4.0
-offset_right = 735.0
-offset_bottom = 63.0
-theme_override_font_sizes/font_size = 40
+offset_left = 449.0
+offset_top = 35.9966
+offset_right = 617.0
+offset_bottom = 68.9966
+theme_override_colors/font_color = Color(0.38536888, 0.6792036, 0.28955394, 1)
+theme_override_colors/font_shadow_color = Color(0.14064342, 0.2705326, 0.099116765, 1)
+theme_override_colors/font_outline_color = Color(0.23921569, 0.43529412, 0.1764706, 1)
+theme_override_constants/outline_size = 8
+theme_override_constants/shadow_outline_size = 11
+theme_override_fonts/font = ExtResource("1_rqunx")
+theme_override_font_sizes/font_size = 30
+text = "RINGS : 0/12"
+
+[node name="HullLabel" type="Label" parent="." unique_id=1877733496]
+layout_mode = 0
+offset_left = 196.0
+offset_top = 28.0
+offset_right = 425.0
+offset_bottom = 49.0
+theme_override_colors/font_color = Color(0.38536888, 0.6792036, 0.28955394, 1)
+theme_override_colors/font_shadow_color = Color(0.14064342, 0.2705326, 0.099116765, 1)
+theme_override_colors/font_outline_color = Color(0.23921569, 0.43529412, 0.1764706, 1)
+theme_override_constants/outline_size = 8
+theme_override_constants/shadow_outline_size = 11
+theme_override_fonts/font = ExtResource("1_rqunx")
+theme_override_font_sizes/font_size = 20
+text = "HULL INTEGRITY : STABLE"
+
+[node name="HullProgressBar" type="TextureProgressBar" parent="." unique_id=918283150]
+texture_filter = 1
+layout_mode = 0
+offset_left = 205.0
+offset_top = 47.0
+offset_right = 270.0
+offset_bottom = 60.0
+scale = Vector2(3, 3)
+theme = SubResource("Theme_2cnjv")
+value = 70.0
+texture_under = ExtResource("2_srtwg")
+texture_over = ExtResource("3_phrh4")
+texture_progress = ExtResource("4_eyqk2")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=1110600368]
+modulate = Color(1, 0, 0, 1)
+position = Vector2(175.99998, 62)
+scale = Vector2(22.775517, 22.775517)
+mesh = SubResource("SphereMesh_srtwg")
+
+[node name="MeshInstance2D2" type="MeshInstance2D" parent="." unique_id=277537811]
+modulate = Color(1, 0, 0, 1)
+position = Vector2(641, 62)
+scale = Vector2(22.775517, 22.775517)
+mesh = SubResource("SphereMesh_srtwg")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1712124460]
+material = SubResource("ShaderMaterial_2cnjv")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -706.0
+offset_right = 833.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
