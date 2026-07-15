@@ -1,6 +1,20 @@
 [gd_scene format=3 uid="uid://bo8i5yrm1r2t"]
 
-[node name="TopUI" type="Control" unique_id=148449744]
+[ext_resource type="Texture2D" uid="uid://cu3um2rdfd2l8" path="res://Player(Submarine)/UIScreens/HackingScreen.png" id="1_lxxsk"]
+[ext_resource type="FontFile" uid="uid://dpums2cf8f1mt" path="res://Fonts/Futureworld-ZGwJ.ttf" id="2_m18ea"]
+[ext_resource type="Texture2D" uid="uid://ccqtmjkwupaoe" path="res://Player(Submarine)/UIScreens/HealthBarSingleEmpty.png" id="3_hxxh4"]
+[ext_resource type="Texture2D" uid="uid://cb0o4yq3c7o6" path="res://Player(Submarine)/UIScreens/SingleHealthBarUnder.png" id="4_pyup6"]
+[ext_resource type="Texture2D" uid="uid://djexecw38o0h0" path="res://Player(Submarine)/UIScreens/StaminaBarOrangeFull.png" id="5_lxxsk"]
+[ext_resource type="Shader" uid="uid://bmaj7wosgwa1l" path="res://Player(Submarine)/UIScreens/top_uiFlicker.gdshader" id="6_jnok3"]
+
+[sub_resource type="Theme" id="Theme_2cnjv"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_srtwg"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2cnjv"]
+shader = ExtResource("6_jnok3")
+
+[node name="BottomUI" type="Control" unique_id=148449744]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -8,54 +22,92 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="Parallax2D" type="Parallax2D" parent="." unique_id=1153514162]
+repeat_size = Vector2(560, 302.9)
+autoscroll = Vector2(0, -170)
+
+[node name="HackingScreen" type="Sprite2D" parent="Parallax2D" unique_id=1431533249]
+position = Vector2(407, 60)
+texture = ExtResource("1_lxxsk")
+
+[node name="StateLabel" type="Label" parent="." unique_id=2069810883]
+layout_mode = 0
+offset_left = 686.0
+offset_top = 26.0
+offset_right = 866.0
+offset_bottom = 42.0
+theme_override_colors/font_color = Color(0.38536888, 0.6792036, 0.28955394, 1)
+theme_override_colors/font_shadow_color = Color(0.14064342, 0.2705326, 0.099116765, 1)
+theme_override_colors/font_outline_color = Color(0.23921569, 0.43529412, 0.1764706, 1)
+theme_override_constants/outline_size = 8
+theme_override_constants/shadow_outline_size = 11
+theme_override_fonts/font = ExtResource("2_m18ea")
+theme_override_font_sizes/font_size = 15
+text = "SYSTEM STATE : SPRINTING"
+
+[node name="HeadingLabel" type="Label" parent="." unique_id=1877733496]
+layout_mode = 0
+offset_left = 162.0
+offset_top = 28.0
+offset_right = 391.0
+offset_bottom = 49.0
+theme_override_colors/font_color = Color(0.38536888, 0.6792036, 0.28955394, 1)
+theme_override_colors/font_shadow_color = Color(0.14064342, 0.2705326, 0.099116765, 1)
+theme_override_colors/font_outline_color = Color(0.23921569, 0.43529412, 0.1764706, 1)
+theme_override_constants/outline_size = 8
+theme_override_constants/shadow_outline_size = 11
+theme_override_fonts/font = ExtResource("2_m18ea")
+theme_override_font_sizes/font_size = 20
+text = "HEADING : 180 ° { W }"
+
+[node name="CollisionWarning" type="Label" parent="." unique_id=187851779]
+modulate = Color(1, 0, 0, 1)
+layout_mode = 0
+offset_left = 197.0
+offset_top = 60.0
+offset_right = 426.0
+offset_bottom = 81.0
+theme_override_colors/font_outline_color = Color(0.23921569, 0.43529412, 0.1764706, 1)
+theme_override_constants/outline_size = 8
+theme_override_constants/shadow_outline_size = 11
+theme_override_fonts/font = ExtResource("2_m18ea")
+theme_override_font_sizes/font_size = 20
+text = "COLLISION WARNING!"
+
+[node name="StaminaBar" type="TextureProgressBar" parent="." unique_id=918283150]
+texture_filter = 1
+layout_mode = 0
+offset_left = 679.0
+offset_top = 42.0034
+offset_right = 744.0
+offset_bottom = 55.003403
+scale = Vector2(3, 3)
+theme = SubResource("Theme_2cnjv")
+value = 100.0
+texture_under = ExtResource("3_hxxh4")
+texture_over = ExtResource("4_pyup6")
+texture_progress = ExtResource("5_lxxsk")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=1110600368]
+modulate = Color(1, 0, 0, 1)
+position = Vector2(181, 71)
+scale = Vector2(22.775517, 22.775517)
+mesh = SubResource("SphereMesh_srtwg")
+
+[node name="MeshInstance2D2" type="MeshInstance2D" parent="." unique_id=277537811]
+modulate = Color(1, 0, 0, 1)
+position = Vector2(887, 39.000004)
+scale = Vector2(22.775517, 22.775517)
+mesh = SubResource("SphereMesh_srtwg")
+
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1712124460]
+material = SubResource("ShaderMaterial_2cnjv")
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -72.0
+offset_left = -706.0
 offset_right = 833.0
 offset_bottom = -1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.5729503, 0.77813107, 0.944333, 1)
-
-[node name="LevelLabel" type="Label" parent="." unique_id=1556609880]
-layout_mode = 0
-offset_left = 74.0
-offset_top = 297.0
-offset_right = 239.0
-offset_bottom = 352.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 40
-text = "ZONE:01"
-
-[node name="RingLabel" type="Label" parent="." unique_id=2069810883]
-layout_mode = 0
-offset_left = 308.0
-offset_top = 293.0
-offset_right = 534.0
-offset_bottom = 348.0
-theme_override_colors/font_color = Color(0.0071466384, 0.0042570746, 0.006484672, 1)
-theme_override_font_sizes/font_size = 40
-text = "RINGS: 0/12"
-
-[node name="HullLabel" type="Label" parent="." unique_id=1877733496]
-layout_mode = 0
-offset_left = 1248.0
-offset_top = 285.0
-offset_right = 1563.0
-offset_bottom = 340.0
-theme_override_colors/font_color = Color(0.0071466384, 0.0042570746, 0.006484672, 1)
-theme_override_font_sizes/font_size = 40
-text = "HULL INTEGRITY"
-
-[node name="HullProgressBar" type="ProgressBar" parent="HullLabel" unique_id=487521577]
-layout_mode = 0
-offset_left = 341.0
-offset_top = 4.0
-offset_right = 735.0
-offset_bottom = 63.0
-theme_override_font_sizes/font_size = 40
-value = 98.0
-show_percentage = false

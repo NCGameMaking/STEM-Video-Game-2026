@@ -61,7 +61,6 @@ shape = SubResource("BoxShape3D_4ucdn")
 
 [node name="box" type="StaticBody3D" parent="." unique_id=1163501396]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.1674, 1.706, 0)
-collision_mask = 0
 axis_lock_angular_x = true
 axis_lock_angular_z = true
 

@@ -5,8 +5,7 @@ extends CanvasLayer
 var debug_properties: Dictionary = {}
 
 func _ready():
-	visible = false
-	
+	pass
 func _process(_delta):
 
 	var text = ""

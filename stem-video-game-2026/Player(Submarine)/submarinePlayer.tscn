@@ -214,9 +214,14 @@ shadow_mesh = SubResource("ArrayMesh_rec66")
 [sub_resource type="ViewportTexture" id="ViewportTexture_ic8dy"]
 viewport_path = NodePath("CenterViewport")
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_htine"]
+viewport_path = NodePath("CenterViewport")
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_edi88"]
 resource_local_to_scene = true
 albedo_texture = SubResource("ViewportTexture_ic8dy")
+emission_enabled = true
+emission_texture = SubResource("ViewportTexture_htine")
 uv1_scale = Vector3(-1.955, -0.67, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_ic8dy"]
@@ -227,6 +232,9 @@ size = Vector3(15.83, 0.25, 13.195)
 [sub_resource type="ViewportTexture" id="ViewportTexture_5b24m"]
 viewport_path = NodePath("BottomViewport")
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_7a4nt"]
+viewport_path = NodePath("BottomViewport")
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0ukw4"]
 resource_local_to_scene = true
 resource_name = "BlackOuterShell"
@@ -235,6 +243,8 @@ albedo_color = Color(0.39407128, 0.39407128, 0.39407128, 1)
 albedo_texture = SubResource("ViewportTexture_5b24m")
 metallic = 0.8436364
 roughness = 0.33636364
+emission_enabled = true
+emission_texture = SubResource("ViewportTexture_7a4nt")
 uv1_scale = Vector3(-2, 2, 2)
 uv1_triplanar_sharpness = 0.84089637
 
@@ -359,6 +369,10 @@ blend_shape_mode = 0
 radius = 1.1191406
 height = 3.0690918
 
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lctq1"]
+radius = 0.34960938
+height = 0.8892517
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_5b24m"]
 size = Vector3(5, 5, 5)
 
@@ -466,12 +480,14 @@ scale_curve = SubResource("CurveTexture_ic8dy")
 density = -100.0
 
 [node name="Submarine" type="RigidBody3D" unique_id=2124491561]
-collision_layer = 2
+collision_layer = 3
 axis_lock_angular_x = true
 axis_lock_angular_z = true
 physics_material_override = SubResource("PhysicsMaterial_ac5wi")
 gravity_scale = 0.0
 can_sleep = false
+contact_monitor = true
+max_contacts_reported = 5
 linear_damp = 2.0
 angular_damp = 4.0
 script = ExtResource("1_ejc7h")
@@ -512,6 +528,14 @@ skeleton = NodePath("")
 transform = Transform3D(-4.371139e-08, 0, 1, -0.9999942, -0.0034034294, -4.3711136e-08, 0.0034034294, -0.9999942, 1.4877218e-10, 0, 0.0012783633, -0.97607934)
 shape = SubResource("CapsuleShape3D_ejc7h")
 
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="." unique_id=1248711989]
+transform = Transform3D(0.0008450328, -0.24829963, 0.9686829, -0.9999942, -0.0034034294, -4.3711132e-08, 0.0032968547, -0.9686773, -0.24830106, 1.0326551, -0.27385837, -0.3773694)
+shape = SubResource("CapsuleShape3D_lctq1")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="." unique_id=1127458271]
+transform = Transform3D(-0.0008680782, 0.24868847, -0.96858305, -0.9999939, -0.0034906035, 0, -0.0033809398, 0.96857715, 0.24868998, -1.0635954, -0.27385837, -0.3773694)
+shape = SubResource("CapsuleShape3D_lctq1")
+
 [node name="FirstPersonCamera" type="Camera3D" parent="." unique_id=1826677329]
 transform = Transform3D(1, 0, 0, 0, 0.9942074, -0.10747881, 0, 0.10747881, 0.9942074, 0, 0.41521108, -1.6383755)
 
@@ -545,6 +569,7 @@ mesh = SubResource("SphereMesh_lctq1")
 
 [node name="CenterBooster" type="GPUParticles3D" parent="." unique_id=1203056104]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.9536139)
+visible = false
 amount = 40
 lifetime = 3.0
 process_material = SubResource("ParticleProcessMaterial_7r4gt")
@@ -552,6 +577,7 @@ draw_pass_1 = SubResource("SphereMesh_ic8dy")
 
 [node name="DiveBooster" type="GPUParticles3D" parent="." unique_id=728395137]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -5.9604645e-08, 1.4490967, -1.4123824)
+visible = false
 amount = 40
 lifetime = 3.0
 process_material = SubResource("ParticleProcessMaterial_5b24m")
@@ -559,6 +585,7 @@ draw_pass_1 = SubResource("SphereMesh_ic8dy")
 
 [node name="ClimbBooster" type="GPUParticles3D" parent="." unique_id=668801941]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -5.9604645e-08, -1.9368192, -1.4123824)
+visible = false
 amount = 40
 lifetime = 3.0
 process_material = SubResource("ParticleProcessMaterial_lctq1")
@@ -566,6 +593,7 @@ draw_pass_1 = SubResource("SphereMesh_ic8dy")
 
 [node name="LeftBooster" type="GPUParticles3D" parent="." unique_id=1179325416]
 transform = Transform3D(0.9928326, 0, -0.11951304, 0, 1, 0, 0.11951304, 0, 0.9928326, -1.1223519, -0.32346204, 0.41686857)
+visible = false
 amount = 40
 lifetime = 3.0
 process_material = SubResource("ParticleProcessMaterial_7r4gt")
@@ -573,6 +601,7 @@ draw_pass_1 = SubResource("SphereMesh_ic8dy")
 
 [node name="RightBooster" type="GPUParticles3D" parent="." unique_id=855515933]
 transform = Transform3D(0.989935, 0, 0.14152327, 0, 1, 0, -0.14152327, 0, 0.989935, 1.1394895, -0.32346204, 0.41686857)
+visible = false
 amount = 40
 lifetime = 3.0
 process_material = SubResource("ParticleProcessMaterial_7r4gt")
@@ -580,6 +609,7 @@ draw_pass_1 = SubResource("SphereMesh_ic8dy")
 
 [node name="StrafeLeftBooster" type="GPUParticles3D" parent="." unique_id=325301969]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -1.4435813, 0.035120606, -1.3454419)
+visible = false
 amount = 80
 lifetime = 3.0
 process_material = SubResource("ParticleProcessMaterial_ic8dy")
@@ -587,6 +617,7 @@ draw_pass_1 = SubResource("SphereMesh_ic8dy")
 
 [node name="StrafeRightBooster" type="GPUParticles3D" parent="." unique_id=1669207284]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 1.8190019, 0.035120606, -1.3454419)
+visible = false
 amount = 80
 lifetime = 3.0
 process_material = SubResource("ParticleProcessMaterial_edi88")
@@ -600,15 +631,15 @@ render_target_update_mode = 4
 
 [node name="CenterViewport" type="SubViewport" parent="." unique_id=105656255]
 transparent_bg = true
-size = Vector2i(256, 256)
-render_target_update_mode = 4
+size = Vector2i(585, 649)
 
 [node name="CenterUI" parent="CenterViewport" unique_id=1260257566 instance=ExtResource("5_edi88")]
 
 [node name="BottomViewport" type="SubViewport" parent="." unique_id=1444582360]
-size = Vector2i(1024, 397)
+size = Vector2i(1059, 109)
+render_target_update_mode = 4
 
-[node name="TopUI" parent="BottomViewport" unique_id=292408750 instance=ExtResource("7_lctq1")]
+[node name="BottomUI" parent="BottomViewport" unique_id=178638166 instance=ExtResource("7_lctq1")]
 
 [node name="FogVolume" type="FogVolume" parent="." unique_id=798797596]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.893127)

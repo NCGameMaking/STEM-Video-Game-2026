@@ -1,5 +1,13 @@
 [gd_scene format=3 uid="uid://c8hw1jo4fheqh"]
 
+[ext_resource type="FontFile" uid="uid://dpums2cf8f1mt" path="res://Fonts/Futureworld-ZGwJ.ttf" id="1_5lrmu"]
+[ext_resource type="Texture2D" uid="uid://tv8jvbjeslmc" path="res://Player(Submarine)/UIScreens/GreenComputerDeco (2).png" id="2_k6bld"]
+[ext_resource type="Texture2D" uid="uid://dej4vswh3c6s1" path="res://Player(Submarine)/UIScreens/GreenComputerDeco.png" id="3_a742l"]
+[ext_resource type="Shader" uid="uid://bmaj7wosgwa1l" path="res://Player(Submarine)/UIScreens/top_uiFlicker.gdshader" id="4_a742l"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cqpci"]
+shader = ExtResource("4_a742l")
+
 [node name="CenterUI" type="Control" unique_id=1260257566]
 layout_mode = 3
 anchors_preset = 15
@@ -8,27 +16,58 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=1383262103]
+[node name="SpeedLabel" type="Label" parent="." unique_id=1494149376]
+layout_mode = 0
+offset_left = 85.0
+offset_top = 276.0
+offset_right = 288.0
+offset_bottom = 309.0
+theme_override_colors/font_color = Color(0.38536888, 0.6792036, 0.28955394, 1)
+theme_override_colors/font_shadow_color = Color(0.14064342, 0.2705326, 0.099116765, 1)
+theme_override_colors/font_outline_color = Color(0.23921569, 0.43529412, 0.1764706, 1)
+theme_override_constants/outline_size = 8
+theme_override_constants/shadow_outline_size = 11
+theme_override_fonts/font = ExtResource("1_5lrmu")
+theme_override_font_sizes/font_size = 40
+text = "SPEED : 50m/s"
+
+[node name="DepthLabel" type="Label" parent="." unique_id=1636030976]
+layout_mode = 0
+offset_left = 84.0
+offset_top = 339.0
+offset_right = 357.0
+offset_bottom = 381.0
+theme_override_colors/font_color = Color(0.38536888, 0.6792036, 0.28955394, 1)
+theme_override_colors/font_shadow_color = Color(0.14064342, 0.2705326, 0.099116765, 1)
+theme_override_colors/font_outline_color = Color(0.23921569, 0.43529412, 0.1764706, 1)
+theme_override_constants/outline_size = 8
+theme_override_constants/shadow_outline_size = 11
+theme_override_fonts/font = ExtResource("1_5lrmu")
+theme_override_font_sizes/font_size = 40
+text = "DEPTH : 1000m"
+
+[node name="GreenComputerDeco(2)" type="Sprite2D" parent="." unique_id=210688644]
+modulate = Color(0.38431373, 0.6784314, 0.2901961, 1)
+position = Vector2(221.99998, 262)
+scale = Vector2(0.8512586, 1)
+texture = ExtResource("2_k6bld")
+flip_h = true
+
+[node name="GreenComputerDeco" type="Sprite2D" parent="." unique_id=1608511550]
+modulate = Color(0.38431373, 0.6784314, 0.2901961, 1)
+position = Vector2(167, 345)
+rotation = -1.5707964
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("3_a742l")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=478623473]
+material = SubResource("ShaderMaterial_cqpci")
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -706.0
+offset_right = 833.0
+offset_bottom = -1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.359117, 0.5828357, 0.9294591, 1)
-
-[node name="SpeedLabel" type="Label" parent="." unique_id=1667999078]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -87.5
-offset_top = -11.0
-offset_right = 87.5
-offset_bottom = 11.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 8
-text = "Speed of vehicle:123m/s"
