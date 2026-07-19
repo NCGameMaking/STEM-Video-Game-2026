@@ -49,6 +49,21 @@ theme_override_fonts/font = ExtResource("1_rqunx")
 theme_override_font_sizes/font_size = 30
 text = "RINGS : 0/12"
 
+[node name="PercentageLabel" type="Label" parent="." unique_id=165711587]
+layout_mode = 0
+offset_left = 404.0
+offset_top = 56.0
+offset_right = 572.0
+offset_bottom = 89.0
+theme_override_colors/font_color = Color(0.38536888, 0.6792036, 0.28955394, 1)
+theme_override_colors/font_shadow_color = Color(0.14064342, 0.2705326, 0.099116765, 1)
+theme_override_colors/font_outline_color = Color(0.23921569, 0.43529412, 0.1764706, 1)
+theme_override_constants/outline_size = 8
+theme_override_constants/shadow_outline_size = 11
+theme_override_fonts/font = ExtResource("1_rqunx")
+theme_override_font_sizes/font_size = 15
+text = "100%"
+
 [node name="HullLabel" type="Label" parent="." unique_id=1877733496]
 layout_mode = 0
 offset_left = 196.0
@@ -78,13 +93,13 @@ texture_under = ExtResource("2_srtwg")
 texture_over = ExtResource("3_phrh4")
 texture_progress = ExtResource("4_eyqk2")
 
-[node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=1110600368]
+[node name="LeftLight1" type="MeshInstance2D" parent="." unique_id=1110600368]
 modulate = Color(1, 0, 0, 1)
 position = Vector2(175.99998, 62)
 scale = Vector2(22.775517, 22.775517)
 mesh = SubResource("SphereMesh_srtwg")
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="." unique_id=277537811]
+[node name="LeftLight2" type="MeshInstance2D" parent="." unique_id=277537811]
 modulate = Color(1, 0, 0, 1)
 position = Vector2(641, 62)
 scale = Vector2(22.775517, 22.775517)

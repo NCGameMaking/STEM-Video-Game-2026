@@ -88,13 +88,13 @@ texture_under = ExtResource("3_hxxh4")
 texture_over = ExtResource("4_pyup6")
 texture_progress = ExtResource("5_lxxsk")
 
-[node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=1110600368]
+[node name="LeftLight3" type="MeshInstance2D" parent="." unique_id=1110600368]
 modulate = Color(1, 0, 0, 1)
 position = Vector2(181, 71)
 scale = Vector2(22.775517, 22.775517)
 mesh = SubResource("SphereMesh_srtwg")
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="." unique_id=277537811]
+[node name="LeftLight4" type="MeshInstance2D" parent="." unique_id=277537811]
 modulate = Color(1, 0, 0, 1)
 position = Vector2(887, 39.000004)
 scale = Vector2(22.775517, 22.775517)

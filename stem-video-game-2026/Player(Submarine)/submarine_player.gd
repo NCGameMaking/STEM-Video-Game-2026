@@ -21,8 +21,12 @@ const DIRECTIONS = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
 
 @export var max_health: float = 100.0
 var current_health: float = 100.0
-@export var damage_threshold : float = 5
+@export var damage_threshold : float = 12
 @export var damage_multiplier : float = 2.5
+var speed_last_frame: float = 0.0
+
+var flash_timer : float = 0.0
+@export var flash_speed : float = 10.0
 
 @onready var debug_ui = $DebugUI
 @onready var third_person_camera = $CameraMount/SpringArm3D/ThirdPersonCamera
@@ -35,11 +39,24 @@ var current_health: float = 100.0
 @onready var right_booster = $RightBooster
 @onready var strafe_left_booster = $StrafeLeftBooster
 @onready var strafe_right_booster = $StrafeRightBooster
+
 @onready var top_ui = $TopViewport/TopUI
 @onready var center_ui = $CenterViewport/CenterUI
 @onready var bottom_ui = $BottomViewport/BottomUI
+
 @onready var stamina_bar_bottom_ui = $BottomViewport/BottomUI/StaminaBar
 @onready var state_label_bottom_ui = $BottomViewport/BottomUI/StateLabel
+
+@onready var left_light_1 = $TopViewport/TopUI/LeftLight1
+@onready var left_light_2 = $TopViewport/TopUI/LeftLight2
+@onready var left_light_3 = $BottomViewport/BottomUI/LeftLight3
+@onready var left_light_4 = $BottomViewport/BottomUI/LeftLight4
+var is_critical: bool = false
+
+@onready var health_bar_top_ui = $TopViewport/TopUI/HullProgressBar
+@onready var hull_label_top_ui = $TopViewport/TopUI/HullLabel
+@onready var health_pct_label_top_ui = $TopViewport/TopUI/PercentageLabel
+
 
 @onready var top_screen = $Submarine/TopScreen
 @onready var top_viewport = $TopViewport
@@ -70,6 +87,9 @@ func _ready():
 		mat.uv1_scale = Vector3(-2.0, 2.0, 2.0) 
 		print("Texture successfully linked at runtime!")
 
+func _physics_process(delta):
+	speed_last_frame = linear_velocity.length()
+
 func _process(delta):
 	if current_stamina <= 0.0:
 		is_exhausted = true
@@ -92,6 +112,23 @@ func _process(delta):
 	
 
 	update_stamina(current_stamina, max_stamina, can_sprint)
+	
+	var health_pct = (current_health / max_health) * 100
+	
+	if is_critical:
+		flash_timer += delta * flash_speed
+		
+		var flash_state = sin(flash_timer) > 0.0
+		
+		left_light_1.visible = flash_state
+		left_light_2.visible = flash_state
+		left_light_3.visible = flash_state
+		left_light_4.visible = flash_state
+	else:
+		left_light_1.visible = true
+		left_light_2.visible = true
+		left_light_3.visible = true
+		left_light_4.visible = true
 
 
 	update_dashboard_ui()
@@ -252,6 +289,10 @@ func update_dashboard_ui() -> void:
 	var system_state = get_state_string()
 	bottom_ui.get_node("StateLabel").text = "SYSTEM STATE : " + str(system_state)
 	
+	update_hull_health(current_health, max_health)
+	
+	top_ui.get_node("PercentageLabel").text = str( "%.0f" % current_health) + "%"
+	
 func update_heading(heading_degress: float)-> void:
 	var degrees = posmod(int(360-heading_degress), 360)
 	var index = int(posmod(degrees + 22.5, 360) / 45.0)
@@ -270,10 +311,11 @@ func update_stamina(current_stamina: float, max_stamina: float, is_sprinting: bo
 	stamina_bar_bottom_ui.value = current_stamina
 
 func _on_body_entered(body: Node) -> void:
+	var impact_speed = speed_last_frame
+	
+	speed_last_frame = 0
 	
 	var state = PhysicsServer3D.body_get_direct_state(get_rid())
-	
-	var impact_speed = linear_velocity.length()
 	
 	if impact_speed > damage_threshold:
 		var damage = (impact_speed - damage_threshold) * damage_multiplier
@@ -282,3 +324,38 @@ func _on_body_entered(body: Node) -> void:
 		current_health = clamp(current_health, 0.0, max_health)
 		
 		print("COLLISION DETECTED Hit body: ", body.name,"| Speed: ", impact_speed," | Damage: ", damage)
+
+func update_hull_health(current_health: float, max_health: float) -> void:
+	health_bar_top_ui.max_value = max_health
+	health_bar_top_ui.value = current_health
+	
+	var health_pct = (current_health / max_health) * 100
+	
+	if health_pct >= 66:
+		is_critical = false
+		hull_label_top_ui.text="HULL INTEGRITY: STABLE"
+		health_bar_top_ui.set_tint_progress(Color(1,1,1))
+		
+		left_light_1.modulate = (Color(0,1,0))
+		left_light_2.modulate = (Color(0,1,0))
+		left_light_3.modulate = (Color(0,1,0))
+		left_light_4.modulate = (Color(0,1,0))
+		
+	elif health_pct >= 25:
+		is_critical = false
+		hull_label_top_ui.text="HULL INTEGRITY: DAMAGED"
+		health_bar_top_ui.set_tint_progress(Color(1,.5,0))
+		
+		left_light_1.modulate = (Color(1,.5,0))
+		left_light_2.modulate = (Color(1,.5,0))
+		left_light_3.modulate = (Color(1,.5,0))
+		left_light_4.modulate = (Color(1,.5,0))
+	else:
+		is_critical = true
+		hull_label_top_ui.text="HULL INTEGRITY: CRITICAL"
+		health_bar_top_ui.set_tint_progress(Color(1,0,0))
+		
+		left_light_1.modulate = (Color(1,0,0))
+		left_light_2.modulate = (Color(1,0,0))
+		left_light_3.modulate = (Color(1,0,0))
+		left_light_4.modulate = (Color(1,0,0))

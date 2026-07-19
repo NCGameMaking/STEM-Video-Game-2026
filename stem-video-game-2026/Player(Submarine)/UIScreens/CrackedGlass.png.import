@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cu3um2rdfd2l8"
-path="res://.godot/imported/HackingScreen.png-8b9444da26346304a70a44b4674ffdbb.ctex"
+uid="uid://27w265sgnmhw"
+path="res://.godot/imported/CrackedGlass.png-0049af164e485b3260bd9759dfcc2135.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Player(Submarine)/UIScreens/HackingScreen.png"
-dest_files=["res://.godot/imported/HackingScreen.png-8b9444da26346304a70a44b4674ffdbb.ctex"]
+source_file="res://Player(Submarine)/UIScreens/CrackedGlass.png"
+dest_files=["res://.godot/imported/CrackedGlass.png-0049af164e485b3260bd9759dfcc2135.ctex"]
 
 [params]
 

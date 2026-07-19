@@ -11,6 +11,9 @@
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ac5wi"]
 bounce = 0.01
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_lctq1"]
+size = Vector3(2.1626587, 2.3709106, 3.2202759)
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jn6ef"]
 resource_name = "ExteriorMat"
 cull_mode = 2
@@ -365,14 +368,6 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ejc7h"]
-radius = 1.1191406
-height = 3.0690918
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lctq1"]
-radius = 0.34960938
-height = 0.8892517
-
 [sub_resource type="BoxShape3D" id="BoxShape3D_5b24m"]
 size = Vector3(5, 5, 5)
 
@@ -486,16 +481,21 @@ axis_lock_angular_z = true
 physics_material_override = SubResource("PhysicsMaterial_ac5wi")
 gravity_scale = 0.0
 can_sleep = false
+continuous_cd = true
 contact_monitor = true
-max_contacts_reported = 5
+max_contacts_reported = 20
 linear_damp = 2.0
 angular_damp = 4.0
 script = ExtResource("1_ejc7h")
-move_force = 40.0
-strafe_force = 30.0
-vertical_force = 30.0
+move_force = 30.0
+strafe_force = 15.0
+vertical_force = 25.0
 sprint_multiplier = 1.5
 mouse_sensitivity = 0.01
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=892476140]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.003753662, -0.09384155, -1.0702248)
+shape = SubResource("BoxShape3D_lctq1")
 
 [node name="Submarine" parent="." unique_id=1486210889 instance=ExtResource("2_ic8dy")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
@@ -524,18 +524,6 @@ transform = Transform3D(-0.9141479, -0.405381, -8.733597e-08, -0.405381, 0.91414
 mesh = SubResource("ArrayMesh_spvl8")
 skeleton = NodePath("")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1761665875]
-transform = Transform3D(-4.371139e-08, 0, 1, -0.9999942, -0.0034034294, -4.3711136e-08, 0.0034034294, -0.9999942, 1.4877218e-10, 0, 0.0012783633, -0.97607934)
-shape = SubResource("CapsuleShape3D_ejc7h")
-
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="." unique_id=1248711989]
-transform = Transform3D(0.0008450328, -0.24829963, 0.9686829, -0.9999942, -0.0034034294, -4.3711132e-08, 0.0032968547, -0.9686773, -0.24830106, 1.0326551, -0.27385837, -0.3773694)
-shape = SubResource("CapsuleShape3D_lctq1")
-
-[node name="CollisionShape3D3" type="CollisionShape3D" parent="." unique_id=1127458271]
-transform = Transform3D(-0.0008680782, 0.24868847, -0.96858305, -0.9999939, -0.0034906035, 0, -0.0033809398, 0.96857715, 0.24868998, -1.0635954, -0.27385837, -0.3773694)
-shape = SubResource("CapsuleShape3D_lctq1")
-
 [node name="FirstPersonCamera" type="Camera3D" parent="." unique_id=1826677329]
 transform = Transform3D(1, 0, 0, 0, 0.9942074, -0.10747881, 0, 0.10747881, 0.9942074, 0, 0.41521108, -1.6383755)
 
@@ -548,6 +536,7 @@ shape = SubResource("BoxShape3D_5b24m")
 [node name="ThirdPersonCamera" type="Camera3D" parent="CameraMount/SpringArm3D" unique_id=1126493837]
 
 [node name="DebugUI" type="CanvasLayer" parent="." unique_id=423904913]
+visible = false
 script = ExtResource("2_ejc7h")
 
 [node name="PanelContainer" type="PanelContainer" parent="DebugUI" unique_id=541997702]
@@ -569,7 +558,6 @@ mesh = SubResource("SphereMesh_lctq1")
 
 [node name="CenterBooster" type="GPUParticles3D" parent="." unique_id=1203056104]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.9536139)
-visible = false
 amount = 40
 lifetime = 3.0
 process_material = SubResource("ParticleProcessMaterial_7r4gt")
@@ -577,7 +565,6 @@ draw_pass_1 = SubResource("SphereMesh_ic8dy")
 
 [node name="DiveBooster" type="GPUParticles3D" parent="." unique_id=728395137]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -5.9604645e-08, 1.4490967, -1.4123824)
-visible = false
 amount = 40
 lifetime = 3.0
 process_material = SubResource("ParticleProcessMaterial_5b24m")
@@ -585,7 +572,6 @@ draw_pass_1 = SubResource("SphereMesh_ic8dy")
 
 [node name="ClimbBooster" type="GPUParticles3D" parent="." unique_id=668801941]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -5.9604645e-08, -1.9368192, -1.4123824)
-visible = false
 amount = 40
 lifetime = 3.0
 process_material = SubResource("ParticleProcessMaterial_lctq1")
@@ -593,7 +579,6 @@ draw_pass_1 = SubResource("SphereMesh_ic8dy")
 
 [node name="LeftBooster" type="GPUParticles3D" parent="." unique_id=1179325416]
 transform = Transform3D(0.9928326, 0, -0.11951304, 0, 1, 0, 0.11951304, 0, 0.9928326, -1.1223519, -0.32346204, 0.41686857)
-visible = false
 amount = 40
 lifetime = 3.0
 process_material = SubResource("ParticleProcessMaterial_7r4gt")
@@ -601,7 +586,6 @@ draw_pass_1 = SubResource("SphereMesh_ic8dy")
 
 [node name="RightBooster" type="GPUParticles3D" parent="." unique_id=855515933]
 transform = Transform3D(0.989935, 0, 0.14152327, 0, 1, 0, -0.14152327, 0, 0.989935, 1.1394895, -0.32346204, 0.41686857)
-visible = false
 amount = 40
 lifetime = 3.0
 process_material = SubResource("ParticleProcessMaterial_7r4gt")
@@ -609,7 +593,6 @@ draw_pass_1 = SubResource("SphereMesh_ic8dy")
 
 [node name="StrafeLeftBooster" type="GPUParticles3D" parent="." unique_id=325301969]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -1.4435813, 0.035120606, -1.3454419)
-visible = false
 amount = 80
 lifetime = 3.0
 process_material = SubResource("ParticleProcessMaterial_ic8dy")
@@ -617,7 +600,6 @@ draw_pass_1 = SubResource("SphereMesh_ic8dy")
 
 [node name="StrafeRightBooster" type="GPUParticles3D" parent="." unique_id=1669207284]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 1.8190019, 0.035120606, -1.3454419)
-visible = false
 amount = 80
 lifetime = 3.0
 process_material = SubResource("ParticleProcessMaterial_edi88")
