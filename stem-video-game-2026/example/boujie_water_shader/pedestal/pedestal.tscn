@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://cuagegibp4wcj"]
+
+[ext_resource type="Material" uid="uid://dm15sg1uklilb" path="res://example/boujie_water_shader/pedestal/pedestal_material.tres" id="1_bx14s"]
+[ext_resource type="ArrayMesh" uid="uid://cj0csa11nva20" path="res://example/boujie_water_shader/obelisk/pyramid_pillar.obj" id="2_r0max"]
+[ext_resource type="Material" uid="uid://b5yp2r2ccy8cj" path="res://example/boujie_water_shader/obelisk/obelisk_material.tres" id="3_w814x"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_x43j5"]
+top_radius = 2.0
+bottom_radius = 2.5
+height = 0.4
+cap_bottom = false
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_bn3rb"]
+top_radius = 2.5
+bottom_radius = 3.5
+height = 10.0
+cap_top = false
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_opc7q"]
+points = PackedVector3Array(3.3607569, -4.0408206, 0.51504195, -3.3736534, -4.784924, -0.8302573, -3.3779871, -4.7910852, 0.81544316, -2.328822, 4.79078, 0.9651466, 0.51320165, 4.772304, -2.46905, 0.9698123, 4.813751, 2.3240774, 0.8154453, -4.791098, -3.3779964, -0.83511466, -4.8093333, 3.3749502, 2.3190117, 4.80193, -0.9832843, -1.5524615, 4.7067294, -1.9938469, 1.8756135, -4.8213224, 2.9305875, 2.922613, -4.808238, -1.8863748, -1.2825844, -4.798509, -3.2325513, 2.3242755, 4.812793, 0.9696177, -1.4101986, 4.428096, 2.1325293, -2.6059153, -4.749793, 2.293093, -2.4657447, 4.765896, -0.5290312, -2.9251802, -4.786407, -1.8778461, 1.5414821, 4.7216425, -2.0001392, 2.9305851, -4.8213186, 1.8756121, 0.21590558, 3.7462573, 2.6147804, 0.81968254, -4.815754, 3.379466, 3.375123, -4.8095794, -0.8344945, 1.8670849, -4.7994914, -2.9331548, -0.5296601, 4.765644, -2.4656153, 1.8302066, 4.117303, 1.8302068, 2.6141005, 3.7452862, -0.23172063, -0.5323495, 4.7902107, 2.4624112, -0.23224878, -3.8931806, -3.3778973, -1.8863734, -4.808234, 2.9226105, -2.4571738, -4.7492757, -2.4571738, -2.149171, 4.282585, -1.4107021)
+
+[node name="Pedestal" type="Node3D" unique_id=71176658]
+
+[node name="Platform" type="MeshInstance3D" parent="." unique_id=1765121416]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+mesh = SubResource("CylinderMesh_x43j5")
+surface_material_override/0 = ExtResource("1_bx14s")
+
+[node name="Foundation" type="MeshInstance3D" parent="." unique_id=2003110395]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0)
+mesh = SubResource("CylinderMesh_bn3rb")
+surface_material_override/0 = ExtResource("1_bx14s")
+
+[node name="Capstone" type="MeshInstance3D" parent="." unique_id=608686590]
+transform = Transform3D(0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, 0, 0.4, 0)
+mesh = ExtResource("2_r0max")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("3_w814x")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=1441458309]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=772992676]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0)
+shape = SubResource("ConvexPolygonShape3D_opc7q")
