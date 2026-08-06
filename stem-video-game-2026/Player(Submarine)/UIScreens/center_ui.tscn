@@ -60,7 +60,7 @@ rotation = -1.5707964
 scale = Vector2(0.4, 0.4)
 texture = ExtResource("3_a742l")
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=478623473]
+[node name="ColorRect1" type="ColorRect" parent="." unique_id=478623473]
 material = SubResource("ShaderMaterial_cqpci")
 layout_mode = 1
 anchors_preset = 15
@@ -69,5 +69,18 @@ anchor_bottom = 1.0
 offset_left = -706.0
 offset_right = 833.0
 offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1910246040]
+modulate = Color(0, 0, 0, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -862.0
+offset_top = -525.0
+offset_right = 1033.0
+offset_bottom = 475.0
 grow_horizontal = 2
 grow_vertical = 2

@@ -24,21 +24,54 @@ var current_health: float = 100.0
 @export var damage_threshold : float = 12
 @export var damage_multiplier : float = 2.5
 var speed_last_frame: float = 0.0
+var is_dead : bool = false
 
 var flash_timer : float = 0.0
 @export var flash_speed : float = 10.0
 
 @onready var debug_ui = $DebugUI
-@onready var third_person_camera = $CameraMount/SpringArm3D/ThirdPersonCamera
 @onready var first_person_camera = $FirstPersonCamera
+@onready var periscope_camera = $CameraMount/ThirdPersonCamera
+var periscope_active : bool = false
+var periscope_yaw : float = 0.0
+var periscope_pitch : float = 0.0
 
-@onready var center_booster = $CenterBooster
-@onready var dive_booster = $DiveBooster
-@onready var climb_booster = $ClimbBooster
-@onready var left_booster = $LeftBooster
-@onready var right_booster = $RightBooster
-@onready var strafe_left_booster = $StrafeLeftBooster
-@onready var strafe_right_booster = $StrafeRightBooster
+@export var max_water_surface_y : float = -1.0
+
+@onready var periscope_ui = $PeriscopeUI
+@onready var cracked_glass = $PeriscopeUI/CrackedGlass
+@onready var glass_screen = $PeriscopeUI/GlassScreenThingy
+
+@onready var marine_snow = $MarineSnow
+@onready var lights = $Lights
+@onready var light_switch = $AudioSFX/LightSwitch
+
+@onready var engine_hum = $AudioSFX/EngineHum
+@onready var impact_audio = $AudioSFX/ImpactAudio
+@onready var periscope_rise = $AudioSFX/PeriscopeRise
+@onready var periscope_swivel = $AudioSFX/PeriscopeSwivel
+@onready var hull_alarm = $AudioSFX/HullAlarm
+@onready var death = $AudioSFX/Death
+@onready var switch_camera = $AudioSFX/SwitchCamera
+@onready var ui_warning_alert = $AudioSFX/UIWarningAlert
+@onready var metal_creaking = $AudioSFX/MetalCreaking
+@onready var under_water_amb = $AudioSFX/UnderWaterAmb
+@onready var periscope_rotate = $AudioSFX/PeriscopeRotate
+@onready var go_up_bubble = $AudioSFX/GoUpBubble
+@onready var go_down_hiss = $AudioSFX/GoDownHiss
+@onready var steering_wheel_audio = $AudioSFX/SteeringWheel
+
+var warning_played : bool = false
+var target_engine_pitch : float = 0.0
+var creak_timer : float = 0.0
+
+@onready var center_booster = $BubbleBoosters/CenterBooster
+@onready var dive_booster = $BubbleBoosters/DiveBooster
+@onready var climb_booster = $BubbleBoosters/ClimbBooster
+@onready var left_booster = $BubbleBoosters/LeftBooster
+@onready var right_booster = $BubbleBoosters/RightBooster
+@onready var strafe_left_booster = $BubbleBoosters/StrafeLeftBooster
+@onready var strafe_right_booster = $BubbleBoosters/StrafeRightBooster
 
 @onready var top_ui = $TopViewport/TopUI
 @onready var center_ui = $CenterViewport/CenterUI
@@ -57,6 +90,9 @@ var is_critical: bool = false
 @onready var hull_label_top_ui = $TopViewport/TopUI/HullLabel
 @onready var health_pct_label_top_ui = $TopViewport/TopUI/PercentageLabel
 
+@onready var steering_wheel = $Submarine/SteeringWheel
+
+@onready var ray = $Ray
 
 @onready var top_screen = $Submarine/TopScreen
 @onready var top_viewport = $TopViewport
@@ -65,17 +101,32 @@ var is_critical: bool = false
 @export var sway_speed: float  = 4.0
 @onready var camera_mount = $CameraMount
 
+var rot_target := Vector3.ZERO
+
 var is_exhausted: bool = false
 
 var mouse_input : float = 0.0
 var is_first_person: bool = false
 var fp_camera_base_pos : Vector3 = Vector3.ZERO
+var mouse_input_x: float = 0.0
 
 func _ready():
+	
+	if engine_hum and engine_hum.stream:
+		engine_hum.play()
+	if under_water_amb and under_water_amb.stream:
+		under_water_amb.play()
+	
+	is_first_person = true
+	rot_target.y = global_transform.basis.get_euler().y
+	glass_screen.visible = false
+	if cracked_glass:
+		cracked_glass.visible = false
+	is_dead = false
 	body_entered.connect(_on_body_entered)
 	
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	third_person_camera.current = true
+	toggle_periscope(false)
 	fp_camera_base_pos = first_person_camera.position
 
 	var screen_mesh = $Submarine/TopScreen
@@ -88,7 +139,16 @@ func _ready():
 		print("Texture successfully linked at runtime!")
 
 func _physics_process(delta):
+	if is_dead:
+		return
 	speed_last_frame = linear_velocity.length()
+	
+	if ray and ray.is_colliding():
+		bottom_ui.get_node("CollisionWarning").text = "COLLISION WARNING!"
+		bottom_ui.get_node("CollisionWarning").modulate = Color(1,0,0)
+	else:
+		bottom_ui.get_node("CollisionWarning").text = "COLLISION : FINE"
+		bottom_ui.get_node("CollisionWarning").modulate = Color(1,1,1)
 
 func _process(delta):
 	if current_stamina <= 0.0:
@@ -109,8 +169,6 @@ func _process(delta):
 	var current_multiplier = 1.0
 	if can_sprint:
 		current_multiplier = 1 / sprint_multiplier
-	
-
 	update_stamina(current_stamina, max_stamina, can_sprint)
 	
 	var health_pct = (current_health / max_health) * 100
@@ -125,91 +183,150 @@ func _process(delta):
 		left_light_3.visible = flash_state
 		left_light_4.visible = flash_state
 	else:
-		left_light_1.visible = true
-		left_light_2.visible = true
-		left_light_3.visible = true
-		left_light_4.visible = true
-
-
+			left_light_1.visible = true
+			left_light_2.visible = true
+			left_light_3.visible = true
+			left_light_4.visible = true
+	var current_speed = linear_velocity.length()
+	var speed_ratio = clamp(current_speed / 15, 0, 1)
+	
+	if engine_hum and engine_hum.stream:
+		target_engine_pitch = lerp(0.85,1.4, speed_ratio)
+		engine_hum.pitch_scale = lerp(engine_hum.pitch_scale, target_engine_pitch, 5.0 * delta)
+	if hull_alarm:
+		if is_critical and not hull_alarm.playing and not is_dead:
+			hull_alarm.play()
+		elif not is_critical and hull_alarm.playing:
+			hull_alarm.stop()
+			
+	var current_depth = abs(global_position.y)
+	if current_depth > 20 and not is_dead:
+		creak_timer += delta
+		if creak_timer > randf_range(8,15):
+			creak_timer = 0.0
+			if metal_creaking and not metal_creaking.playing:
+				metal_creaking.play()
+	if marine_snow and marine_snow.process_material:
+		var target_speed = 2.0 if current_state==SubState.SPRINTING else 1.0
+		marine_snow.speed_scale = lerp(marine_snow.speed_scale,target_speed, 3 * delta)
+			
+	
 	update_dashboard_ui()
 	if Input.is_key_pressed(KEY_ESCAPE):
 		get_tree().quit()
 
-func _unhandled_input(event):
-	if event is InputEventMouseMotion:
-		mouse_input = -event.relative.x * mouse_sensitivity
-	
+func _unhandled_input(event: InputEvent):
+	if event.is_action_pressed("Toggle_light"):
+		if lights:
+			lights.visible = !lights.visible
+			
+			if light_switch and light_switch.stream:
+				light_switch.play()
+		
+		
 	if event.is_action_pressed("Toggle_camera"):
 		is_first_person = !is_first_person
-		if is_first_person:
-			first_person_camera.current = true
+		toggle_periscope(!is_first_person)
+			
+	if event is InputEventMouseMotion and Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
+		if periscope_active:
+			periscope_yaw -= event.relative.x * mouse_sensitivity
+			camera_mount.rotation.y = periscope_yaw
+			
+			periscope_pitch -= event.relative.y * mouse_sensitivity
+			periscope_pitch = clamp(periscope_pitch, deg_to_rad(-25), deg_to_rad(25))
+			periscope_camera.rotation.x = periscope_pitch
+			if periscope_swivel and not periscope_swivel.playing:
+				periscope_swivel.play()
+			
 		else:
-			third_person_camera.current = true
+			rot_target.y -= event.relative.x * mouse_sensitivity
+			rot_target.y = wrapf(rot_target.y, -PI, PI)
+			
+			rot_target.x -= event.relative.y * mouse_sensitivity
+			rot_target.x = clamp(rot_target.x, deg_to_rad(-45.0), deg_to_rad(45.0))
+
+			if steering_wheel and steering_wheel.has_method("turn_wheel"):
+				steering_wheel.turn_wheel(event.relative.x)
+			#if event.relative.x !=0 and steering_wheel_audio and not steering_wheel_audio.playing:
+				#steering_wheel_audio.play()
 
 func _integrate_forces(state):
-
 	var is_moving_forward = Input.is_action_pressed("Move_forward")
 	left_booster.emitting = is_moving_forward
 	center_booster.emitting = is_moving_forward
 	right_booster.emitting = is_moving_forward
 	
-	if is_moving_forward:
-		if current_state == SubState.SPRINTING:
-			left_booster.amount_ratio = 1.5
-			center_booster.amount_ratio = 1.5
-			right_booster.amount_ratio = 1.5
-		else:
-			left_booster.amount_ratio = 1.0
-			center_booster.amount_ratio = 1.0
-			right_booster.amount_ratio = 1.0
 	strafe_left_booster.emitting = Input.is_action_pressed("Move_right")
 	strafe_right_booster.emitting = Input.is_action_pressed("Move_left")
-	
 	climb_booster.emitting = Input.is_action_pressed("Move_up")
 	dive_booster.emitting = Input.is_action_pressed("Move_down")
+	if is_moving_forward:
+		var ratio = 1.5 if current_state == SubState.SPRINTING else 1.0
+		if current_state == SubState.SPRINTING:
+			left_booster.amount_ratio = ratio
+			center_booster.amount_ratio = ratio
+			right_booster.amount_ratio = ratio
+	if not periscope_active:
+		var current_euler = state.transform.basis.get_euler()
+		var new_x = lerp_angle(current_euler.x, rot_target.x, 15.0 * state.step)
+		var new_y = lerp_angle(current_euler.y, rot_target.y, 15.0 * state.step)
+		state.transform.basis = Basis.from_euler(Vector3(new_x, new_y, 0.0))
+		state.angular_velocity = Vector3.ZERO
 	
-	if mouse_input != 0.0:
-		var rotation_increment = Basis(Vector3.UP, mouse_input)
-		state.transform.basis = state.transform.basis * rotation_increment
-		mouse_input = 0.0
+	var force_vector = Vector3.ZERO
+	var basis = state.transform.basis
 
-	match current_state:
-		SubState.IDLE:
-			process_idle_state(state)
-		SubState.MOVEMENT:
-			process_movement_state(state)
-		SubState.SPRINTING:
-			process_sprinting_state(state)
+	if Input.is_action_pressed("Move_forward"):
+		force_vector -= basis.z * move_force
+	if Input.is_action_pressed("Move_backward"):
+		force_vector += basis.z * move_force
+	if Input.is_action_pressed("Move_left"):
+		force_vector -= basis.x * move_force
+	if Input.is_action_pressed("Move_right"):
+		force_vector += basis.x * move_force
+	if Input.is_action_pressed("Move_up"):
+		force_vector += Vector3.UP * move_force
+		if go_up_bubble : go_up_bubble.play()
+	elif Input.is_action_just_released("Move_up"):
+		if go_up_bubble : go_up_bubble.stop()
+
+	if Input.is_action_pressed("Move_down"):
+		force_vector -= Vector3.UP * move_force
+		if go_down_hiss and not go_down_hiss.playing: go_down_hiss.play()
+	elif Input.is_action_just_released("Move_down"):
+		if go_down_hiss and not go_up_bubble.playing : go_down_hiss.stop()
+
+	var is_sprinting = Input.is_action_pressed("Sprint") and not is_exhausted and force_vector != Vector3.ZERO
+	if is_sprinting:
+		force_vector *= sprint_multiplier
+		current_state = SubState.SPRINTING
+	elif force_vector != Vector3.ZERO:
+		current_state = SubState.MOVEMENT
+	else:
+		current_state = SubState.IDLE
+		
+	if state.transform.origin.y > max_water_surface_y:
+		state.transform.origin.y = max_water_surface_y
+		
+		if state.linear_velocity.y > 0:
+			state.linear_velocity.y = 0.0
+	
+	
+	state.apply_central_force(force_vector)
+
 	if debug_ui:
 		debug_ui.update_property("Current State", get_state_string())
 		debug_ui.update_property("FPS: ", Engine.get_frames_per_second())
 		debug_ui.update_property("Linear Velocity", state.linear_velocity.snapped(Vector3(0.1, 0.1, 0.1)))
 		debug_ui.update_property("Speed (m/s)", "%0.2f" % state.linear_velocity.length())
 	
-	var target_fov = normal_fov
-	if current_state == SubState.SPRINTING:
-		target_fov = sprint_fov
+	var target_fov = sprint_fov if current_state == SubState.SPRINTING else normal_fov
+
 	if is_first_person:
-		first_person_camera.fov = lerp(third_person_camera.fov, target_fov, state.step * zoom_speed)
-	else:
-		third_person_camera.fov = lerp(third_person_camera.fov, target_fov, state.step * zoom_speed)
+		first_person_camera.fov = lerp(first_person_camera.fov, target_fov, state.step * zoom_speed)
 		
-	if not is_first_person and camera_mount:
-		var target_sway = Vector3.ZERO
-		
-		if Input.is_action_pressed("Move_left"):
-			target_sway.x = sway_amount
-		if Input.is_action_pressed("Move_right"):
-			target_sway.x = -sway_amount
-		if Input.is_action_pressed("Move_up"):
-			target_sway.y = -sway_amount * 0.5
-		if Input.is_action_pressed("Move_down"):
-			target_sway.y = sway_amount * 0.5
-		camera_mount.position = camera_mount.position.lerp(target_sway, state.step * sway_speed)
-			
-	if is_first_person and first_person_camera:
 		var target_fp_sway = Vector3.ZERO
-		
 		if Input.is_action_pressed("Move_left"):
 			target_fp_sway.x = sway_amount * 0.1
 		if Input.is_action_pressed("Move_right"):
@@ -221,53 +338,20 @@ func _integrate_forces(state):
 			
 		var final_target = fp_camera_base_pos + target_fp_sway
 		first_person_camera.position = first_person_camera.position.lerp(final_target,state.step * sway_speed)
+	else:
+		periscope_camera.fov = lerp(periscope_camera.fov, target_fov, state.step * zoom_speed)
 		
-func process_idle_state(state):
-	if Input.is_action_pressed("Move_forward") or Input.is_action_pressed("Move_backward") or Input.is_action_pressed("Move_left") or Input.is_action_pressed("Move_right") or Input.is_action_pressed("Move_down") or Input.is_action_pressed("Move_up"):
-		current_state = SubState.MOVEMENT
-	
-func process_movement_state(state):
-	var force_vector = Vector3.ZERO
-
-	if Input.is_action_pressed("Move_forward"):
-		force_vector -= state.transform.basis.z * move_force
-	if Input.is_action_pressed("Move_backward"):
-		force_vector += state.transform.basis.z * move_force
-	if Input.is_action_pressed("Move_left"):
-		force_vector -= state.transform.basis.x * strafe_force
-	if Input.is_action_pressed("Move_right"):
-		force_vector += state.transform.basis.x * strafe_force
-	if Input.is_action_pressed("Move_up"):
-		force_vector += state.transform.basis.y * vertical_force
-	if Input.is_action_pressed("Move_down"):
-		force_vector -= state.transform.basis.y * vertical_force
-		
-	state.apply_central_force(force_vector)
-	
-	if force_vector == Vector3.ZERO:
-		current_state = SubState.IDLE
-		
-	if Input.is_action_pressed("Sprint"):
-		if current_stamina > 0 and not is_exhausted:
-			current_state = SubState.SPRINTING
-		else:
-			current_state = SubState.MOVEMENT
-		
-func process_sprinting_state(state):
-	var force_vector = Vector3.ZERO
-	
-	if Input.is_action_pressed("Move_forward"):
-		force_vector -= state.transform.basis.z * move_force
-	if Input.is_action_pressed("Move_backward"): force_vector += state.transform.basis.z * move_force
-	if Input.is_action_pressed("Move_left"): force_vector -= state.transform.basis.x * strafe_force
-	if Input.is_action_pressed("Move_right"): force_vector += state.transform.basis.x * strafe_force
-	if Input.is_action_pressed("Move_up"): force_vector += state.transform.basis.y * vertical_force
-	if Input.is_action_pressed("Move_down"): force_vector -= state.transform.basis.y * vertical_force
-	
-	state.apply_central_force(force_vector * sprint_multiplier)
-	
-	if not Input.is_action_pressed("Sprint") or is_exhausted:
-		current_state = SubState.MOVEMENT
+		if camera_mount:
+			var target_sway = Vector3.ZERO
+			if Input.is_action_pressed("Move_left"):
+				target_sway.x = sway_amount
+			if Input.is_action_pressed("Move_right"):
+				target_sway.x = -sway_amount
+			if Input.is_action_pressed("Move_up"):
+				target_sway.y = -sway_amount * 0.5
+			if Input.is_action_pressed("Move_down"):
+				target_sway.y = sway_amount * 0.5
+			camera_mount.position = camera_mount.position.lerp(target_sway, state.step * sway_speed)
 
 func get_state_string() -> String:
 	match current_state:
@@ -277,6 +361,9 @@ func get_state_string() -> String:
 	return "UNKNOWN"
 	
 func update_dashboard_ui() -> void:
+	if is_dead:
+		return
+	
 	var current_speed = linear_velocity.length()
 	center_ui.get_node("SpeedLabel").text = "SPEED : " + String("%.1f" % current_speed) + "m/s"
 	
@@ -301,7 +388,11 @@ func update_heading(heading_degress: float)-> void:
 	
 	bottom_ui.get_node("HeadingLabel").text = "HEADING : " + str(degrees) + "° {" + string_direction + "}"
 
+@warning_ignore("shadowed_variable")
 func update_stamina(current_stamina: float, max_stamina: float, is_sprinting: bool) -> void:
+	if is_dead:
+		return
+	
 	if is_sprinting and current_stamina > 0:
 		state_label_bottom_ui.text = "SYSTEM STATE : SPRINTING"
 	else:
@@ -311,11 +402,10 @@ func update_stamina(current_stamina: float, max_stamina: float, is_sprinting: bo
 	stamina_bar_bottom_ui.value = current_stamina
 
 func _on_body_entered(body: Node) -> void:
+	
 	var impact_speed = speed_last_frame
 	
 	speed_last_frame = 0
-	
-	var state = PhysicsServer3D.body_get_direct_state(get_rid())
 	
 	if impact_speed > damage_threshold:
 		var damage = (impact_speed - damage_threshold) * damage_multiplier
@@ -323,13 +413,40 @@ func _on_body_entered(body: Node) -> void:
 		current_health -= damage
 		current_health = clamp(current_health, 0.0, max_health)
 		
+		if impact_audio and impact_audio.stream:
+			var impact_intensity = clamp((impact_speed - damage_threshold) / 20,0,1)
+			impact_audio.volume_db = lerp(-10, 2,impact_intensity)
+			impact_audio.pitch_scale = randf_range(0.9,1.1)
+			impact_audio.play()
+			
+		
 		print("COLLISION DETECTED Hit body: ", body.name,"| Speed: ", impact_speed," | Damage: ", damage)
-
+		var shake_tween = create_tween()
+		var camera = $FirstPersonCamera
+		
+		var shake_intensity = (impact_speed - damage_threshold) * 0.01
+		
+		shake_tween.tween_property(camera, "h_offset", shake_intensity, 0.05)
+		shake_tween.tween_property(camera, "h_offset", -shake_intensity, 0.05)
+		shake_tween.tween_property(camera, "h_offset", 0.0, 0.05)
+		if current_health <= 0.0 and not is_dead:
+			trigger_submarine_destruction()
+		
 func update_hull_health(current_health: float, max_health: float) -> void:
+	if is_dead:
+		return
+	
 	health_bar_top_ui.max_value = max_health
 	health_bar_top_ui.value = current_health
 	
 	var health_pct = (current_health / max_health) * 100
+	
+	if health_pct <= 66 and not warning_played:
+		warning_played = true
+		if ui_warning_alert:
+			ui_warning_alert.play()
+	elif health_pct > 66.0:
+		warning_played = false
 	
 	if health_pct >= 66:
 		is_critical = false
@@ -359,3 +476,65 @@ func update_hull_health(current_health: float, max_health: float) -> void:
 		left_light_2.modulate = (Color(1,0,0))
 		left_light_3.modulate = (Color(1,0,0))
 		left_light_4.modulate = (Color(1,0,0))
+
+func trigger_submarine_destruction():
+	update_dashboard_ui()
+	is_dead = true
+	print("ZUB IS DED")
+	linear_velocity = Vector3.ZERO
+	angular_velocity = Vector3(50, 50, 50)
+	var camera = $FirstPersonCamera
+
+	var camera_tween = get_tree().create_tween()
+	
+	camera_tween.tween_property(camera, "rotation_degrees", Vector3(15,0,8), 0.3).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	await get_tree().create_timer(1).timeout
+	if engine_hum:engine_hum.stop()
+	if hull_alarm:hull_alarm.stop()
+	death.play()
+
+	freeze = true
+
+	if has_node("TopViewport/TopUI/HullLabel"):
+		hull_label_top_ui.text = "ERROR : HULL BREACHED"
+	if has_node("BottomViewport/BottomUI/StateLabel"):
+		state_label_bottom_ui.text = "FAILURE : POWER LOST"
+	
+	left_light_1.visible = false
+	left_light_2.visible = false
+	left_light_3.visible = false
+	left_light_4.visible = false
+	
+	await get_tree().create_timer(0.4).timeout
+	var fade_tween = create_tween().set_parallel(true)
+	fade_tween.tween_property(center_ui.get_node("ColorRect"), "modulate:a", 1.0, 1.8)
+	fade_tween.tween_property(top_ui.get_node("ColorRect"), "modulate:a", 1.0, 1.8)
+	fade_tween.tween_property(bottom_ui.get_node("ColorRect"), "modulate:a", 1.0, 1.8)
+		
+	await get_tree().create_timer(3).timeout
+	get_tree().reload_current_scene()
+
+func toggle_periscope(enable: bool):
+	periscope_active = enable
+	
+	if switch_camera and switch_camera.stream:
+		switch_camera.play()
+		if periscope_rise and periscope_rise.stream:
+			periscope_rise.play()
+
+	if periscope_active:
+		periscope_camera.current = true
+		$AnimationPlayer.play("periscope rise")
+		periscope_camera.fov = 35.0
+		glass_screen.visible = true
+		if current_health <= 25:
+			cracked_glass.visible = true
+		else:
+			cracked_glass.visible = false
+	else:
+		$AnimationPlayer.play("periscope falls")
+		await $AnimationPlayer.animation_finished
+		$FirstPersonCamera.current = true
+		periscope_camera.fov = 75.0
+		glass_screen.visible = false
+		cracked_glass.visible = false

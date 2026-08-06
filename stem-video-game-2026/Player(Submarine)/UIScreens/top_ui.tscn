@@ -27,7 +27,8 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Parallax2D" type="Parallax2D" parent="." unique_id=1153514162]
-repeat_size = Vector2(0, 302.9)
+scroll_offset = Vector2(-141, -49)
+repeat_size = Vector2(500, 302.9)
 autoscroll = Vector2(0, -170)
 
 [node name="HackingScreen" type="Sprite2D" parent="Parallax2D" unique_id=1431533249]
@@ -36,24 +37,24 @@ texture = ExtResource("6_eyqk2")
 
 [node name="RingLabel" type="Label" parent="." unique_id=2069810883]
 layout_mode = 0
-offset_left = 449.0
-offset_top = 35.9966
-offset_right = 617.0
-offset_bottom = 68.9966
+offset_left = 437.0
+offset_top = 39.0
+offset_right = 625.0
+offset_bottom = 69.0
 theme_override_colors/font_color = Color(0.38536888, 0.6792036, 0.28955394, 1)
 theme_override_colors/font_shadow_color = Color(0.14064342, 0.2705326, 0.099116765, 1)
 theme_override_colors/font_outline_color = Color(0.23921569, 0.43529412, 0.1764706, 1)
 theme_override_constants/outline_size = 8
 theme_override_constants/shadow_outline_size = 11
 theme_override_fonts/font = ExtResource("1_rqunx")
-theme_override_font_sizes/font_size = 30
-text = "RINGS : 0/12"
+theme_override_font_sizes/font_size = 28
+text = "RELICS : 12/12"
 
 [node name="PercentageLabel" type="Label" parent="." unique_id=165711587]
 layout_mode = 0
-offset_left = 404.0
+offset_left = 390.0
 offset_top = 56.0
-offset_right = 572.0
+offset_right = 558.0
 offset_bottom = 89.0
 theme_override_colors/font_color = Color(0.38536888, 0.6792036, 0.28955394, 1)
 theme_override_colors/font_shadow_color = Color(0.14064342, 0.2705326, 0.099116765, 1)
@@ -66,10 +67,10 @@ text = "100%"
 
 [node name="HullLabel" type="Label" parent="." unique_id=1877733496]
 layout_mode = 0
-offset_left = 196.0
-offset_top = 28.0
-offset_right = 425.0
-offset_bottom = 49.0
+offset_left = 192.0
+offset_top = 24.0
+offset_right = 421.0
+offset_bottom = 45.0
 theme_override_colors/font_color = Color(0.38536888, 0.6792036, 0.28955394, 1)
 theme_override_colors/font_shadow_color = Color(0.14064342, 0.2705326, 0.099116765, 1)
 theme_override_colors/font_outline_color = Color(0.23921569, 0.43529412, 0.1764706, 1)
@@ -82,9 +83,9 @@ text = "HULL INTEGRITY : STABLE"
 [node name="HullProgressBar" type="TextureProgressBar" parent="." unique_id=918283150]
 texture_filter = 1
 layout_mode = 0
-offset_left = 205.0
+offset_left = 191.0
 offset_top = 47.0
-offset_right = 270.0
+offset_right = 256.0
 offset_bottom = 60.0
 scale = Vector2(3, 3)
 theme = SubResource("Theme_2cnjv")
@@ -105,7 +106,7 @@ position = Vector2(641, 62)
 scale = Vector2(22.775517, 22.775517)
 mesh = SubResource("SphereMesh_srtwg")
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=1712124460]
+[node name="ColorRect1" type="ColorRect" parent="." unique_id=1712124460]
 material = SubResource("ShaderMaterial_2cnjv")
 layout_mode = 1
 anchors_preset = 15
@@ -114,5 +115,20 @@ anchor_bottom = 1.0
 offset_left = -706.0
 offset_right = 833.0
 offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1522704138]
+modulate = Color(0, 0, 0, 0)
+show_behind_parent = true
+z_index = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1211.0
+offset_top = -607.0
+offset_right = 1589.0
+offset_bottom = 707.0
 grow_horizontal = 2
 grow_vertical = 2

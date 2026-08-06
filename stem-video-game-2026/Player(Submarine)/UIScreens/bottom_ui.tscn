@@ -23,6 +23,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Parallax2D" type="Parallax2D" parent="." unique_id=1153514162]
+scroll_offset = Vector2(-91, -5)
 repeat_size = Vector2(560, 302.9)
 autoscroll = Vector2(0, -170)
 
@@ -61,12 +62,13 @@ theme_override_font_sizes/font_size = 20
 text = "HEADING : 180 ° { W }"
 
 [node name="CollisionWarning" type="Label" parent="." unique_id=187851779]
-modulate = Color(1, 0, 0, 1)
 layout_mode = 0
 offset_left = 197.0
 offset_top = 60.0
 offset_right = 426.0
 offset_bottom = 81.0
+theme_override_colors/font_color = Color(0.38431373, 0.6784314, 0.2901961, 1)
+theme_override_colors/font_shadow_color = Color(0.14117648, 0.27058825, 0.09803922, 1)
 theme_override_colors/font_outline_color = Color(0.23921569, 0.43529412, 0.1764706, 1)
 theme_override_constants/outline_size = 8
 theme_override_constants/shadow_outline_size = 11
@@ -100,7 +102,7 @@ position = Vector2(887, 39.000004)
 scale = Vector2(22.775517, 22.775517)
 mesh = SubResource("SphereMesh_srtwg")
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=1712124460]
+[node name="ColorRect1" type="ColorRect" parent="." unique_id=1712124460]
 material = SubResource("ShaderMaterial_2cnjv")
 layout_mode = 1
 anchors_preset = 15
@@ -109,5 +111,18 @@ anchor_bottom = 1.0
 offset_left = -706.0
 offset_right = 833.0
 offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1186223887]
+modulate = Color(0, 0, 0, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1080.0
+offset_top = -351.0
+offset_right = 1291.0
+offset_bottom = 355.0
 grow_horizontal = 2
 grow_vertical = 2

@@ -4,15 +4,33 @@
 [ext_resource type="Script" uid="uid://cnmkbpx38shwi" path="res://Player(Submarine)/debug_ui.gd" id="2_ejc7h"]
 [ext_resource type="PackedScene" uid="uid://bcpmyuccquhjq" path="res://Player(Submarine)/submarine_model.tscn" id="2_ic8dy"]
 [ext_resource type="Shader" uid="uid://25i02nqt7pkw" path="res://Shaders/bubbles.gdshader" id="3_7r4gt"]
+[ext_resource type="Script" uid="uid://c8egmnglriphu" path="res://Player(Submarine)/steering_wheel.gd" id="3_63aei"]
 [ext_resource type="PackedScene" uid="uid://cpnygyog7vw83" path="res://Player(Submarine)/UIScreens/top_ui.tscn" id="5_5b24m"]
 [ext_resource type="PackedScene" uid="uid://c8hw1jo4fheqh" path="res://Player(Submarine)/UIScreens/center_ui.tscn" id="5_edi88"]
 [ext_resource type="PackedScene" uid="uid://bo8i5yrm1r2t" path="res://Player(Submarine)/UIScreens/bottom_ui.tscn" id="7_lctq1"]
+[ext_resource type="Texture2D" uid="uid://dlr8ox4fki7qb" path="res://Player(Submarine)/UIScreens/PeriscopePOV.png" id="9_7a4nt"]
+[ext_resource type="Texture2D" uid="uid://27w265sgnmhw" path="res://Player(Submarine)/UIScreens/CrackedGlass.png" id="9_htine"]
+[ext_resource type="AudioStream" uid="uid://gdb618sj15xm" path="res://Audio/EngineHumSFX.mp3" id="11_ws6qs"]
+[ext_resource type="AudioStream" uid="uid://dw4g41aijlvis" path="res://Audio/ImpactThudSFX.mp3" id="12_u6t6h"]
+[ext_resource type="AudioStream" uid="uid://dd7elc2yses5x" path="res://Audio/PeriscopeRise.mp3" id="13_g0hil"]
+[ext_resource type="AudioStream" uid="uid://cctvgocudad75" path="res://Audio/PeriscopeRotate.mp3" id="14_eq0fh"]
+[ext_resource type="AudioStream" uid="uid://da00blu5w1uh5" path="res://Audio/HullHealthAlarmSFX.mp3" id="15_8x1yf"]
+[ext_resource type="AudioStream" uid="uid://bwfkm5hx2unks" path="res://Audio/DeathSFX.mp3" id="16_8ky85"]
+[ext_resource type="AudioStream" uid="uid://db8aj124mmfbp" path="res://Audio/SwitchPOVsSFX.mp3" id="17_h384w"]
+[ext_resource type="AudioStream" uid="uid://brsuf7u8hlrpr" path="res://Audio/WarningUISFX.mp3" id="18_u6t6h"]
+[ext_resource type="AudioStream" uid="uid://cucfyiy81lssl" path="res://Audio/MetalCreakingDepthSFX.mp3" id="19_g0hil"]
+[ext_resource type="AudioStream" uid="uid://bxxwhcx8ek5id" path="res://Audio/UnderWaterAmbienceSFX.mp3" id="20_eq0fh"]
+[ext_resource type="AudioStream" uid="uid://b464nyg7ttsf0" path="res://Audio/GoingUpBubblesSFX.mp3" id="21_8ky85"]
+[ext_resource type="AudioStream" uid="uid://1k4ijjsb1dfc" path="res://Audio/GoingDownHissSFX.mp3" id="22_h384w"]
+[ext_resource type="AudioStream" uid="uid://pbmib6oda525" path="res://Audio/SteeringWheelTurn.mp3" id="23_h384w"]
+[ext_resource type="AudioStream" uid="uid://j18hpu5u16t" path="res://Audio/LightSwitch.mp3" id="24_c1fx2"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ac5wi"]
 bounce = 0.01
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_lctq1"]
-size = Vector3(2.1626587, 2.3709106, 3.2202759)
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_63aei"]
+radius = 1.3452148
+height = 2.6904297
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jn6ef"]
 resource_name = "ExteriorMat"
@@ -368,9 +386,6 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_5b24m"]
-size = Vector3(5, 5, 5)
-
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_ic8dy"]
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_edi88"]
@@ -474,9 +489,151 @@ scale_curve = SubResource("CurveTexture_ic8dy")
 [sub_resource type="FogMaterial" id="FogMaterial_lctq1"]
 density = -100.0
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_htine"]
+albedo_color = Color(0, 0, 0, 0.84705883)
+
+[sub_resource type="SphereMesh" id="SphereMesh_ac5wi"]
+material = SubResource("StandardMaterial3D_htine")
+
+[sub_resource type="Gradient" id="Gradient_htine"]
+colors = PackedColorArray(0, 0, 0, 0.29411766, 0, 0, 0, 0.29411766)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ac5wi"]
+noise_type = 2
+frequency = 0.0002
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_0stxb"]
+noise = SubResource("FastNoiseLite_ac5wi")
+color_ramp = SubResource("Gradient_htine")
+
+[sub_resource type="QuadMesh" id="QuadMesh_htine"]
+
+[sub_resource type="Gradient" id="Gradient_ac5wi"]
+offsets = PackedFloat32Array(0.0072886297, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_0stxb"]
+noise_type = 2
+frequency = 0.0002
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_j6uxy"]
+noise = SubResource("FastNoiseLite_0stxb")
+color_ramp = SubResource("Gradient_ac5wi")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_htine"]
+radius = 7.0
+
+[sub_resource type="Animation" id="Animation_htine"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CameraMount/ThirdPersonCamera:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 15.600738, -1.6929967)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PeriscopeUI/GlassScreenThingy/MeshInstance2D2:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(580.00006, 332.99997)]
+}
+
+[sub_resource type="Animation" id="Animation_0stxb"]
+resource_name = "periscope falls"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CameraMount/ThirdPersonCamera:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 15.600738, -1.6929967), Vector3(0, 3.5924463, -1.6929967)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PeriscopeUI/GlassScreenThingy/MeshInstance2D2:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(580, 950), Vector2(580.00006, 332.99997)]
+}
+
+[sub_resource type="Animation" id="Animation_ac5wi"]
+resource_name = "periscope rise"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CameraMount/ThirdPersonCamera:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 3.5924463, -1.6929967), Vector3(0, 15.600738, -1.6929967)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PeriscopeUI/GlassScreenThingy/MeshInstance2D2:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(580.00006, 332.99997), Vector2(580, 950)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0stxb"]
+_data = {
+&"RESET": SubResource("Animation_htine"),
+&"periscope falls": SubResource("Animation_0stxb"),
+&"periscope rise": SubResource("Animation_ac5wi")
+}
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_h384w"]
+emission_shape = 3
+emission_box_extents = Vector3(15, 15, 15)
+direction = Vector3(0, 1, 0)
+spread = 180.0
+initial_velocity_min = 0.099999994
+initial_velocity_max = 0.39999998
+gravity = Vector3(0, 0.05, 0)
+scale_min = 0.02
+scale_max = 0.08
+turbulence_enabled = true
+turbulence_noise_strength = 0.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h384w"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0.68235296, 0.85490197, 0.9019608, 0.47058824)
+
+[sub_resource type="QuadMesh" id="QuadMesh_h384w"]
+material = SubResource("StandardMaterial3D_h384w")
+
 [node name="Submarine" type="RigidBody3D" unique_id=2124491561]
 collision_layer = 3
-axis_lock_angular_x = true
 axis_lock_angular_z = true
 physics_material_override = SubResource("PhysicsMaterial_ac5wi")
 gravity_scale = 0.0
@@ -485,7 +642,7 @@ continuous_cd = true
 contact_monitor = true
 max_contacts_reported = 20
 linear_damp = 2.0
-angular_damp = 4.0
+angular_damp = 3.0
 script = ExtResource("1_ejc7h")
 move_force = 30.0
 strafe_force = 15.0
@@ -493,9 +650,18 @@ vertical_force = 25.0
 sprint_multiplier = 1.5
 mouse_sensitivity = 0.01
 
+[node name="Lights" type="SpotLight3D" parent="." unique_id=1844827581]
+transform = Transform3D(1, 0, 0, 0, 0.9823363, -0.18712415, 0, 0.18712415, 0.9823363, 0, -1.0188202, -2.5095205)
+light_color = Color(1, 0.95686275, 0.8784314, 1)
+light_energy = 50.0
+light_volumetric_fog_energy = 5.0
+shadow_enabled = true
+spot_range = 50.0
+spot_angle = 20.0
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=892476140]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.003753662, -0.09384155, -1.0702248)
-shape = SubResource("BoxShape3D_lctq1")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.003753662, -0.10064888, -1.3223715)
+shape = SubResource("CapsuleShape3D_63aei")
 
 [node name="Submarine" parent="." unique_id=1486210889 instance=ExtResource("2_ic8dy")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
@@ -506,9 +672,10 @@ mesh = SubResource("ArrayMesh_eid71")
 skeleton = NodePath("")
 
 [node name="SteeringWheel" type="MeshInstance3D" parent="Submarine" unique_id=760044046]
-transform = Transform3D(-7.6148426e-10, 0.011276311, -0.0041042385, -5.933538e-10, -0.0041042385, -0.011276311, -0.011999998, -5.126218e-10, 8.18013e-10, 2.1784596, 0.23677537, -0.0062468294)
+transform = Transform3D(1.5103431e-09, 0.011276308, -0.004104242, -3.588042e-10, -0.004104241, -0.011276312, -0.011999999, 1.5419761e-09, -1.7940213e-10, 2.1784596, 0.23677537, -0.0062468294)
 mesh = SubResource("ArrayMesh_wj6oo")
 skeleton = NodePath("")
+script = ExtResource("3_63aei")
 
 [node name="SteeringWheelScreen" type="MeshInstance3D" parent="Submarine/SteeringWheel" unique_id=1085761349]
 transform = Transform3D(0.9999998, -9.2370556e-14, 1.7763568e-14, -6.3948846e-14, 1, -5.9604645e-08, 3.5527137e-14, 5.9604645e-08, 1, -5.9604645e-08, -5.4035645, 0.70806885)
@@ -529,11 +696,8 @@ transform = Transform3D(1, 0, 0, 0, 0.9942074, -0.10747881, 0, 0.10747881, 0.994
 
 [node name="CameraMount" type="Node3D" parent="." unique_id=477535279]
 
-[node name="SpringArm3D" type="SpringArm3D" parent="CameraMount" unique_id=26905443]
-transform = Transform3D(1, 0, 0, 0, 0.9848077, 0.17364818, 0, -0.17364818, 0.9848077, 0, 4, 5)
-shape = SubResource("BoxShape3D_5b24m")
-
-[node name="ThirdPersonCamera" type="Camera3D" parent="CameraMount/SpringArm3D" unique_id=1126493837]
+[node name="ThirdPersonCamera" type="Camera3D" parent="CameraMount" unique_id=1126493837]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15.600738, -1.6929967)
 
 [node name="DebugUI" type="CanvasLayer" parent="." unique_id=423904913]
 visible = false
@@ -556,49 +720,51 @@ material_override = SubResource("ShaderMaterial_5b24m")
 transparency = 0.01
 mesh = SubResource("SphereMesh_lctq1")
 
-[node name="CenterBooster" type="GPUParticles3D" parent="." unique_id=1203056104]
+[node name="BubbleBoosters" type="Node3D" parent="." unique_id=1207721381]
+
+[node name="CenterBooster" type="GPUParticles3D" parent="BubbleBoosters" unique_id=1203056104]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.9536139)
 amount = 40
 lifetime = 3.0
 process_material = SubResource("ParticleProcessMaterial_7r4gt")
 draw_pass_1 = SubResource("SphereMesh_ic8dy")
 
-[node name="DiveBooster" type="GPUParticles3D" parent="." unique_id=728395137]
+[node name="DiveBooster" type="GPUParticles3D" parent="BubbleBoosters" unique_id=728395137]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -5.9604645e-08, 1.4490967, -1.4123824)
 amount = 40
 lifetime = 3.0
 process_material = SubResource("ParticleProcessMaterial_5b24m")
 draw_pass_1 = SubResource("SphereMesh_ic8dy")
 
-[node name="ClimbBooster" type="GPUParticles3D" parent="." unique_id=668801941]
+[node name="ClimbBooster" type="GPUParticles3D" parent="BubbleBoosters" unique_id=668801941]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -5.9604645e-08, -1.9368192, -1.4123824)
 amount = 40
 lifetime = 3.0
 process_material = SubResource("ParticleProcessMaterial_lctq1")
 draw_pass_1 = SubResource("SphereMesh_ic8dy")
 
-[node name="LeftBooster" type="GPUParticles3D" parent="." unique_id=1179325416]
+[node name="LeftBooster" type="GPUParticles3D" parent="BubbleBoosters" unique_id=1179325416]
 transform = Transform3D(0.9928326, 0, -0.11951304, 0, 1, 0, 0.11951304, 0, 0.9928326, -1.1223519, -0.32346204, 0.41686857)
 amount = 40
 lifetime = 3.0
 process_material = SubResource("ParticleProcessMaterial_7r4gt")
 draw_pass_1 = SubResource("SphereMesh_ic8dy")
 
-[node name="RightBooster" type="GPUParticles3D" parent="." unique_id=855515933]
+[node name="RightBooster" type="GPUParticles3D" parent="BubbleBoosters" unique_id=855515933]
 transform = Transform3D(0.989935, 0, 0.14152327, 0, 1, 0, -0.14152327, 0, 0.989935, 1.1394895, -0.32346204, 0.41686857)
 amount = 40
 lifetime = 3.0
 process_material = SubResource("ParticleProcessMaterial_7r4gt")
 draw_pass_1 = SubResource("SphereMesh_ic8dy")
 
-[node name="StrafeLeftBooster" type="GPUParticles3D" parent="." unique_id=325301969]
+[node name="StrafeLeftBooster" type="GPUParticles3D" parent="BubbleBoosters" unique_id=325301969]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -1.4435813, 0.035120606, -1.3454419)
 amount = 80
 lifetime = 3.0
 process_material = SubResource("ParticleProcessMaterial_ic8dy")
 draw_pass_1 = SubResource("SphereMesh_ic8dy")
 
-[node name="StrafeRightBooster" type="GPUParticles3D" parent="." unique_id=1669207284]
+[node name="StrafeRightBooster" type="GPUParticles3D" parent="BubbleBoosters" unique_id=1669207284]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 1.8190019, 0.035120606, -1.3454419)
 amount = 80
 lifetime = 3.0
@@ -626,3 +792,96 @@ render_target_update_mode = 4
 [node name="FogVolume" type="FogVolume" parent="." unique_id=798797596]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.893127)
 material = SubResource("FogMaterial_lctq1")
+
+[node name="PeriscopeUI" type="CanvasLayer" parent="." unique_id=1082461743]
+
+[node name="CrackedGlass" type="Sprite2D" parent="PeriscopeUI" unique_id=1300267125]
+visible = false
+position = Vector2(585, 318)
+scale = Vector2(1.7773438, 1.7773438)
+texture = ExtResource("9_htine")
+
+[node name="GlassScreenThingy" type="TextureRect" parent="PeriscopeUI" unique_id=1866576332]
+offset_right = 1152.0
+offset_bottom = 648.0
+texture = ExtResource("9_7a4nt")
+expand_mode = 1
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="PeriscopeUI/GlassScreenThingy" unique_id=798148566]
+position = Vector2(576.3003, 321.05817)
+scale = Vector2(505.17285, 507.8838)
+mesh = SubResource("SphereMesh_ac5wi")
+texture = SubResource("NoiseTexture2D_0stxb")
+
+[node name="MeshInstance2D2" type="MeshInstance2D" parent="PeriscopeUI/GlassScreenThingy" unique_id=1524721017]
+position = Vector2(580.00006, 332.99997)
+scale = Vector2(571.58636, 578.41016)
+mesh = SubResource("QuadMesh_htine")
+texture = SubResource("NoiseTexture2D_j6uxy")
+
+[node name="Ray" type="ShapeCast3D" parent="." unique_id=1752696383]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, -2.2172208)
+shape = SubResource("SphereShape3D_htine")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1835465305]
+libraries/ = SubResource("AnimationLibrary_0stxb")
+
+[node name="AudioSFX" type="Node3D" parent="." unique_id=1511627824]
+
+[node name="EngineHum" type="AudioStreamPlayer" parent="AudioSFX" unique_id=1768561423]
+stream = ExtResource("11_ws6qs")
+
+[node name="ImpactAudio" type="AudioStreamPlayer" parent="AudioSFX" unique_id=1519091288]
+stream = ExtResource("12_u6t6h")
+volume_db = 2.0
+
+[node name="PeriscopeRise" type="AudioStreamPlayer" parent="AudioSFX" unique_id=321964403]
+stream = ExtResource("13_g0hil")
+volume_db = 0.5
+
+[node name="PeriscopeSwivel" type="AudioStreamPlayer" parent="AudioSFX" unique_id=139475145]
+stream = ExtResource("14_eq0fh")
+
+[node name="HullAlarm" type="AudioStreamPlayer" parent="AudioSFX" unique_id=1584354199]
+stream = ExtResource("15_8x1yf")
+volume_db = -10.0
+
+[node name="Death" type="AudioStreamPlayer" parent="AudioSFX" unique_id=847540247]
+stream = ExtResource("16_8ky85")
+
+[node name="SwitchCamera" type="AudioStreamPlayer" parent="AudioSFX" unique_id=1215288148]
+stream = ExtResource("17_h384w")
+
+[node name="UIWarningAlert" type="AudioStreamPlayer" parent="AudioSFX" unique_id=560881817]
+stream = ExtResource("18_u6t6h")
+
+[node name="MetalCreaking" type="AudioStreamPlayer" parent="AudioSFX" unique_id=1845363311]
+stream = ExtResource("19_g0hil")
+
+[node name="UnderWaterAmb" type="AudioStreamPlayer" parent="AudioSFX" unique_id=1010463506]
+stream = ExtResource("20_eq0fh")
+volume_db = -20.45
+
+[node name="PeriscopeRotate" type="AudioStreamPlayer" parent="AudioSFX" unique_id=1528512765]
+stream = ExtResource("14_eq0fh")
+
+[node name="GoUpBubble" type="AudioStreamPlayer" parent="AudioSFX" unique_id=1416529832]
+stream = ExtResource("21_8ky85")
+
+[node name="GoDownHiss" type="AudioStreamPlayer" parent="AudioSFX" unique_id=1194340761]
+stream = ExtResource("22_h384w")
+volume_db = -5.0
+
+[node name="SteeringWheel" type="AudioStreamPlayer" parent="AudioSFX" unique_id=2089002899]
+stream = ExtResource("23_h384w")
+
+[node name="LightSwitch" type="AudioStreamPlayer" parent="AudioSFX" unique_id=1695213283]
+stream = ExtResource("24_c1fx2")
+
+[node name="MarineSnow" type="GPUParticles3D" parent="." unique_id=1662155914]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.3071251)
+amount = 500
+lifetime = 6.0
+randomness = 0.5
+process_material = SubResource("ParticleProcessMaterial_h384w")
+draw_pass_1 = SubResource("QuadMesh_h384w")

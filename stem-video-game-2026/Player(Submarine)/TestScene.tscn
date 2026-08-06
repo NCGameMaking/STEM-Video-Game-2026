@@ -1,117 +1,748 @@
 [gd_scene format=3 uid="uid://dvwdfbanfbpam"]
 
 [ext_resource type="PackedScene" uid="uid://k0dusg4vo85n" path="res://Player(Submarine)/submarinePlayer.tscn" id="1_h65ki"]
+[ext_resource type="Environment" uid="uid://kw5c7bat248e" path="res://example/boujie_water_shader/MapEnvironment.tres" id="1_mtfic"]
+[ext_resource type="Script" uid="uid://daq4skhnx3nyf" path="res://Scripts/test_scene.gd" id="1_s4t26"]
+[ext_resource type="Script" uid="uid://dfaqnr0i84274" path="res://example/boujie_water_shader/water_shader_examples.gd" id="3_vt50x"]
+[ext_resource type="PackedScene" uid="uid://ignpdv10rx52" path="res://addons/boujie_water_shader/prefabs/deep_ocean.tscn" id="4_swri5"]
+[ext_resource type="Shader" uid="uid://1n5o2lvr8axy" path="res://example/boujie_water_shader/DropWithDistance.gdshader" id="5_20wkx"]
+[ext_resource type="Texture2D" uid="uid://dwsniss71hd03" path="res://example/boujie_water_shader/Sand.png" id="6_kurvb"]
+[ext_resource type="Script" uid="uid://d27ood83omlex" path="res://example/boujie_water_shader/ocean_floor.gd" id="7_tdpsp"]
+[ext_resource type="Script" uid="uid://bgy8mckjrp65l" path="res://addons/boujie_water_shader/types/water_material_designer.gd" id="8_2jqkd"]
+[ext_resource type="Material" uid="uid://cvnsu7lttsfsh" path="res://addons/boujie_water_shader/prefabs/outset_ocean_material.tres" id="9_45ht6"]
+[ext_resource type="Script" uid="uid://xci1k4ff25s0" path="res://addons/boujie_water_shader/types/gerstner_wave.gd" id="10_xwil1"]
+[ext_resource type="Resource" uid="uid://bavxgduu5sv2c" path="res://example/boujie_water_shader/height_waves/height1.tres" id="11_msb0e"]
+[ext_resource type="Resource" uid="uid://c33noe5oxh41i" path="res://example/boujie_water_shader/height_waves/height2.tres" id="12_xofey"]
+[ext_resource type="Resource" uid="uid://0hol4u8hadr8" path="res://example/boujie_water_shader/height_waves/height3.tres" id="13_rcmxo"]
+[ext_resource type="Resource" uid="uid://cxeeuqlnw0v08" path="res://example/boujie_water_shader/height_waves/height4.tres" id="14_bgs5h"]
+[ext_resource type="Resource" uid="uid://d4jrd7iuain81" path="res://example/boujie_water_shader/height_waves/height5.tres" id="15_w2gn8"]
+[ext_resource type="Resource" uid="uid://bf2pvto4lly3o" path="res://example/boujie_water_shader/foam_waves/foam1.tres" id="16_jyj6d"]
+[ext_resource type="Resource" uid="uid://1wsbw638p6o2" path="res://example/boujie_water_shader/foam_waves/foam2.tres" id="17_o2kh1"]
+[ext_resource type="Resource" uid="uid://byfaqt1j16ysr" path="res://example/boujie_water_shader/foam_waves/foam3.tres" id="18_eprgl"]
+[ext_resource type="Resource" uid="uid://c5j78g2giv011" path="res://example/boujie_water_shader/foam_waves/foam4.tres" id="19_clxea"]
+[ext_resource type="Resource" uid="uid://dp2iua60m7f8m" path="res://example/boujie_water_shader/uv_waves/uvwave1.tres" id="20_7ul8i"]
+[ext_resource type="Resource" uid="uid://3g1mc132n1al" path="res://example/boujie_water_shader/uv_waves/uvwave2.tres" id="21_t1jsg"]
+[ext_resource type="Material" uid="uid://b17lc50fphxnr" path="res://addons/boujie_water_shader/prefabs/ice_material.tres" id="22_4d6ip"]
+[ext_resource type="Material" uid="uid://dcwd8ciggcoqu" path="res://addons/boujie_water_shader/prefabs/obsidian_material.tres" id="23_alol4"]
+[ext_resource type="Script" uid="uid://q48w3fuwgdpw" path="res://example/boujie_water_shader/underwater_fog.gd" id="24_wjoi5"]
+[ext_resource type="Script" uid="uid://cfj17pppdgxpa" path="res://example/boujie_water_shader/visibility_range_lod_group.gd" id="25_prxg0"]
+[ext_resource type="ArrayMesh" uid="uid://f85dvooifh0c" path="res://example/boujie_water_shader/mountains.obj" id="26_fs7ad"]
+[ext_resource type="Material" uid="uid://c7phyredymkgu" path="res://example/boujie_water_shader/mountain_material.tres" id="27_yc8iw"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_mn54l"]
-sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
-ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+[sub_resource type="PlaneMesh" id="PlaneMesh_mv30r"]
+subdivide_width = 16
+subdivide_depth = 16
 
-[sub_resource type="Sky" id="Sky_h65ki"]
-sky_material = SubResource("ProceduralSkyMaterial_mn54l")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0bbsx"]
+render_priority = 0
+shader = ExtResource("5_20wkx")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/texture_albedo = ExtResource("6_kurvb")
+shader_parameter/point_size = 1.0
+shader_parameter/roughness = 1.0
+shader_parameter/metallic_texture_channel = Vector4(0, 0, 0, 0)
+shader_parameter/specular = 0.5
+shader_parameter/metallic = 0.0
+shader_parameter/uv1_blend_sharpness = 1.0
+shader_parameter/uv1_scale = Vector3(0.1, 0.1, 0.1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
+shader_parameter/drop_far = 2000.0
 
-[sub_resource type="Environment" id="Environment_m65y2"]
-background_mode = 1
-background_color = Color(0.0808579, 0.0668629, 0.239349, 1)
-sky = SubResource("Sky_h65ki")
-ambient_light_color = Color(0.219608, 0.380392, 0.592157, 1)
-ambient_light_energy = 0.5
-tonemap_mode = 2
-glow_enabled = true
-glow_intensity = 0.6
-glow_blend_mode = 0
-fog_enabled = true
-fog_density = 0.05
-volumetric_fog_enabled = true
-volumetric_fog_density = 0.02
+[sub_resource type="Resource" id="Resource_4vniv"]
+script = ExtResource("10_xwil1")
+steepness = 0.8
+amplitude = 0.5
+frequency = 0.2
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_mtfic"]
-size = Vector2(500, 500)
-subdivide_width = 32
-subdivide_depth = 32
+[sub_resource type="Resource" id="Resource_3t55w"]
+script = ExtResource("10_xwil1")
+steepness = 0.18
+amplitude = 0.7
+direction_degrees = 315.0
+frequency = 0.6
+speed = 3.0
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_4ucdn"]
-size = Vector3(500, 0.1, 500)
+[sub_resource type="Resource" id="Resource_ll6tv"]
+script = ExtResource("10_xwil1")
+steepness = 0.16
+amplitude = 0.5
+direction_degrees = 90.0
+frequency = 0.4
+speed = 1.5
 
-[sub_resource type="BoxMesh" id="BoxMesh_h65ki"]
-size = Vector3(5, 15, 30)
+[sub_resource type="Resource" id="Resource_3bkrw"]
+script = ExtResource("10_xwil1")
+steepness = 0.4
+direction_degrees = 150.0
+frequency = 0.6
+speed = 1.6
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_h65ki"]
-size = Vector3(5, 15, 30)
+[sub_resource type="Resource" id="Resource_qrrly"]
+script = ExtResource("10_xwil1")
+steepness = 0.2
+amplitude = 0.4
+direction_degrees = 225.0
+frequency = 0.5
 
-[node name="TestScene" type="Node3D" unique_id=1353779000]
+[sub_resource type="FogMaterial" id="FogMaterial_irst1"]
+density = 0.3558
+albedo = Color(0.301961, 0.603922, 1, 1)
+height_falloff = 1000000.0
+edge_fade = 0.926824
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=496842331]
-transform = Transform3D(-0.866025, -0.433013, 0.25, 2.78059e-08, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 426.432, 0)
-light_color = Color(0.27451, 1, 1, 1)
-light_volumetric_fog_energy = 2.0
-shadow_enabled = true
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_s4t26"]
+points = PackedVector3Array(6.094097, -0.04896962, 1.514343, 3.0081203, 13.970026, -0.3849999, 3.0185978, 13.993236, -0.86267364, -7.7286243, 0.38733158, -2.0603945, -1.9413573, 6.139863, 4.725951, 1.9193966, 5.1100683, -5.1285753, -7.6718216, 6.127907, -2.518981, 6.8778863, 11.878366, 1.7694747, 5.128033, -0.5015949, -2.7523103, -4.795182, -0.8605833, 2.8299887, -2.6774173, 12.027583, 2.4481452, -7.409462, 6.129543, 1.5069762, 3.1933072, 2.389582, 4.0671077, -1.7231421, -0.19359496, -4.36384, 7.300188, 5.4124136, -1.0993716, -6.785091, 5.8558335, -3.883677, 4.905039, 12.569231, 3.0795672, -1.71059, 10.549543, -3.1637473, 4.591182, 12.444775, -1.7819815, -1.5070485, -0.29404247, 4.1319065, -2.4411173, 12.737033, 0.79572487, 3.9093056, -1.1096754, -3.1379359, 5.588378, 6.836803, -3.2186704, 6.8386707, 0.39927104, 1.5212224, -2.216242, 11.108465, 3.6481643, 3.4786088, -0.28119722, 3.41233, -6.7852297, 0.13432945, -3.262702, 6.889279, 12.366524, 0.5706749, 7.1287355, 1.078341, -1.5902615, 2.5097847, 13.437554, -2.0321157, 6.003445, 2.621903, 2.6627042, -7.8572845, 6.6015987, 0.088064924)
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=364130005]
-environment = SubResource("Environment_m65y2")
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_eg2il"]
+points = PackedVector3Array(6.094097, -0.04896962, 1.514343, 3.0081203, 13.970026, -0.3849999, 3.0185978, 13.993236, -0.86267364, -7.7286243, 0.38733158, -2.0603945, -1.9413573, 6.139863, 4.725951, 1.9193966, 5.1100683, -5.1285753, -7.6718216, 6.127907, -2.518981, 6.8778863, 11.878366, 1.7694747, 5.128033, -0.5015949, -2.7523103, -4.795182, -0.8605833, 2.8299887, -2.6774173, 12.027583, 2.4481452, -7.409462, 6.129543, 1.5069762, 3.1933072, 2.389582, 4.0671077, -1.7231421, -0.19359496, -4.36384, 7.300188, 5.4124136, -1.0993716, -6.785091, 5.8558335, -3.883677, 4.905039, 12.569231, 3.0795672, -1.71059, 10.549543, -3.1637473, 4.591182, 12.444775, -1.7819815, -1.5070485, -0.29404247, 4.1319065, -2.4411173, 12.737033, 0.79572487, 3.9093056, -1.1096754, -3.1379359, 5.588378, 6.836803, -3.2186704, 6.8386707, 0.39927104, 1.5212224, -2.216242, 11.108465, 3.6481643, 3.4786088, -0.28119722, 3.41233, -6.7852297, 0.13432945, -3.262702, 6.889279, 12.366524, 0.5706749, 7.1287355, 1.078341, -1.5902615, 2.5097847, 13.437554, -2.0321157, 6.003445, 2.621903, 2.6627042, -7.8572845, 6.6015987, 0.088064924)
 
-[node name="Seafloor" type="StaticBody3D" parent="." unique_id=1279838441]
-collision_mask = 0
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_nxrc4"]
+points = PackedVector3Array(6.094097, -0.04896962, 1.514343, 3.0081203, 13.970026, -0.3849999, 3.0185978, 13.993236, -0.86267364, -7.7286243, 0.38733158, -2.0603945, -1.9413573, 6.139863, 4.725951, 1.9193966, 5.1100683, -5.1285753, -7.6718216, 6.127907, -2.518981, 6.8778863, 11.878366, 1.7694747, 5.128033, -0.5015949, -2.7523103, -4.795182, -0.8605833, 2.8299887, -2.6774173, 12.027583, 2.4481452, -7.409462, 6.129543, 1.5069762, 3.1933072, 2.389582, 4.0671077, -1.7231421, -0.19359496, -4.36384, 7.300188, 5.4124136, -1.0993716, -6.785091, 5.8558335, -3.883677, 4.905039, 12.569231, 3.0795672, -1.71059, 10.549543, -3.1637473, 4.591182, 12.444775, -1.7819815, -1.5070485, -0.29404247, 4.1319065, -2.4411173, 12.737033, 0.79572487, 3.9093056, -1.1096754, -3.1379359, 5.588378, 6.836803, -3.2186704, 6.8386707, 0.39927104, 1.5212224, -2.216242, 11.108465, 3.6481643, 3.4786088, -0.28119722, 3.41233, -6.7852297, 0.13432945, -3.262702, 6.889279, 12.366524, 0.5706749, 7.1287355, 1.078341, -1.5902615, 2.5097847, 13.437554, -2.0321157, 6.003445, 2.621903, 2.6627042, -7.8572845, 6.6015987, 0.088064924)
 
-[node name="SeaFloor" type="MeshInstance3D" parent="Seafloor" unique_id=1556012073]
-mesh = SubResource("PlaneMesh_mtfic")
-skeleton = NodePath("../..")
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_62ych"]
+points = PackedVector3Array(6.094097, -0.04896962, 1.514343, 3.0081203, 13.970026, -0.3849999, 3.0185978, 13.993236, -0.86267364, -7.7286243, 0.38733158, -2.0603945, -1.9413573, 6.139863, 4.725951, 1.9193966, 5.1100683, -5.1285753, -7.6718216, 6.127907, -2.518981, 6.8778863, 11.878366, 1.7694747, 5.128033, -0.5015949, -2.7523103, -4.795182, -0.8605833, 2.8299887, -2.6774173, 12.027583, 2.4481452, -7.409462, 6.129543, 1.5069762, 3.1933072, 2.389582, 4.0671077, -1.7231421, -0.19359496, -4.36384, 7.300188, 5.4124136, -1.0993716, -6.785091, 5.8558335, -3.883677, 4.905039, 12.569231, 3.0795672, -1.71059, 10.549543, -3.1637473, 4.591182, 12.444775, -1.7819815, -1.5070485, -0.29404247, 4.1319065, -2.4411173, 12.737033, 0.79572487, 3.9093056, -1.1096754, -3.1379359, 5.588378, 6.836803, -3.2186704, 6.8386707, 0.39927104, 1.5212224, -2.216242, 11.108465, 3.6481643, 3.4786088, -0.28119722, 3.41233, -6.7852297, 0.13432945, -3.262702, 6.889279, 12.366524, 0.5706749, 7.1287355, 1.078341, -1.5902615, 2.5097847, 13.437554, -2.0321157, 6.003445, 2.621903, 2.6627042, -7.8572845, 6.6015987, 0.088064924)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Seafloor" unique_id=1494760138]
-shape = SubResource("BoxShape3D_4ucdn")
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_vt50x"]
+points = PackedVector3Array(6.094097, -0.04896962, 1.514343, 3.0081203, 13.970026, -0.3849999, 3.0185978, 13.993236, -0.86267364, -7.7286243, 0.38733158, -2.0603945, -1.9413573, 6.139863, 4.725951, 1.9193966, 5.1100683, -5.1285753, -7.6718216, 6.127907, -2.518981, 6.8778863, 11.878366, 1.7694747, 5.128033, -0.5015949, -2.7523103, -4.795182, -0.8605833, 2.8299887, -2.6774173, 12.027583, 2.4481452, -7.409462, 6.129543, 1.5069762, 3.1933072, 2.389582, 4.0671077, -1.7231421, -0.19359496, -4.36384, 7.300188, 5.4124136, -1.0993716, -6.785091, 5.8558335, -3.883677, 4.905039, 12.569231, 3.0795672, -1.71059, 10.549543, -3.1637473, 4.591182, 12.444775, -1.7819815, -1.5070485, -0.29404247, 4.1319065, -2.4411173, 12.737033, 0.79572487, 3.9093056, -1.1096754, -3.1379359, 5.588378, 6.836803, -3.2186704, 6.8386707, 0.39927104, 1.5212224, -2.216242, 11.108465, 3.6481643, 3.4786088, -0.28119722, 3.41233, -6.7852297, 0.13432945, -3.262702, 6.889279, 12.366524, 0.5706749, 7.1287355, 1.078341, -1.5902615, 2.5097847, 13.437554, -2.0321157, 6.003445, 2.621903, 2.6627042, -7.8572845, 6.6015987, 0.088064924)
 
-[node name="box" type="StaticBody3D" parent="." unique_id=1163501396]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.1674, 1.706, 0)
-axis_lock_angular_x = true
-axis_lock_angular_z = true
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_swri5"]
+points = PackedVector3Array(6.094097, -0.04896962, 1.514343, 3.0081203, 13.970026, -0.3849999, 3.0185978, 13.993236, -0.86267364, -7.7286243, 0.38733158, -2.0603945, -1.9413573, 6.139863, 4.725951, 1.9193966, 5.1100683, -5.1285753, -7.6718216, 6.127907, -2.518981, 6.8778863, 11.878366, 1.7694747, 5.128033, -0.5015949, -2.7523103, -4.795182, -0.8605833, 2.8299887, -2.6774173, 12.027583, 2.4481452, -7.409462, 6.129543, 1.5069762, 3.1933072, 2.389582, 4.0671077, -1.7231421, -0.19359496, -4.36384, 7.300188, 5.4124136, -1.0993716, -6.785091, 5.8558335, -3.883677, 4.905039, 12.569231, 3.0795672, -1.71059, 10.549543, -3.1637473, 4.591182, 12.444775, -1.7819815, -1.5070485, -0.29404247, 4.1319065, -2.4411173, 12.737033, 0.79572487, 3.9093056, -1.1096754, -3.1379359, 5.588378, 6.836803, -3.2186704, 6.8386707, 0.39927104, 1.5212224, -2.216242, 11.108465, 3.6481643, 3.4786088, -0.28119722, 3.41233, -6.7852297, 0.13432945, -3.262702, 6.889279, 12.366524, 0.5706749, 7.1287355, 1.078341, -1.5902615, 2.5097847, 13.437554, -2.0321157, 6.003445, 2.621903, 2.6627042, -7.8572845, 6.6015987, 0.088064924)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="box" unique_id=642855211]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0)
-mesh = SubResource("BoxMesh_h65ki")
-skeleton = NodePath("../..")
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_20wkx"]
+points = PackedVector3Array(6.094097, -0.04896962, 1.514343, 3.0081203, 13.970026, -0.3849999, 3.0185978, 13.993236, -0.86267364, -7.7286243, 0.38733158, -2.0603945, -1.9413573, 6.139863, 4.725951, 1.9193966, 5.1100683, -5.1285753, -7.6718216, 6.127907, -2.518981, 6.8778863, 11.878366, 1.7694747, 5.128033, -0.5015949, -2.7523103, -4.795182, -0.8605833, 2.8299887, -2.6774173, 12.027583, 2.4481452, -7.409462, 6.129543, 1.5069762, 3.1933072, 2.389582, 4.0671077, -1.7231421, -0.19359496, -4.36384, 7.300188, 5.4124136, -1.0993716, -6.785091, 5.8558335, -3.883677, 4.905039, 12.569231, 3.0795672, -1.71059, 10.549543, -3.1637473, 4.591182, 12.444775, -1.7819815, -1.5070485, -0.29404247, 4.1319065, -2.4411173, 12.737033, 0.79572487, 3.9093056, -1.1096754, -3.1379359, 5.588378, 6.836803, -3.2186704, 6.8386707, 0.39927104, 1.5212224, -2.216242, 11.108465, 3.6481643, 3.4786088, -0.28119722, 3.41233, -6.7852297, 0.13432945, -3.262702, 6.889279, 12.366524, 0.5706749, 7.1287355, 1.078341, -1.5902615, 2.5097847, 13.437554, -2.0321157, 6.003445, 2.621903, 2.6627042, -7.8572845, 6.6015987, 0.088064924)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="box" unique_id=2006743181]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.70164, -0.0117693)
-shape = SubResource("BoxShape3D_h65ki")
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_kurvb"]
+points = PackedVector3Array(6.094097, -0.04896962, 1.514343, 3.0081203, 13.970026, -0.3849999, 3.0185978, 13.993236, -0.86267364, -7.7286243, 0.38733158, -2.0603945, -1.9413573, 6.139863, 4.725951, 1.9193966, 5.1100683, -5.1285753, -7.6718216, 6.127907, -2.518981, 6.8778863, 11.878366, 1.7694747, 5.128033, -0.5015949, -2.7523103, -4.795182, -0.8605833, 2.8299887, -2.6774173, 12.027583, 2.4481452, -7.409462, 6.129543, 1.5069762, 3.1933072, 2.389582, 4.0671077, -1.7231421, -0.19359496, -4.36384, 7.300188, 5.4124136, -1.0993716, -6.785091, 5.8558335, -3.883677, 4.905039, 12.569231, 3.0795672, -1.71059, 10.549543, -3.1637473, 4.591182, 12.444775, -1.7819815, -1.5070485, -0.29404247, 4.1319065, -2.4411173, 12.737033, 0.79572487, 3.9093056, -1.1096754, -3.1379359, 5.588378, 6.836803, -3.2186704, 6.8386707, 0.39927104, 1.5212224, -2.216242, 11.108465, 3.6481643, 3.4786088, -0.28119722, 3.41233, -6.7852297, 0.13432945, -3.262702, 6.889279, 12.366524, 0.5706749, 7.1287355, 1.078341, -1.5902615, 2.5097847, 13.437554, -2.0321157, 6.003445, 2.621903, 2.6627042, -7.8572845, 6.6015987, 0.088064924)
 
-[node name="box2" type="StaticBody3D" parent="." unique_id=1444658684]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 58.0622, 1.706, 10.8411)
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_tdpsp"]
+points = PackedVector3Array(6.094097, -0.04896962, 1.514343, 3.0081203, 13.970026, -0.3849999, 3.0185978, 13.993236, -0.86267364, -7.7286243, 0.38733158, -2.0603945, -1.9413573, 6.139863, 4.725951, 1.9193966, 5.1100683, -5.1285753, -7.6718216, 6.127907, -2.518981, 6.8778863, 11.878366, 1.7694747, 5.128033, -0.5015949, -2.7523103, -4.795182, -0.8605833, 2.8299887, -2.6774173, 12.027583, 2.4481452, -7.409462, 6.129543, 1.5069762, 3.1933072, 2.389582, 4.0671077, -1.7231421, -0.19359496, -4.36384, 7.300188, 5.4124136, -1.0993716, -6.785091, 5.8558335, -3.883677, 4.905039, 12.569231, 3.0795672, -1.71059, 10.549543, -3.1637473, 4.591182, 12.444775, -1.7819815, -1.5070485, -0.29404247, 4.1319065, -2.4411173, 12.737033, 0.79572487, 3.9093056, -1.1096754, -3.1379359, 5.588378, 6.836803, -3.2186704, 6.8386707, 0.39927104, 1.5212224, -2.216242, 11.108465, 3.6481643, 3.4786088, -0.28119722, 3.41233, -6.7852297, 0.13432945, -3.262702, 6.889279, 12.366524, 0.5706749, 7.1287355, 1.078341, -1.5902615, 2.5097847, 13.437554, -2.0321157, 6.003445, 2.621903, 2.6627042, -7.8572845, 6.6015987, 0.088064924)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="box2" unique_id=1098207887]
-mesh = SubResource("BoxMesh_h65ki")
-skeleton = NodePath("../..")
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_2jqkd"]
+points = PackedVector3Array(6.094097, -0.04896962, 1.514343, 3.0081203, 13.970026, -0.3849999, 3.0185978, 13.993236, -0.86267364, -7.7286243, 0.38733158, -2.0603945, -1.9413573, 6.139863, 4.725951, 1.9193966, 5.1100683, -5.1285753, -7.6718216, 6.127907, -2.518981, 6.8778863, 11.878366, 1.7694747, 5.128033, -0.5015949, -2.7523103, -4.795182, -0.8605833, 2.8299887, -2.6774173, 12.027583, 2.4481452, -7.409462, 6.129543, 1.5069762, 3.1933072, 2.389582, 4.0671077, -1.7231421, -0.19359496, -4.36384, 7.300188, 5.4124136, -1.0993716, -6.785091, 5.8558335, -3.883677, 4.905039, 12.569231, 3.0795672, -1.71059, 10.549543, -3.1637473, 4.591182, 12.444775, -1.7819815, -1.5070485, -0.29404247, 4.1319065, -2.4411173, 12.737033, 0.79572487, 3.9093056, -1.1096754, -3.1379359, 5.588378, 6.836803, -3.2186704, 6.8386707, 0.39927104, 1.5212224, -2.216242, 11.108465, 3.6481643, 3.4786088, -0.28119722, 3.41233, -6.7852297, 0.13432945, -3.262702, 6.889279, 12.366524, 0.5706749, 7.1287355, 1.078341, -1.5902615, 2.5097847, 13.437554, -2.0321157, 6.003445, 2.621903, 2.6627042, -7.8572845, 6.6015987, 0.088064924)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="box2" unique_id=1696560457]
-shape = SubResource("BoxShape3D_h65ki")
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_45ht6"]
+points = PackedVector3Array(6.094097, -0.04896962, 1.514343, 3.0081203, 13.970026, -0.3849999, 3.0185978, 13.993236, -0.86267364, -7.7286243, 0.38733158, -2.0603945, -1.9413573, 6.139863, 4.725951, 1.9193966, 5.1100683, -5.1285753, -7.6718216, 6.127907, -2.518981, 6.8778863, 11.878366, 1.7694747, 5.128033, -0.5015949, -2.7523103, -4.795182, -0.8605833, 2.8299887, -2.6774173, 12.027583, 2.4481452, -7.409462, 6.129543, 1.5069762, 3.1933072, 2.389582, 4.0671077, -1.7231421, -0.19359496, -4.36384, 7.300188, 5.4124136, -1.0993716, -6.785091, 5.8558335, -3.883677, 4.905039, 12.569231, 3.0795672, -1.71059, 10.549543, -3.1637473, 4.591182, 12.444775, -1.7819815, -1.5070485, -0.29404247, 4.1319065, -2.4411173, 12.737033, 0.79572487, 3.9093056, -1.1096754, -3.1379359, 5.588378, 6.836803, -3.2186704, 6.8386707, 0.39927104, 1.5212224, -2.216242, 11.108465, 3.6481643, 3.4786088, -0.28119722, 3.41233, -6.7852297, 0.13432945, -3.262702, 6.889279, 12.366524, 0.5706749, 7.1287355, 1.078341, -1.5902615, 2.5097847, 13.437554, -2.0321157, 6.003445, 2.621903, 2.6627042, -7.8572845, 6.6015987, 0.088064924)
 
-[node name="box5" type="StaticBody3D" parent="." unique_id=1401460700]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.504757, 1.706, -0.8910036)
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_xwil1"]
+points = PackedVector3Array(6.094097, -0.04896962, 1.514343, 3.0081203, 13.970026, -0.3849999, 3.0185978, 13.993236, -0.86267364, -7.7286243, 0.38733158, -2.0603945, -1.9413573, 6.139863, 4.725951, 1.9193966, 5.1100683, -5.1285753, -7.6718216, 6.127907, -2.518981, 6.8778863, 11.878366, 1.7694747, 5.128033, -0.5015949, -2.7523103, -4.795182, -0.8605833, 2.8299887, -2.6774173, 12.027583, 2.4481452, -7.409462, 6.129543, 1.5069762, 3.1933072, 2.389582, 4.0671077, -1.7231421, -0.19359496, -4.36384, 7.300188, 5.4124136, -1.0993716, -6.785091, 5.8558335, -3.883677, 4.905039, 12.569231, 3.0795672, -1.71059, 10.549543, -3.1637473, 4.591182, 12.444775, -1.7819815, -1.5070485, -0.29404247, 4.1319065, -2.4411173, 12.737033, 0.79572487, 3.9093056, -1.1096754, -3.1379359, 5.588378, 6.836803, -3.2186704, 6.8386707, 0.39927104, 1.5212224, -2.216242, 11.108465, 3.6481643, 3.4786088, -0.28119722, 3.41233, -6.7852297, 0.13432945, -3.262702, 6.889279, 12.366524, 0.5706749, 7.1287355, 1.078341, -1.5902615, 2.5097847, 13.437554, -2.0321157, 6.003445, 2.621903, 2.6627042, -7.8572845, 6.6015987, 0.088064924)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="box5" unique_id=417926397]
-mesh = SubResource("BoxMesh_h65ki")
-skeleton = NodePath("../..")
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_msb0e"]
+points = PackedVector3Array(6.094097, -0.04896962, 1.514343, 3.0081203, 13.970026, -0.3849999, 3.0185978, 13.993236, -0.86267364, -7.7286243, 0.38733158, -2.0603945, -1.9413573, 6.139863, 4.725951, 1.9193966, 5.1100683, -5.1285753, -7.6718216, 6.127907, -2.518981, 6.8778863, 11.878366, 1.7694747, 5.128033, -0.5015949, -2.7523103, -4.795182, -0.8605833, 2.8299887, -2.6774173, 12.027583, 2.4481452, -7.409462, 6.129543, 1.5069762, 3.1933072, 2.389582, 4.0671077, -1.7231421, -0.19359496, -4.36384, 7.300188, 5.4124136, -1.0993716, -6.785091, 5.8558335, -3.883677, 4.905039, 12.569231, 3.0795672, -1.71059, 10.549543, -3.1637473, 4.591182, 12.444775, -1.7819815, -1.5070485, -0.29404247, 4.1319065, -2.4411173, 12.737033, 0.79572487, 3.9093056, -1.1096754, -3.1379359, 5.588378, 6.836803, -3.2186704, 6.8386707, 0.39927104, 1.5212224, -2.216242, 11.108465, 3.6481643, 3.4786088, -0.28119722, 3.41233, -6.7852297, 0.13432945, -3.262702, 6.889279, 12.366524, 0.5706749, 7.1287355, 1.078341, -1.5902615, 2.5097847, 13.437554, -2.0321157, 6.003445, 2.621903, 2.6627042, -7.8572845, 6.6015987, 0.088064924)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="box5" unique_id=1483326997]
-shape = SubResource("BoxShape3D_h65ki")
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_xofey"]
+points = PackedVector3Array(6.094097, -0.04896962, 1.514343, 3.0081203, 13.970026, -0.3849999, 3.0185978, 13.993236, -0.86267364, -7.7286243, 0.38733158, -2.0603945, -1.9413573, 6.139863, 4.725951, 1.9193966, 5.1100683, -5.1285753, -7.6718216, 6.127907, -2.518981, 6.8778863, 11.878366, 1.7694747, 5.128033, -0.5015949, -2.7523103, -4.795182, -0.8605833, 2.8299887, -2.6774173, 12.027583, 2.4481452, -7.409462, 6.129543, 1.5069762, 3.1933072, 2.389582, 4.0671077, -1.7231421, -0.19359496, -4.36384, 7.300188, 5.4124136, -1.0993716, -6.785091, 5.8558335, -3.883677, 4.905039, 12.569231, 3.0795672, -1.71059, 10.549543, -3.1637473, 4.591182, 12.444775, -1.7819815, -1.5070485, -0.29404247, 4.1319065, -2.4411173, 12.737033, 0.79572487, 3.9093056, -1.1096754, -3.1379359, 5.588378, 6.836803, -3.2186704, 6.8386707, 0.39927104, 1.5212224, -2.216242, 11.108465, 3.6481643, 3.4786088, -0.28119722, 3.41233, -6.7852297, 0.13432945, -3.262702, 6.889279, 12.366524, 0.5706749, 7.1287355, 1.078341, -1.5902615, 2.5097847, 13.437554, -2.0321157, 6.003445, 2.621903, 2.6627042, -7.8572845, 6.6015987, 0.088064924)
 
-[node name="box3" type="StaticBody3D" parent="." unique_id=718657160]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.4786, 1.70601, 40.7667)
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_rcmxo"]
+points = PackedVector3Array(6.094097, -0.04896962, 1.514343, 3.0081203, 13.970026, -0.3849999, 3.0185978, 13.993236, -0.86267364, -7.7286243, 0.38733158, -2.0603945, -1.9413573, 6.139863, 4.725951, 1.9193966, 5.1100683, -5.1285753, -7.6718216, 6.127907, -2.518981, 6.8778863, 11.878366, 1.7694747, 5.128033, -0.5015949, -2.7523103, -4.795182, -0.8605833, 2.8299887, -2.6774173, 12.027583, 2.4481452, -7.409462, 6.129543, 1.5069762, 3.1933072, 2.389582, 4.0671077, -1.7231421, -0.19359496, -4.36384, 7.300188, 5.4124136, -1.0993716, -6.785091, 5.8558335, -3.883677, 4.905039, 12.569231, 3.0795672, -1.71059, 10.549543, -3.1637473, 4.591182, 12.444775, -1.7819815, -1.5070485, -0.29404247, 4.1319065, -2.4411173, 12.737033, 0.79572487, 3.9093056, -1.1096754, -3.1379359, 5.588378, 6.836803, -3.2186704, 6.8386707, 0.39927104, 1.5212224, -2.216242, 11.108465, 3.6481643, 3.4786088, -0.28119722, 3.41233, -6.7852297, 0.13432945, -3.262702, 6.889279, 12.366524, 0.5706749, 7.1287355, 1.078341, -1.5902615, 2.5097847, 13.437554, -2.0321157, 6.003445, 2.621903, 2.6627042, -7.8572845, 6.6015987, 0.088064924)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="box3" unique_id=1988372741]
-mesh = SubResource("BoxMesh_h65ki")
-skeleton = NodePath("../..")
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_bgs5h"]
+points = PackedVector3Array(6.094097, -0.04896962, 1.514343, 3.0081203, 13.970026, -0.3849999, 3.0185978, 13.993236, -0.86267364, -7.7286243, 0.38733158, -2.0603945, -1.9413573, 6.139863, 4.725951, 1.9193966, 5.1100683, -5.1285753, -7.6718216, 6.127907, -2.518981, 6.8778863, 11.878366, 1.7694747, 5.128033, -0.5015949, -2.7523103, -4.795182, -0.8605833, 2.8299887, -2.6774173, 12.027583, 2.4481452, -7.409462, 6.129543, 1.5069762, 3.1933072, 2.389582, 4.0671077, -1.7231421, -0.19359496, -4.36384, 7.300188, 5.4124136, -1.0993716, -6.785091, 5.8558335, -3.883677, 4.905039, 12.569231, 3.0795672, -1.71059, 10.549543, -3.1637473, 4.591182, 12.444775, -1.7819815, -1.5070485, -0.29404247, 4.1319065, -2.4411173, 12.737033, 0.79572487, 3.9093056, -1.1096754, -3.1379359, 5.588378, 6.836803, -3.2186704, 6.8386707, 0.39927104, 1.5212224, -2.216242, 11.108465, 3.6481643, 3.4786088, -0.28119722, 3.41233, -6.7852297, 0.13432945, -3.262702, 6.889279, 12.366524, 0.5706749, 7.1287355, 1.078341, -1.5902615, 2.5097847, 13.437554, -2.0321157, 6.003445, 2.621903, 2.6627042, -7.8572845, 6.6015987, 0.088064924)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="box3" unique_id=509598682]
-shape = SubResource("BoxShape3D_h65ki")
+[sub_resource type="BoxShape3D" id="BoxShape3D_s4t26"]
+size = Vector3(11.831543, 371.15952, 3880.53)
 
-[node name="box4" type="StaticBody3D" parent="." unique_id=2023793452]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38.2267, 1.70601, -39.7072)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="box4" unique_id=735138648]
-mesh = SubResource("BoxMesh_h65ki")
-skeleton = NodePath("../..")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="box4" unique_id=1443722332]
-shape = SubResource("BoxShape3D_h65ki")
+[node name="TestScene" type="Node3D" unique_id=1353779000 node_paths=PackedStringArray("submarine", "world_environment", "sunlight")]
+script = ExtResource("1_s4t26")
+submarine = NodePath("Submarine")
+world_environment = NodePath("WaterShaderExamples/Environment_Stuff/WorldEnvironment")
+sunlight = NodePath("WaterShaderExamples/Environment_Stuff/DirectionalLight3D")
 
 [node name="Submarine" parent="." unique_id=2124491561 instance=ExtResource("1_h65ki")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.050616, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -252.5582, -11.852547, -1659.9767)
+
+[node name="WaterShaderExamples" type="Node3D" parent="." unique_id=2073249763]
+script = ExtResource("3_vt50x")
+
+[node name="DeepOcean" parent="WaterShaderExamples" unique_id=494801945 instance=ExtResource("4_swri5")]
+far_edge = 4000
+
+[node name="WaterMaterialDesigner" parent="WaterShaderExamples/DeepOcean" index="1"]
+wave_fade_far = 1440
+
+[node name="OceanFloor" type="MeshInstance3D" parent="WaterShaderExamples/DeepOcean" unique_id=2029229331]
+transform = Transform3D(8000, 0, 0, 0, 1, 0, 0, 0, 8000, 0, -350, 0)
+mesh = SubResource("PlaneMesh_mv30r")
+skeleton = NodePath("../../Other_Designers")
+surface_material_override/0 = SubResource("ShaderMaterial_0bbsx")
+script = ExtResource("7_tdpsp")
+
+[node name="Other_Designers" type="Node" parent="WaterShaderExamples" unique_id=2020710816]
+
+[node name="OutsetOceanDesigner" type="Node" parent="WaterShaderExamples/Other_Designers" unique_id=1098598752]
+script = ExtResource("8_2jqkd")
+material = ExtResource("9_45ht6")
+distance_fade_far = 4000
+distance_fade_softness = 0.323
+wave_fade_far = 2000
+wave_fade_softness = 0.641
+height_waves = Array[ExtResource("10_xwil1")]([ExtResource("11_msb0e"), ExtResource("12_xofey"), ExtResource("13_rcmxo"), ExtResource("14_bgs5h"), ExtResource("15_w2gn8")])
+foam_waves = Array[ExtResource("10_xwil1")]([ExtResource("16_jyj6d"), ExtResource("17_o2kh1"), ExtResource("18_eprgl"), ExtResource("19_clxea")])
+uv_waves = Array[ExtResource("10_xwil1")]([ExtResource("20_7ul8i"), ExtResource("21_t1jsg")])
+
+[node name="IceDesigner" type="Node" parent="WaterShaderExamples/Other_Designers" unique_id=2122278011]
+script = ExtResource("8_2jqkd")
+material = ExtResource("22_4d6ip")
+distance_fade_far = 4000
+distance_fade_softness = 0.323
+wave_fade_far = 2000
+wave_fade_softness = 0.641
+height_waves = Array[ExtResource("10_xwil1")]([SubResource("Resource_4vniv"), SubResource("Resource_3t55w"), SubResource("Resource_ll6tv"), SubResource("Resource_3bkrw"), SubResource("Resource_qrrly")])
+foam_waves = Array[ExtResource("10_xwil1")]([ExtResource("16_jyj6d"), ExtResource("17_o2kh1"), ExtResource("18_eprgl"), ExtResource("19_clxea")])
+uv_waves = Array[ExtResource("10_xwil1")]([ExtResource("20_7ul8i"), ExtResource("21_t1jsg")])
+
+[node name="ObsidianDesigner" type="Node" parent="WaterShaderExamples/Other_Designers" unique_id=1041093199]
+script = ExtResource("8_2jqkd")
+material = ExtResource("23_alol4")
+distance_fade_far = 4000
+distance_fade_softness = 0.323
+wave_fade_far = 2000
+wave_fade_softness = 0.641
+height_waves = Array[ExtResource("10_xwil1")]([SubResource("Resource_4vniv"), SubResource("Resource_3t55w"), SubResource("Resource_ll6tv"), SubResource("Resource_3bkrw"), SubResource("Resource_qrrly")])
+uv_waves = Array[ExtResource("10_xwil1")]([ExtResource("20_7ul8i"), ExtResource("21_t1jsg")])
+
+[node name="Environment_Stuff" type="Node" parent="WaterShaderExamples" unique_id=1567095643]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WaterShaderExamples/Environment_Stuff" unique_id=579331215]
+transform = Transform3D(0.877037, -0.278375, 0.391552, 0, 0.815017, 0.579437, -0.480422, -0.508188, 0.7148, 0, 23.7697, 0)
+shadow_enabled = true
+directional_shadow_max_distance = 2000.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="WaterShaderExamples/Environment_Stuff" unique_id=1292528666]
+environment = ExtResource("1_mtfic")
+
+[node name="UnderwaterFog" type="FogVolume" parent="WaterShaderExamples/Environment_Stuff" unique_id=832385854]
+shape = 4
+material = SubResource("FogMaterial_irst1")
+script = ExtResource("24_wjoi5")
+visible_height_offset = 5.0
+
+[node name="VisibilityRangeLodGroup" type="Node3D" parent="WaterShaderExamples" unique_id=564819989]
+script = ExtResource("25_prxg0")
+
+[node name="Test_Terrain" type="StaticBody3D" parent="WaterShaderExamples/VisibilityRangeLodGroup" unique_id=632478299]
+
+[node name="Mountain" type="MeshInstance3D" parent="WaterShaderExamples/VisibilityRangeLodGroup/Test_Terrain" unique_id=913745557]
+transform = Transform3D(3.386474, 0, 47.7131, 0, 50, 0, -89.53885, 0, 1.8045706, -581.271, -352.535, -1443.0518)
+mesh = ExtResource("26_fs7ad")
+skeleton = NodePath("../../..")
+surface_material_override/0 = ExtResource("27_yc8iw")
+surface_material_override/1 = ExtResource("27_yc8iw")
+surface_material_override/2 = ExtResource("27_yc8iw")
+surface_material_override/3 = ExtResource("27_yc8iw")
+surface_material_override/4 = ExtResource("27_yc8iw")
+surface_material_override/5 = ExtResource("27_yc8iw")
+surface_material_override/6 = ExtResource("27_yc8iw")
+surface_material_override/7 = ExtResource("27_yc8iw")
+surface_material_override/8 = ExtResource("27_yc8iw")
+surface_material_override/9 = ExtResource("27_yc8iw")
+surface_material_override/10 = ExtResource("27_yc8iw")
+surface_material_override/11 = ExtResource("27_yc8iw")
+surface_material_override/12 = ExtResource("27_yc8iw")
+surface_material_override/13 = ExtResource("27_yc8iw")
+surface_material_override/14 = ExtResource("27_yc8iw")
+surface_material_override/15 = ExtResource("27_yc8iw")
+surface_material_override/16 = ExtResource("27_yc8iw")
+surface_material_override/17 = ExtResource("27_yc8iw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WaterShaderExamples/VisibilityRangeLodGroup/Test_Terrain" unique_id=723835512]
+transform = Transform3D(3.386474, 0, 47.7131, 0, 50, 0, -89.53885, 0, 1.8045706, -581.271, -352.535, -1443.0518)
+shape = SubResource("ConvexPolygonShape3D_s4t26")
+
+[node name="Mountain2" type="MeshInstance3D" parent="WaterShaderExamples/VisibilityRangeLodGroup/Test_Terrain" unique_id=141974674]
+transform = Transform3D(39.948483, 0, -64.82737, 0, 50, 0, 77.41201, 0, 33.454174, -686.13525, -454.422, -2574.3513)
+mesh = ExtResource("26_fs7ad")
+skeleton = NodePath("../../..")
+surface_material_override/0 = ExtResource("27_yc8iw")
+surface_material_override/1 = ExtResource("27_yc8iw")
+surface_material_override/2 = ExtResource("27_yc8iw")
+surface_material_override/3 = ExtResource("27_yc8iw")
+surface_material_override/4 = ExtResource("27_yc8iw")
+surface_material_override/5 = ExtResource("27_yc8iw")
+surface_material_override/6 = ExtResource("27_yc8iw")
+surface_material_override/7 = ExtResource("27_yc8iw")
+surface_material_override/8 = ExtResource("27_yc8iw")
+surface_material_override/9 = ExtResource("27_yc8iw")
+surface_material_override/10 = ExtResource("27_yc8iw")
+surface_material_override/11 = ExtResource("27_yc8iw")
+surface_material_override/12 = ExtResource("27_yc8iw")
+surface_material_override/13 = ExtResource("27_yc8iw")
+surface_material_override/14 = ExtResource("27_yc8iw")
+surface_material_override/15 = ExtResource("27_yc8iw")
+surface_material_override/16 = ExtResource("27_yc8iw")
+surface_material_override/17 = ExtResource("27_yc8iw")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="WaterShaderExamples/VisibilityRangeLodGroup/Test_Terrain" unique_id=1332021452]
+transform = Transform3D(39.948483, 0, -64.82737, 0, 50, 0, 77.41201, 0, 33.454174, -686.13525, -454.422, -2574.3513)
+shape = SubResource("ConvexPolygonShape3D_eg2il")
+
+[node name="Mountain6" type="MeshInstance3D" parent="WaterShaderExamples/VisibilityRangeLodGroup/Test_Terrain" unique_id=203091236]
+transform = Transform3D(-3.386466, 0, -47.7131, 0, 50.000008, 0, 89.53885, 0, -1.8045663, -686.1353, -352.535, -745.31934)
+mesh = ExtResource("26_fs7ad")
+skeleton = NodePath("../../..")
+surface_material_override/0 = ExtResource("27_yc8iw")
+surface_material_override/1 = ExtResource("27_yc8iw")
+surface_material_override/2 = ExtResource("27_yc8iw")
+surface_material_override/3 = ExtResource("27_yc8iw")
+surface_material_override/4 = ExtResource("27_yc8iw")
+surface_material_override/5 = ExtResource("27_yc8iw")
+surface_material_override/6 = ExtResource("27_yc8iw")
+surface_material_override/7 = ExtResource("27_yc8iw")
+surface_material_override/8 = ExtResource("27_yc8iw")
+surface_material_override/9 = ExtResource("27_yc8iw")
+surface_material_override/10 = ExtResource("27_yc8iw")
+surface_material_override/11 = ExtResource("27_yc8iw")
+surface_material_override/12 = ExtResource("27_yc8iw")
+surface_material_override/13 = ExtResource("27_yc8iw")
+surface_material_override/14 = ExtResource("27_yc8iw")
+surface_material_override/15 = ExtResource("27_yc8iw")
+surface_material_override/16 = ExtResource("27_yc8iw")
+surface_material_override/17 = ExtResource("27_yc8iw")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="WaterShaderExamples/VisibilityRangeLodGroup/Test_Terrain" unique_id=343892635]
+transform = Transform3D(-3.386466, 0, -47.7131, 0, 50.000008, 0, 89.53885, 0, -1.8045663, -686.1353, -352.535, -745.31934)
+shape = SubResource("ConvexPolygonShape3D_nxrc4")
+
+[node name="Mountain7" type="MeshInstance3D" parent="WaterShaderExamples/VisibilityRangeLodGroup/Test_Terrain" unique_id=1410937644]
+transform = Transform3D(-16.139446, 0, 71.687485, 0, 50, 0, -85.60384, 0, -13.515701, -648.22644, -454.42175, 316.93115)
+mesh = ExtResource("26_fs7ad")
+skeleton = NodePath("../../..")
+surface_material_override/0 = ExtResource("27_yc8iw")
+surface_material_override/1 = ExtResource("27_yc8iw")
+surface_material_override/2 = ExtResource("27_yc8iw")
+surface_material_override/3 = ExtResource("27_yc8iw")
+surface_material_override/4 = ExtResource("27_yc8iw")
+surface_material_override/5 = ExtResource("27_yc8iw")
+surface_material_override/6 = ExtResource("27_yc8iw")
+surface_material_override/7 = ExtResource("27_yc8iw")
+surface_material_override/8 = ExtResource("27_yc8iw")
+surface_material_override/9 = ExtResource("27_yc8iw")
+surface_material_override/10 = ExtResource("27_yc8iw")
+surface_material_override/11 = ExtResource("27_yc8iw")
+surface_material_override/12 = ExtResource("27_yc8iw")
+surface_material_override/13 = ExtResource("27_yc8iw")
+surface_material_override/14 = ExtResource("27_yc8iw")
+surface_material_override/15 = ExtResource("27_yc8iw")
+surface_material_override/16 = ExtResource("27_yc8iw")
+surface_material_override/17 = ExtResource("27_yc8iw")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="WaterShaderExamples/VisibilityRangeLodGroup/Test_Terrain" unique_id=559028989]
+transform = Transform3D(-16.139446, 0, 71.687485, 0, 50, 0, -85.60384, 0, -13.515701, -648.22644, -454.42175, 316.93115)
+shape = SubResource("ConvexPolygonShape3D_62ych")
+
+[node name="Mountain8" type="MeshInstance3D" parent="WaterShaderExamples/VisibilityRangeLodGroup/Test_Terrain" unique_id=1146680628]
+transform = Transform3D(-3.386466, 0, -47.7131, 0, 50.000008, 0, 89.53885, 0, -1.8045663, 2673.6526, -352.535, -779.844)
+mesh = ExtResource("26_fs7ad")
+skeleton = NodePath("../../..")
+surface_material_override/0 = ExtResource("27_yc8iw")
+surface_material_override/1 = ExtResource("27_yc8iw")
+surface_material_override/2 = ExtResource("27_yc8iw")
+surface_material_override/3 = ExtResource("27_yc8iw")
+surface_material_override/4 = ExtResource("27_yc8iw")
+surface_material_override/5 = ExtResource("27_yc8iw")
+surface_material_override/6 = ExtResource("27_yc8iw")
+surface_material_override/7 = ExtResource("27_yc8iw")
+surface_material_override/8 = ExtResource("27_yc8iw")
+surface_material_override/9 = ExtResource("27_yc8iw")
+surface_material_override/10 = ExtResource("27_yc8iw")
+surface_material_override/11 = ExtResource("27_yc8iw")
+surface_material_override/12 = ExtResource("27_yc8iw")
+surface_material_override/13 = ExtResource("27_yc8iw")
+surface_material_override/14 = ExtResource("27_yc8iw")
+surface_material_override/15 = ExtResource("27_yc8iw")
+surface_material_override/16 = ExtResource("27_yc8iw")
+surface_material_override/17 = ExtResource("27_yc8iw")
+
+[node name="CollisionShape3D5" type="CollisionShape3D" parent="WaterShaderExamples/VisibilityRangeLodGroup/Test_Terrain" unique_id=379995439]
+transform = Transform3D(-3.386466, 0, -47.7131, 0, 50.000008, 0, 89.53885, 0, -1.8045663, 2673.6526, -352.535, -779.844)
+shape = SubResource("ConvexPolygonShape3D_vt50x")
+
+[node name="Mountain9" type="MeshInstance3D" parent="WaterShaderExamples/VisibilityRangeLodGroup/Test_Terrain" unique_id=1385530763]
+transform = Transform3D(-39.94849, 0, 64.82736, 0, 50, 0, -77.412, 0, -33.45418, 2778.517, -454.422, 351.45557)
+mesh = ExtResource("26_fs7ad")
+skeleton = NodePath("../../..")
+surface_material_override/0 = ExtResource("27_yc8iw")
+surface_material_override/1 = ExtResource("27_yc8iw")
+surface_material_override/2 = ExtResource("27_yc8iw")
+surface_material_override/3 = ExtResource("27_yc8iw")
+surface_material_override/4 = ExtResource("27_yc8iw")
+surface_material_override/5 = ExtResource("27_yc8iw")
+surface_material_override/6 = ExtResource("27_yc8iw")
+surface_material_override/7 = ExtResource("27_yc8iw")
+surface_material_override/8 = ExtResource("27_yc8iw")
+surface_material_override/9 = ExtResource("27_yc8iw")
+surface_material_override/10 = ExtResource("27_yc8iw")
+surface_material_override/11 = ExtResource("27_yc8iw")
+surface_material_override/12 = ExtResource("27_yc8iw")
+surface_material_override/13 = ExtResource("27_yc8iw")
+surface_material_override/14 = ExtResource("27_yc8iw")
+surface_material_override/15 = ExtResource("27_yc8iw")
+surface_material_override/16 = ExtResource("27_yc8iw")
+surface_material_override/17 = ExtResource("27_yc8iw")
+
+[node name="CollisionShape3D6" type="CollisionShape3D" parent="WaterShaderExamples/VisibilityRangeLodGroup/Test_Terrain" unique_id=1293975327]
+transform = Transform3D(-39.94849, 0, 64.82736, 0, 50, 0, -77.412, 0, -33.45418, 2778.517, -454.422, 351.45557)
+shape = SubResource("ConvexPolygonShape3D_swri5")
+
+[node name="Mountain10" type="MeshInstance3D" parent="WaterShaderExamples/VisibilityRangeLodGroup/Test_Terrain" unique_id=658627514]
+transform = Transform3D(3.3864577, 0, 47.713097, 0, 50.000008, 0, -89.53884, 0, 1.8045621, 2778.5168, -352.535, -1477.5764)
+mesh = ExtResource("26_fs7ad")
+skeleton = NodePath("../../..")
+surface_material_override/0 = ExtResource("27_yc8iw")
+surface_material_override/1 = ExtResource("27_yc8iw")
+surface_material_override/2 = ExtResource("27_yc8iw")
+surface_material_override/3 = ExtResource("27_yc8iw")
+surface_material_override/4 = ExtResource("27_yc8iw")
+surface_material_override/5 = ExtResource("27_yc8iw")
+surface_material_override/6 = ExtResource("27_yc8iw")
+surface_material_override/7 = ExtResource("27_yc8iw")
+surface_material_override/8 = ExtResource("27_yc8iw")
+surface_material_override/9 = ExtResource("27_yc8iw")
+surface_material_override/10 = ExtResource("27_yc8iw")
+surface_material_override/11 = ExtResource("27_yc8iw")
+surface_material_override/12 = ExtResource("27_yc8iw")
+surface_material_override/13 = ExtResource("27_yc8iw")
+surface_material_override/14 = ExtResource("27_yc8iw")
+surface_material_override/15 = ExtResource("27_yc8iw")
+surface_material_override/16 = ExtResource("27_yc8iw")
+surface_material_override/17 = ExtResource("27_yc8iw")
+
+[node name="CollisionShape3D7" type="CollisionShape3D" parent="WaterShaderExamples/VisibilityRangeLodGroup/Test_Terrain" unique_id=2093482508]
+transform = Transform3D(3.3864577, 0, 47.713097, 0, 50.000008, 0, -89.53884, 0, 1.8045621, 2778.5168, -352.535, -1477.5764)
+shape = SubResource("ConvexPolygonShape3D_20wkx")
+
+[node name="Mountain11" type="MeshInstance3D" parent="WaterShaderExamples/VisibilityRangeLodGroup/Test_Terrain" unique_id=219097778]
+transform = Transform3D(16.139458, 0, -71.68749, 0, 50, 0, 85.60385, 0, 13.51571, 2740.6077, -454.42175, -2539.827)
+mesh = ExtResource("26_fs7ad")
+skeleton = NodePath("../../..")
+surface_material_override/0 = ExtResource("27_yc8iw")
+surface_material_override/1 = ExtResource("27_yc8iw")
+surface_material_override/2 = ExtResource("27_yc8iw")
+surface_material_override/3 = ExtResource("27_yc8iw")
+surface_material_override/4 = ExtResource("27_yc8iw")
+surface_material_override/5 = ExtResource("27_yc8iw")
+surface_material_override/6 = ExtResource("27_yc8iw")
+surface_material_override/7 = ExtResource("27_yc8iw")
+surface_material_override/8 = ExtResource("27_yc8iw")
+surface_material_override/9 = ExtResource("27_yc8iw")
+surface_material_override/10 = ExtResource("27_yc8iw")
+surface_material_override/11 = ExtResource("27_yc8iw")
+surface_material_override/12 = ExtResource("27_yc8iw")
+surface_material_override/13 = ExtResource("27_yc8iw")
+surface_material_override/14 = ExtResource("27_yc8iw")
+surface_material_override/15 = ExtResource("27_yc8iw")
+surface_material_override/16 = ExtResource("27_yc8iw")
+surface_material_override/17 = ExtResource("27_yc8iw")
+
+[node name="CollisionShape3D8" type="CollisionShape3D" parent="WaterShaderExamples/VisibilityRangeLodGroup/Test_Terrain" unique_id=2023739449]
+transform = Transform3D(16.139458, 0, -71.68749, 0, 50, 0, 85.60385, 0, 13.51571, 2740.6077, -454.42175, -2539.827)
+shape = SubResource("ConvexPolygonShape3D_kurvb")
+
+[node name="Mountain12" type="MeshInstance3D" parent="WaterShaderExamples/VisibilityRangeLodGroup/Test_Terrain" unique_id=124208244]
+transform = Transform3D(89.53884, 0, -1.8045639, 0, 50.000008, 0, 3.386462, 0, 47.713097, 1289.752, -352.535, -2799.1982)
+mesh = ExtResource("26_fs7ad")
+skeleton = NodePath("../../..")
+surface_material_override/0 = ExtResource("27_yc8iw")
+surface_material_override/1 = ExtResource("27_yc8iw")
+surface_material_override/2 = ExtResource("27_yc8iw")
+surface_material_override/3 = ExtResource("27_yc8iw")
+surface_material_override/4 = ExtResource("27_yc8iw")
+surface_material_override/5 = ExtResource("27_yc8iw")
+surface_material_override/6 = ExtResource("27_yc8iw")
+surface_material_override/7 = ExtResource("27_yc8iw")
+surface_material_override/8 = ExtResource("27_yc8iw")
+surface_material_override/9 = ExtResource("27_yc8iw")
+surface_material_override/10 = ExtResource("27_yc8iw")
+surface_material_override/11 = ExtResource("27_yc8iw")
+surface_material_override/12 = ExtResource("27_yc8iw")
+surface_material_override/13 = ExtResource("27_yc8iw")
+surface_material_override/14 = ExtResource("27_yc8iw")
+surface_material_override/15 = ExtResource("27_yc8iw")
+surface_material_override/16 = ExtResource("27_yc8iw")
+surface_material_override/17 = ExtResource("27_yc8iw")
+
+[node name="CollisionShape3D9" type="CollisionShape3D" parent="WaterShaderExamples/VisibilityRangeLodGroup/Test_Terrain" unique_id=256573671]
+transform = Transform3D(89.53884, 0, -1.8045639, 0, 50.000008, 0, 3.386462, 0, 47.713097, 1289.752, -352.535, -2799.1982)
+shape = SubResource("ConvexPolygonShape3D_tdpsp")
+
+[node name="Mountain13" type="MeshInstance3D" parent="WaterShaderExamples/VisibilityRangeLodGroup/Test_Terrain" unique_id=503085999]
+transform = Transform3D(-77.412, 0, -33.454185, 0, 50.000008, 0, 39.94849, 0, -64.82736, 2421.0515, -454.422, -2904.0625)
+mesh = ExtResource("26_fs7ad")
+skeleton = NodePath("../../..")
+surface_material_override/0 = ExtResource("27_yc8iw")
+surface_material_override/1 = ExtResource("27_yc8iw")
+surface_material_override/2 = ExtResource("27_yc8iw")
+surface_material_override/3 = ExtResource("27_yc8iw")
+surface_material_override/4 = ExtResource("27_yc8iw")
+surface_material_override/5 = ExtResource("27_yc8iw")
+surface_material_override/6 = ExtResource("27_yc8iw")
+surface_material_override/7 = ExtResource("27_yc8iw")
+surface_material_override/8 = ExtResource("27_yc8iw")
+surface_material_override/9 = ExtResource("27_yc8iw")
+surface_material_override/10 = ExtResource("27_yc8iw")
+surface_material_override/11 = ExtResource("27_yc8iw")
+surface_material_override/12 = ExtResource("27_yc8iw")
+surface_material_override/13 = ExtResource("27_yc8iw")
+surface_material_override/14 = ExtResource("27_yc8iw")
+surface_material_override/15 = ExtResource("27_yc8iw")
+surface_material_override/16 = ExtResource("27_yc8iw")
+surface_material_override/17 = ExtResource("27_yc8iw")
+
+[node name="CollisionShape3D10" type="CollisionShape3D" parent="WaterShaderExamples/VisibilityRangeLodGroup/Test_Terrain" unique_id=759572418]
+transform = Transform3D(-77.412, 0, -33.454185, 0, 50.000008, 0, 39.94849, 0, -64.82736, 2421.0515, -454.422, -2904.0625)
+shape = SubResource("ConvexPolygonShape3D_2jqkd")
+
+[node name="Mountain14" type="MeshInstance3D" parent="WaterShaderExamples/VisibilityRangeLodGroup/Test_Terrain" unique_id=432588311]
+transform = Transform3D(-89.53884, 0, 1.8045602, 0, 50.000004, 0, -3.3864543, 0, -47.7131, 592.0196, -352.535, -2904.0623)
+mesh = ExtResource("26_fs7ad")
+skeleton = NodePath("../../..")
+surface_material_override/0 = ExtResource("27_yc8iw")
+surface_material_override/1 = ExtResource("27_yc8iw")
+surface_material_override/2 = ExtResource("27_yc8iw")
+surface_material_override/3 = ExtResource("27_yc8iw")
+surface_material_override/4 = ExtResource("27_yc8iw")
+surface_material_override/5 = ExtResource("27_yc8iw")
+surface_material_override/6 = ExtResource("27_yc8iw")
+surface_material_override/7 = ExtResource("27_yc8iw")
+surface_material_override/8 = ExtResource("27_yc8iw")
+surface_material_override/9 = ExtResource("27_yc8iw")
+surface_material_override/10 = ExtResource("27_yc8iw")
+surface_material_override/11 = ExtResource("27_yc8iw")
+surface_material_override/12 = ExtResource("27_yc8iw")
+surface_material_override/13 = ExtResource("27_yc8iw")
+surface_material_override/14 = ExtResource("27_yc8iw")
+surface_material_override/15 = ExtResource("27_yc8iw")
+surface_material_override/16 = ExtResource("27_yc8iw")
+surface_material_override/17 = ExtResource("27_yc8iw")
+
+[node name="CollisionShape3D11" type="CollisionShape3D" parent="WaterShaderExamples/VisibilityRangeLodGroup/Test_Terrain" unique_id=466394113]
+transform = Transform3D(-89.53884, 0, 1.8045602, 0, 50.000004, 0, -3.3864543, 0, -47.7131, 592.0196, -352.535, -2904.0623)
+shape = SubResource("ConvexPolygonShape3D_45ht6")
+
+[node name="Mountain15" type="MeshInstance3D" parent="WaterShaderExamples/VisibilityRangeLodGroup/Test_Terrain" unique_id=1045845702]
+transform = Transform3D(85.60385, 0, 13.515713, 0, 50.000008, 0, -16.139463, 0, 71.6875, -470.2309, -454.42175, -2866.153)
+mesh = ExtResource("26_fs7ad")
+skeleton = NodePath("../../..")
+surface_material_override/0 = ExtResource("27_yc8iw")
+surface_material_override/1 = ExtResource("27_yc8iw")
+surface_material_override/2 = ExtResource("27_yc8iw")
+surface_material_override/3 = ExtResource("27_yc8iw")
+surface_material_override/4 = ExtResource("27_yc8iw")
+surface_material_override/5 = ExtResource("27_yc8iw")
+surface_material_override/6 = ExtResource("27_yc8iw")
+surface_material_override/7 = ExtResource("27_yc8iw")
+surface_material_override/8 = ExtResource("27_yc8iw")
+surface_material_override/9 = ExtResource("27_yc8iw")
+surface_material_override/10 = ExtResource("27_yc8iw")
+surface_material_override/11 = ExtResource("27_yc8iw")
+surface_material_override/12 = ExtResource("27_yc8iw")
+surface_material_override/13 = ExtResource("27_yc8iw")
+surface_material_override/14 = ExtResource("27_yc8iw")
+surface_material_override/15 = ExtResource("27_yc8iw")
+surface_material_override/16 = ExtResource("27_yc8iw")
+surface_material_override/17 = ExtResource("27_yc8iw")
+
+[node name="CollisionShape3D12" type="CollisionShape3D" parent="WaterShaderExamples/VisibilityRangeLodGroup/Test_Terrain" unique_id=1611451927]
+transform = Transform3D(85.60385, 0, 13.515713, 0, 50.000008, 0, -16.139463, 0, 71.6875, -470.2309, -454.42175, -2866.153)
+shape = SubResource("ConvexPolygonShape3D_xwil1")
+
+[node name="Mountain16" type="MeshInstance3D" parent="WaterShaderExamples/VisibilityRangeLodGroup/Test_Terrain" unique_id=1902480794]
+transform = Transform3D(-89.57737, 0, -1.1391141, 0, 50, 0, 2.1376715, 0, -47.733624, 622.91187, -352.535, 582.6495)
+mesh = ExtResource("26_fs7ad")
+skeleton = NodePath("../../..")
+surface_material_override/0 = ExtResource("27_yc8iw")
+surface_material_override/1 = ExtResource("27_yc8iw")
+surface_material_override/2 = ExtResource("27_yc8iw")
+surface_material_override/3 = ExtResource("27_yc8iw")
+surface_material_override/4 = ExtResource("27_yc8iw")
+surface_material_override/5 = ExtResource("27_yc8iw")
+surface_material_override/6 = ExtResource("27_yc8iw")
+surface_material_override/7 = ExtResource("27_yc8iw")
+surface_material_override/8 = ExtResource("27_yc8iw")
+surface_material_override/9 = ExtResource("27_yc8iw")
+surface_material_override/10 = ExtResource("27_yc8iw")
+surface_material_override/11 = ExtResource("27_yc8iw")
+surface_material_override/12 = ExtResource("27_yc8iw")
+surface_material_override/13 = ExtResource("27_yc8iw")
+surface_material_override/14 = ExtResource("27_yc8iw")
+surface_material_override/15 = ExtResource("27_yc8iw")
+surface_material_override/16 = ExtResource("27_yc8iw")
+surface_material_override/17 = ExtResource("27_yc8iw")
+
+[node name="CollisionShape3D13" type="CollisionShape3D" parent="WaterShaderExamples/VisibilityRangeLodGroup/Test_Terrain" unique_id=1192309546]
+transform = Transform3D(-89.57737, 0, -1.1391141, 0, 50, 0, 2.1376715, 0, -47.733624, 622.91187, -352.535, 582.6495)
+shape = SubResource("ConvexPolygonShape3D_msb0e")
+
+[node name="Mountain17" type="MeshInstance3D" parent="WaterShaderExamples/VisibilityRangeLodGroup/Test_Terrain" unique_id=804349588]
+transform = Transform3D(74.80311, 0, 37.385494, 0, 50.000015, 0, -44.642967, 0, 62.64259, -499.77557, -454.422, 757.02905)
+mesh = ExtResource("26_fs7ad")
+skeleton = NodePath("../../..")
+surface_material_override/0 = ExtResource("27_yc8iw")
+surface_material_override/1 = ExtResource("27_yc8iw")
+surface_material_override/2 = ExtResource("27_yc8iw")
+surface_material_override/3 = ExtResource("27_yc8iw")
+surface_material_override/4 = ExtResource("27_yc8iw")
+surface_material_override/5 = ExtResource("27_yc8iw")
+surface_material_override/6 = ExtResource("27_yc8iw")
+surface_material_override/7 = ExtResource("27_yc8iw")
+surface_material_override/8 = ExtResource("27_yc8iw")
+surface_material_override/9 = ExtResource("27_yc8iw")
+surface_material_override/10 = ExtResource("27_yc8iw")
+surface_material_override/11 = ExtResource("27_yc8iw")
+surface_material_override/12 = ExtResource("27_yc8iw")
+surface_material_override/13 = ExtResource("27_yc8iw")
+surface_material_override/14 = ExtResource("27_yc8iw")
+surface_material_override/15 = ExtResource("27_yc8iw")
+surface_material_override/16 = ExtResource("27_yc8iw")
+surface_material_override/17 = ExtResource("27_yc8iw")
+
+[node name="CollisionShape3D14" type="CollisionShape3D" parent="WaterShaderExamples/VisibilityRangeLodGroup/Test_Terrain" unique_id=641686373]
+transform = Transform3D(74.80311, 0, 37.385494, 0, 50.000015, 0, -44.642967, 0, 62.64259, -499.77557, -454.422, 757.02905)
+shape = SubResource("ConvexPolygonShape3D_xofey")
+
+[node name="Mountain18" type="MeshInstance3D" parent="WaterShaderExamples/VisibilityRangeLodGroup/Test_Terrain" unique_id=696249011]
+transform = Transform3D(89.57736, 0, 1.1391175, 0, 50.000008, 0, -2.1376786, 0, 47.733627, 1325.7803, -352.535, 644.31744)
+mesh = ExtResource("26_fs7ad")
+skeleton = NodePath("../../..")
+surface_material_override/0 = ExtResource("27_yc8iw")
+surface_material_override/1 = ExtResource("27_yc8iw")
+surface_material_override/2 = ExtResource("27_yc8iw")
+surface_material_override/3 = ExtResource("27_yc8iw")
+surface_material_override/4 = ExtResource("27_yc8iw")
+surface_material_override/5 = ExtResource("27_yc8iw")
+surface_material_override/6 = ExtResource("27_yc8iw")
+surface_material_override/7 = ExtResource("27_yc8iw")
+surface_material_override/8 = ExtResource("27_yc8iw")
+surface_material_override/9 = ExtResource("27_yc8iw")
+surface_material_override/10 = ExtResource("27_yc8iw")
+surface_material_override/11 = ExtResource("27_yc8iw")
+surface_material_override/12 = ExtResource("27_yc8iw")
+surface_material_override/13 = ExtResource("27_yc8iw")
+surface_material_override/14 = ExtResource("27_yc8iw")
+surface_material_override/15 = ExtResource("27_yc8iw")
+surface_material_override/16 = ExtResource("27_yc8iw")
+surface_material_override/17 = ExtResource("27_yc8iw")
+
+[node name="CollisionShape3D15" type="CollisionShape3D" parent="WaterShaderExamples/VisibilityRangeLodGroup/Test_Terrain" unique_id=1984245354]
+transform = Transform3D(89.57736, 0, 1.1391175, 0, 50.000008, 0, -2.1376786, 0, 47.733627, 1325.7803, -352.535, 644.31744)
+shape = SubResource("ConvexPolygonShape3D_rcmxo")
+
+[node name="Mountain19" type="MeshInstance3D" parent="WaterShaderExamples/VisibilityRangeLodGroup/Test_Terrain" unique_id=1937062126]
+transform = Transform3D(-84.44659, 0, -17.907663, 0, 50, 0, 21.384005, 0, -70.71837, 2383.6755, -454.42175, 541.02075)
+mesh = ExtResource("26_fs7ad")
+skeleton = NodePath("../../..")
+surface_material_override/0 = ExtResource("27_yc8iw")
+surface_material_override/1 = ExtResource("27_yc8iw")
+surface_material_override/2 = ExtResource("27_yc8iw")
+surface_material_override/3 = ExtResource("27_yc8iw")
+surface_material_override/4 = ExtResource("27_yc8iw")
+surface_material_override/5 = ExtResource("27_yc8iw")
+surface_material_override/6 = ExtResource("27_yc8iw")
+surface_material_override/7 = ExtResource("27_yc8iw")
+surface_material_override/8 = ExtResource("27_yc8iw")
+surface_material_override/9 = ExtResource("27_yc8iw")
+surface_material_override/10 = ExtResource("27_yc8iw")
+surface_material_override/11 = ExtResource("27_yc8iw")
+surface_material_override/12 = ExtResource("27_yc8iw")
+surface_material_override/13 = ExtResource("27_yc8iw")
+surface_material_override/14 = ExtResource("27_yc8iw")
+surface_material_override/15 = ExtResource("27_yc8iw")
+surface_material_override/16 = ExtResource("27_yc8iw")
+surface_material_override/17 = ExtResource("27_yc8iw")
+
+[node name="CollisionShape3D16" type="CollisionShape3D" parent="WaterShaderExamples/VisibilityRangeLodGroup/Test_Terrain" unique_id=1094157647]
+transform = Transform3D(-84.44659, 0, -17.907663, 0, 50, 0, 21.384005, 0, -70.71837, 2383.6755, -454.42175, 541.02075)
+shape = SubResource("ConvexPolygonShape3D_bgs5h")
+
+[node name="Mountain3" type="MeshInstance3D" parent="WaterShaderExamples/VisibilityRangeLodGroup/Test_Terrain" unique_id=1080884165]
+transform = Transform3D(8.84072, 0, -24.0371, 0, 51.932, 0, 17.1315, 0, 12.4044, -331.45, -363.533, -3265.27)
+visible = false
+mesh = ExtResource("26_fs7ad")
+skeleton = NodePath("../../..")
+surface_material_override/0 = ExtResource("27_yc8iw")
+surface_material_override/1 = ExtResource("27_yc8iw")
+surface_material_override/2 = ExtResource("27_yc8iw")
+surface_material_override/3 = ExtResource("27_yc8iw")
+surface_material_override/4 = ExtResource("27_yc8iw")
+surface_material_override/5 = ExtResource("27_yc8iw")
+surface_material_override/6 = ExtResource("27_yc8iw")
+surface_material_override/7 = ExtResource("27_yc8iw")
+surface_material_override/8 = ExtResource("27_yc8iw")
+surface_material_override/9 = ExtResource("27_yc8iw")
+surface_material_override/10 = ExtResource("27_yc8iw")
+surface_material_override/11 = ExtResource("27_yc8iw")
+surface_material_override/12 = ExtResource("27_yc8iw")
+surface_material_override/13 = ExtResource("27_yc8iw")
+surface_material_override/14 = ExtResource("27_yc8iw")
+surface_material_override/15 = ExtResource("27_yc8iw")
+surface_material_override/16 = ExtResource("27_yc8iw")
+surface_material_override/17 = ExtResource("27_yc8iw")
+
+[node name="Mountain4" type="MeshInstance3D" parent="WaterShaderExamples/VisibilityRangeLodGroup/Test_Terrain" unique_id=276230359]
+transform = Transform3D(15.0669, 0, 16.8743, 0, 62.8956, 0, -12.0265, 0, 21.1403, -49.5768, -363.533, -3351.75)
+visible = false
+mesh = ExtResource("26_fs7ad")
+skeleton = NodePath("../../..")
+surface_material_override/0 = ExtResource("27_yc8iw")
+surface_material_override/1 = ExtResource("27_yc8iw")
+surface_material_override/2 = ExtResource("27_yc8iw")
+surface_material_override/3 = ExtResource("27_yc8iw")
+surface_material_override/4 = ExtResource("27_yc8iw")
+surface_material_override/5 = ExtResource("27_yc8iw")
+surface_material_override/6 = ExtResource("27_yc8iw")
+surface_material_override/7 = ExtResource("27_yc8iw")
+surface_material_override/8 = ExtResource("27_yc8iw")
+surface_material_override/9 = ExtResource("27_yc8iw")
+surface_material_override/10 = ExtResource("27_yc8iw")
+surface_material_override/11 = ExtResource("27_yc8iw")
+surface_material_override/12 = ExtResource("27_yc8iw")
+surface_material_override/13 = ExtResource("27_yc8iw")
+surface_material_override/14 = ExtResource("27_yc8iw")
+surface_material_override/15 = ExtResource("27_yc8iw")
+surface_material_override/16 = ExtResource("27_yc8iw")
+surface_material_override/17 = ExtResource("27_yc8iw")
+
+[node name="Mountain5" type="MeshInstance3D" parent="WaterShaderExamples/VisibilityRangeLodGroup/Test_Terrain" unique_id=2041251437]
+transform = Transform3D(2.67668, 0, -26.7871, 0, 87.917, 0, 19.0914, 0, 3.75563, -280.898, -363.533, -3633.61)
+visible = false
+mesh = ExtResource("26_fs7ad")
+skeleton = NodePath("../../..")
+surface_material_override/0 = ExtResource("27_yc8iw")
+surface_material_override/1 = ExtResource("27_yc8iw")
+surface_material_override/2 = ExtResource("27_yc8iw")
+surface_material_override/3 = ExtResource("27_yc8iw")
+surface_material_override/4 = ExtResource("27_yc8iw")
+surface_material_override/5 = ExtResource("27_yc8iw")
+surface_material_override/6 = ExtResource("27_yc8iw")
+surface_material_override/7 = ExtResource("27_yc8iw")
+surface_material_override/8 = ExtResource("27_yc8iw")
+surface_material_override/9 = ExtResource("27_yc8iw")
+surface_material_override/10 = ExtResource("27_yc8iw")
+surface_material_override/11 = ExtResource("27_yc8iw")
+surface_material_override/12 = ExtResource("27_yc8iw")
+surface_material_override/13 = ExtResource("27_yc8iw")
+surface_material_override/14 = ExtResource("27_yc8iw")
+surface_material_override/15 = ExtResource("27_yc8iw")
+surface_material_override/16 = ExtResource("27_yc8iw")
+surface_material_override/17 = ExtResource("27_yc8iw")
+
+[node name="CollisionShape3D17" type="CollisionShape3D" parent="WaterShaderExamples/VisibilityRangeLodGroup/Test_Terrain" unique_id=2008418196]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -896.0536, -166.39745, -1053.6871)
+shape = SubResource("BoxShape3D_s4t26")
+
+[node name="CollisionShape3D18" type="CollisionShape3D" parent="WaterShaderExamples/VisibilityRangeLodGroup/Test_Terrain" unique_id=1489290855]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3147.6104, -166.39745, -1053.6871)
+shape = SubResource("BoxShape3D_s4t26")
+
+[node name="CollisionShape3D19" type="CollisionShape3D" parent="WaterShaderExamples/VisibilityRangeLodGroup/Test_Terrain" unique_id=1167378416]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 1069.1196, -166.39745, 802.65295)
+shape = SubResource("BoxShape3D_s4t26")
+
+[node name="CollisionShape3D20" type="CollisionShape3D" parent="WaterShaderExamples/VisibilityRangeLodGroup/Test_Terrain" unique_id=244750893]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 1069.1196, -166.39745, -2989.8062)
+shape = SubResource("BoxShape3D_s4t26")
+
+[connection signal="updated_lod" from="WaterShaderExamples/DeepOcean/WaterMaterialDesigner" to="WaterShaderExamples" method="_on_water_material_designer_updated_lod"]
+
+[editable path="WaterShaderExamples/DeepOcean"]
