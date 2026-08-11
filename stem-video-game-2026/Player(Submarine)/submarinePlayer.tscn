@@ -28,6 +28,9 @@
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ac5wi"]
 bounce = 0.01
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_c1fx2"]
+size = Vector3(26.922455, 26.357483, 57.13153)
+
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_63aei"]
 radius = 1.3452148
 height = 2.6904297
@@ -658,6 +661,12 @@ light_volumetric_fog_energy = 5.0
 shadow_enabled = true
 spot_range = 50.0
 spot_angle = 20.0
+
+[node name="Area3D" type="Area3D" parent="Lights" unique_id=650941520]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Lights/Area3D" unique_id=288724770]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.13915539, 3.5335643, -25.031322)
+shape = SubResource("BoxShape3D_c1fx2")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=892476140]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.003753662, -0.10064888, -1.3223715)

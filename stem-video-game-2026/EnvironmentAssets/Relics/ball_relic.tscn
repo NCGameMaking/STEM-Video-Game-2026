@@ -86,7 +86,7 @@ _data = {
 &"floatHover": SubResource("Animation_3w11v")
 }
 
-[node name="BallRelic" type="Area3D" unique_id=1963367300]
+[node name="BallRelic" type="Area3D" unique_id=1963367300 groups=["Relic"]]
 script = ExtResource("1_3w11v")
 
 [node name="Quad Sphere" type="MeshInstance3D" parent="." unique_id=1345801723]

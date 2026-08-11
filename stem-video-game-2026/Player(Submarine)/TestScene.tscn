@@ -28,6 +28,15 @@
 [ext_resource type="Script" uid="uid://cfj17pppdgxpa" path="res://example/boujie_water_shader/visibility_range_lod_group.gd" id="25_prxg0"]
 [ext_resource type="ArrayMesh" uid="uid://f85dvooifh0c" path="res://example/boujie_water_shader/mountains.obj" id="26_fs7ad"]
 [ext_resource type="Material" uid="uid://c7phyredymkgu" path="res://example/boujie_water_shader/mountain_material.tres" id="27_yc8iw"]
+[ext_resource type="PackedScene" uid="uid://dkavqsw76amaw" path="res://EnvironmentAssets/shark.tscn" id="29_eg2il"]
+[ext_resource type="Script" uid="uid://c1xsrft7wgxh" path="res://Scripts/shark.gd" id="29_nxrc4"]
+
+[sub_resource type="Curve3D" id="Curve3D_nxrc4"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -16.468777, -22.70594, 1.8853902, 0, 0, 0, 0, 0, 0, 19.664799, -24.093332, 2.7184353, 0, 0, 0, 0, 0, 0, 42.936882, -29.259945, -10.618925, 0, 0, 0, 0, 0, 0, 43.068832, -30.310982, 1.6341493, 0, 0, 0, 0, 0, 0, 46.73528, -49.110504, -7.483038, 0, 0, 0, 0, 0, 0, 27.316498, -28.968267, -59.09918, 0, 0, 0, 0, 0, 0, 21.577658, -22.64566, -40.00428, 0, 0, 0, 0, 0, 0, 28.394718, -16.699488, -33.90325, 0, 0, 0, 0, 0, 0, 30.60752, -14.617683, -31.964462, 0, 0, 0, 0, 0, 0, 3.4696846, 1.2334886, 2.0067415),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 11
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_mv30r"]
 subdivide_width = 16
@@ -143,14 +152,15 @@ points = PackedVector3Array(6.094097, -0.04896962, 1.514343, 3.0081203, 13.97002
 [sub_resource type="BoxShape3D" id="BoxShape3D_s4t26"]
 size = Vector3(11.831543, 371.15952, 3880.53)
 
-[node name="TestScene" type="Node3D" unique_id=1353779000 node_paths=PackedStringArray("submarine", "world_environment", "sunlight")]
+[node name="TestScene" type="Path3D" unique_id=493619823 node_paths=PackedStringArray("submarine", "world_environment", "sunlight")]
+curve = SubResource("Curve3D_nxrc4")
 script = ExtResource("1_s4t26")
 submarine = NodePath("Submarine")
 world_environment = NodePath("WaterShaderExamples/Environment_Stuff/WorldEnvironment")
 sunlight = NodePath("WaterShaderExamples/Environment_Stuff/DirectionalLight3D")
 
 [node name="Submarine" parent="." unique_id=2124491561 instance=ExtResource("1_h65ki")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -252.5582, -11.852547, -1659.9767)
+transform = Transform3D(-0.99371135, 0, -0.11197202, 0, 1, 0, 0.11197202, 0, -0.99371135, -252.5582, -44.92019, -284.45123)
 
 [node name="WaterShaderExamples" type="Node3D" parent="." unique_id=2073249763]
 script = ExtResource("3_vt50x")
@@ -742,6 +752,14 @@ shape = SubResource("BoxShape3D_s4t26")
 [node name="CollisionShape3D20" type="CollisionShape3D" parent="WaterShaderExamples/VisibilityRangeLodGroup/Test_Terrain" unique_id=244750893]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 1069.1196, -166.39745, -2989.8062)
 shape = SubResource("BoxShape3D_s4t26")
+
+[node name="PathFollow3D" type="PathFollow3D" parent="." unique_id=815223677]
+transform = Transform3D(-0.11373966, -0.8024441, 0.58580875, 0, 0.58964664, 0.80766976, -0.99351, 0.09186593, -0.06706494, 0, 0, 0)
+rotation_mode = 4
+script = ExtResource("29_nxrc4")
+
+[node name="Shark" parent="PathFollow3D" unique_id=1532721709 instance=ExtResource("29_eg2il")]
+transform = Transform3D(5, 0, 0, 0, -2.1855695e-07, -5, 0, 5, -2.1855695e-07, -2.6103287, -20.074385, -36.2788)
 
 [connection signal="updated_lod" from="WaterShaderExamples/DeepOcean/WaterMaterialDesigner" to="WaterShaderExamples" method="_on_water_material_designer_updated_lod"]
 

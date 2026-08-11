@@ -26,6 +26,12 @@ window/vsync/vsync_mode=0
 
 enabled=PackedStringArray("res://addons/boujie_water_shader/plugin.cfg", "res://addons/godot_super-wakatime/plugin.cfg")
 
+[global_group]
+
+Relic=""
+shark=""
+playerlight=""
+
 [input]
 
 Move_forward={
