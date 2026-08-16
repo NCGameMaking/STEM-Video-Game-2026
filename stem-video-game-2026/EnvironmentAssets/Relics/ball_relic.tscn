@@ -10,7 +10,7 @@ metallic = 0.8
 roughness = 0.36
 emission_enabled = true
 emission = Color(0, 0.9411765, 1, 1)
-emission_energy_multiplier = 5.0
+emission_energy_multiplier = 3.0
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_ofr1u"]
 _surfaces = [{
@@ -86,6 +86,38 @@ _data = {
 &"floatHover": SubResource("Animation_3w11v")
 }
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_3w11v"]
+emission_shape = 3
+emission_box_extents = Vector3(15, 15, 15)
+direction = Vector3(0, 1, 0)
+spread = 180.0
+initial_velocity_min = 0.099999994
+initial_velocity_max = 0.39999998
+gravity = Vector3(0, 0.05, 0)
+scale_min = 0.02
+scale_max = 0.08
+turbulence_enabled = true
+turbulence_noise_strength = 0.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pi256"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0.68235296, 0.85490197, 0.9019608, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_g3tje"]
+material = SubResource("StandardMaterial3D_pi256")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3w11v"]
+transparency = 1
+albedo_color = Color(0, 1, 0.4, 1)
+emission_enabled = true
+emission = Color(0, 1, 0.4, 1)
+emission_energy_multiplier = 3.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_pi256"]
+radius = 1.5
+height = 3.0
+
 [node name="BallRelic" type="Area3D" unique_id=1963367300 groups=["Relic"]]
 script = ExtResource("1_3w11v")
 
@@ -99,12 +131,26 @@ shape = SubResource("SphereShape3D_p7bss")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=1664616023]
 light_color = Color(0, 0.9411765, 1, 1)
-light_energy = 2.0
-light_volumetric_fog_energy = 3.0
+light_energy = 1.333
+light_indirect_energy = 2.001
+light_volumetric_fog_energy = 6.0
 omni_range = 8.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=820080457]
 libraries/ = SubResource("AnimationLibrary_pi256")
 autoplay = &"floatHover"
+
+[node name="MarineSnow" type="GPUParticles3D" parent="." unique_id=1900207424]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.3071251)
+amount = 500
+lifetime = 6.0
+randomness = 0.5
+process_material = SubResource("ParticleProcessMaterial_3w11v")
+draw_pass_1 = SubResource("QuadMesh_g3tje")
+
+[node name="MMSBoxHighlight" type="MeshInstance3D" parent="." unique_id=2119778599]
+visible = false
+material_override = SubResource("StandardMaterial3D_3w11v")
+mesh = SubResource("SphereMesh_pi256")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
