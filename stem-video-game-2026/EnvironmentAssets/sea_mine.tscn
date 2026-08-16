@@ -1,6 +1,11 @@
 [gd_scene format=4 uid="uid://d01vpl2tfbhcr"]
 
 [ext_resource type="Script" uid="uid://dm0ukh6ah7cqt" path="res://Scripts/sea_mine.gd" id="1_tgf4h"]
+[ext_resource type="AudioStream" uid="uid://c8fmpb334s0lo" path="res://Audio/SeaMinealarm.mp3" id="2_nxur8"]
+[ext_resource type="AudioStream" uid="uid://cpp2yiw2a1dyb" path="res://Audio/UnderwaterExplosion.mp3" id="3_vxc8p"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_wwm4t"]
+radius = 3.115
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bdprv"]
 resource_name = "BlackTriggers"
@@ -73,6 +78,16 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_aaj7m")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tgf4h"]
+albedo_color = Color(0.41568628, 0, 0, 1)
+emission_enabled = true
+emission = Color(1, 0, 0, 1)
+emission_energy_multiplier = 3.0
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_tgf4h"]
+radius = 0.125
+height = 0.5
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_foc07"]
 resource_name = "ChainShiny"
@@ -190,104 +205,280 @@ shadow_mesh = SubResource("ArrayMesh_uypvo")
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_wwm4t"]
 points = PackedVector3Array(-0.9999709, 0.6491982, -2.0079587, 1.0000291, 0.6491982, -2.0079587, -0.9999709, 0.6491982, 1.9920413, -0.9999709, 2.6491985, -1.0083501, 1.0000291, 2.6491985, -1.0083501, 1.0000291, 0.6491982, 1.9920413, -0.9999709, 2.649003, 0.99164987, 1.0000291, 2.649003, 0.99164987)
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_wwm4t"]
-radius = 3.4947317
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_tgf4h"]
+height = 11.385101
+radius = 0.3227539
 
-[sub_resource type="Animation" id="Animation_tgf4h"]
-resource_name = "Hover"
-length = 2.0
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("TriggersBase:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5, 1, 1.5, 2),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 0,
-"values": [Vector3(0, 0, -0.016685348), Vector3(0, 0, -0.017453292), Vector3(0, 0, 0.0034557537), Vector3(0.019652408, 0, 0.0034557544), Vector3(-0.013439033, -1.1852373e-11, 0.0034557546)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Chain:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.5, 1, 1.5, 2),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 0,
-"values": [Vector3(0, 0, -0.016685348), Vector3(0, 0, -0.017453292), Vector3(0, 0, 0.0034557537), Vector3(0.019652408, 0, 0.0034557544), Vector3(-0.013439033, -1.1852373e-11, 0.0034557546)]
-}
+[sub_resource type="Gradient" id="Gradient_vxc8p"]
+offsets = PackedFloat32Array(0, 0.32593855, 0.57508534, 0.7559727)
+colors = PackedColorArray(0.827451, 0.15294118, 0, 1, 0.8392157, 0.4627451, 0.1764706, 1, 0.8392157, 0.7882353, 0.1764706, 1, 0.8392157, 1, 1, 1)
 
-[sub_resource type="Animation" id="Animation_wmm2o"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("TriggersBase:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, 0, -0.053668875)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Chain:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, 0, -0.053668875)]
-}
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ygw56"]
+gradient = SubResource("Gradient_vxc8p")
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_nxur8"]
-_data = {
-&"Hover": SubResource("Animation_tgf4h"),
-&"RESET": SubResource("Animation_wmm2o")
-}
+[sub_resource type="Gradient" id="Gradient_mccwf"]
+offsets = PackedFloat32Array(0, 0.32593855, 0.57508534, 0.7559727)
+colors = PackedColorArray(0.827451, 0.15294118, 0, 1, 0.8392157, 0.4627451, 0.1764706, 1, 0.8392157, 0.7882353, 0.1764706, 1, 0.8392157, 1, 1, 1)
 
-[node name="SeaMine" type="Node3D" unique_id=663580852]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_hofbu"]
+gradient = SubResource("Gradient_mccwf")
+
+[sub_resource type="Curve" id="Curve_nxur8"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.791411, 0.7621393), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_vxc8p"]
+curve = SubResource("Curve_nxur8")
+
+[sub_resource type="Curve" id="Curve_vxc8p"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.6042945, 0.8170302), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_ygw56"]
+curve = SubResource("Curve_vxc8p")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ygw56"]
+emission_shape = 1
+emission_sphere_radius = 3.0
+direction = Vector3(0, 0, 0)
+spread = 180.0
+initial_velocity_min = 12.0
+initial_velocity_max = 18.0
+gravity = Vector3(0, 4, 0)
+damping_max = 8.0
+scale_curve = SubResource("CurveTexture_ygw56")
+color_ramp = SubResource("GradientTexture1D_hofbu")
+color_initial_ramp = SubResource("GradientTexture1D_ygw56")
+emission_curve = SubResource("CurveTexture_vxc8p")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nxur8"]
+shading_mode = 0
+vertex_color_use_as_albedo = true
+
+[sub_resource type="SphereMesh" id="SphereMesh_mccwf"]
+material = SubResource("StandardMaterial3D_nxur8")
+radius = 0.25
+height = 0.5
+
+[sub_resource type="Gradient" id="Gradient_nxur8"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_vxc8p"]
+gradient = SubResource("Gradient_nxur8")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_nxur8"]
+particle_flag_rotate_y = true
+emission_shape = 1
+emission_sphere_radius = 3.0
+angle_min = 1.0728835e-05
+angle_max = 360.00003
+direction = Vector3(0, 0, 0)
+spread = 180.0
+initial_velocity_min = 8.0
+initial_velocity_max = 15.0
+angular_velocity_min = -720.0
+angular_velocity_max = 719.99994
+gravity = Vector3(0, -5, 0)
+damping_max = 5.0
+scale_curve = SubResource("CurveTexture_ygw56")
+color_ramp = SubResource("GradientTexture1D_vxc8p")
+color_initial_ramp = SubResource("GradientTexture1D_vxc8p")
+emission_curve = SubResource("CurveTexture_vxc8p")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vxc8p"]
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.08627451, 0, 0, 1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_nxur8"]
+material = SubResource("StandardMaterial3D_vxc8p")
+size = Vector3(0.5, 0.5, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ygw56"]
+vertex_color_use_as_albedo = true
+
+[sub_resource type="SphereMesh" id="SphereMesh_vxc8p"]
+material = SubResource("StandardMaterial3D_ygw56")
+radius = 0.25
+height = 0.5
+
+[sub_resource type="Curve" id="Curve_ygw56"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.76073617, 0.6706544), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_mccwf"]
+curve = SubResource("Curve_ygw56")
+
+[sub_resource type="Curve" id="Curve_hofbu"]
+_data = [Vector2(0, 0.2), 0.0, 0.0, 0, 0, Vector2(0.22085889, 1), -4.282432, -4.282432, 0, 0, Vector2(0.5276073, 0.4998827), -1.5083443, -1.4063382, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_m3aex"]
+curve = SubResource("Curve_hofbu")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_vxc8p"]
+emission_shape = 6
+emission_ring_axis = Vector3(0, 1, 0)
+emission_ring_height = 0.0
+emission_ring_radius = 3.0
+emission_ring_inner_radius = 2.8
+emission_ring_cone_angle = 90.0
+direction = Vector3(0, 0, 0)
+spread = 180.0
+flatness = 1.0
+radial_velocity_min = 17.999977
+radial_velocity_max = 19.999977
+gravity = Vector3(0, 4, 0)
+damping_min = 15.000001
+damping_max = 20.0
+scale_curve = SubResource("CurveTexture_m3aex")
+alpha_curve = SubResource("CurveTexture_mccwf")
+anim_speed_min = 8.0
+anim_speed_max = 15.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mccwf"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_ygw56"]
+material = SubResource("StandardMaterial3D_mccwf")
+
+[node name="SeaMine" type="RigidBody3D" unique_id=1476742781 groups=["seamine"]]
+disable_mode = 2
+collision_layer = 4
+collision_mask = 0
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+gravity_scale = 0.0
+freeze = true
+contact_monitor = true
+max_contacts_reported = 4
+linear_damp = 10.0
 script = ExtResource("1_tgf4h")
 
+[node name="Detonation" type="Area3D" parent="." unique_id=1092908150]
+
+[node name="BoomBallCollision" type="CollisionShape3D" parent="Detonation" unique_id=854473278]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17.531649, 0)
+shape = SubResource("SphereShape3D_wwm4t")
+
 [node name="TriggersBase" type="MeshInstance3D" parent="." unique_id=1858333703]
-transform = Transform3D(0.9985602, 0.053643115, 0, -0.053643115, 0.9985602, 0, 0, 0, 1, 0, 0, 0)
+transform = Transform3D(0.9998608, 0.016684573, 0, -0.016684573, 0.9998608, 0, 0, 0, 1, 0, 0, 0)
+visibility_range_fade_mode = 1
 mesh = SubResource("ArrayMesh_omdfi")
 skeleton = NodePath("")
 
+[node name="Alarm" type="MeshInstance3D" parent="TriggersBase" unique_id=1990575826]
+transform = Transform3D(0.99997354, -0.0009763185, 0.007243098, 0.0008644331, 0.99988115, 0.01543509, -0.0072572893, -0.015428426, 0.99985445, 0.06069258, 17.56258, 0.06909084)
+material_override = SubResource("StandardMaterial3D_tgf4h")
+mesh = SubResource("CapsuleMesh_tgf4h")
+skeleton = NodePath("../..")
+
+[node name="Alarm2" type="MeshInstance3D" parent="TriggersBase/Alarm" unique_id=1900593916]
+transform = Transform3D(1, -6.009941e-09, 0, 2.9831426e-09, 1.0000001, -1.8626451e-09, -1.3969839e-09, -1.8626451e-09, 1.0000001, 0.022686526, 0.048229218, -3.1255693)
+material_override = SubResource("StandardMaterial3D_tgf4h")
+mesh = SubResource("CapsuleMesh_tgf4h")
+skeleton = NodePath("../../..")
+
+[node name="Alarm3" type="MeshInstance3D" parent="TriggersBase/Alarm" unique_id=1208924044]
+transform = Transform3D(1, -7.872586e-09, 4.656613e-10, 4.8603397e-09, 1.0000001, -3.7252903e-09, -2.3283064e-09, -2.7939677e-09, 1.0000001, 2.9646902, -0.00806427, 0.021394223)
+material_override = SubResource("StandardMaterial3D_tgf4h")
+mesh = SubResource("CapsuleMesh_tgf4h")
+skeleton = NodePath("../../..")
+
+[node name="Alarm4" type="MeshInstance3D" parent="TriggersBase/Alarm" unique_id=1089912229]
+transform = Transform3D(1, -9.720679e-09, 9.313226e-10, 4.8676156e-09, 1.0000002, -4.656613e-09, -2.7939677e-09, -2.7939677e-09, 1.0000001, -3.110539, -0.019184113, -0.02287352)
+material_override = SubResource("StandardMaterial3D_tgf4h")
+mesh = SubResource("CapsuleMesh_tgf4h")
+skeleton = NodePath("../../..")
+
+[node name="Alarm5" type="MeshInstance3D" parent="TriggersBase/Alarm" unique_id=855614711]
+transform = Transform3D(1, -4.154572e-09, 1.3969839e-09, -2.6047928e-09, 1.0000002, -1.8626451e-09, -1.3969839e-09, 9.313226e-10, 1.0000001, -0.021562316, -0.045833588, 2.9707425)
+material_override = SubResource("StandardMaterial3D_tgf4h")
+mesh = SubResource("CapsuleMesh_tgf4h")
+skeleton = NodePath("../../..")
+
 [node name="Chain" type="MeshInstance3D" parent="." unique_id=1427788200]
-transform = Transform3D(0.9985602, 0.053643115, 0, -0.053643115, 0.9985602, 0, 0, 0, 1, 0, 0, 0)
+transform = Transform3D(0.9998608, 0.016684573, 0, -0.016684573, 0.9998608, 0, 0, 0, 1, 0, 0, 0)
+visibility_range_fade_mode = 1
 mesh = SubResource("ArrayMesh_flaj1")
 skeleton = NodePath("")
 
 [node name="ChainSample" type="MeshInstance3D" parent="." unique_id=2130435419]
 transform = Transform3D(7.9985924e-08, 0.22365683, 3.6438326e-08, 0.22365683, -7.998592e-08, -3.6438337e-08, -3.6438326e-08, 3.6438337e-08, -0.22365683, 0.0028518438, 2.922411, 0.019544378)
+visibility_range_fade_mode = 1
 mesh = SubResource("ArrayMesh_vn1cy")
 skeleton = NodePath("")
 
 [node name="Weight" type="MeshInstance3D" parent="." unique_id=1157060025]
+visibility_range_fade_mode = 1
 mesh = SubResource("ArrayMesh_0g4f7")
 skeleton = NodePath("")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Weight" unique_id=1896896504]
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=327860123]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Weight/StaticBody3D" unique_id=268928507]
+[node name="Weight" type="CollisionShape3D" parent="StaticBody3D" unique_id=268928507]
 shape = SubResource("ConvexPolygonShape3D_wwm4t")
 
-[node name="StaticBody3D" type="RigidBody3D" parent="." unique_id=2070360487]
+[node name="Weight2" type="CollisionShape3D" parent="StaticBody3D" unique_id=742670783]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14761877, 8.2978735, 0)
+shape = SubResource("CylinderShape3D_tgf4h")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=854473278]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17.531649, 0)
-shape = SubResource("SphereShape3D_wwm4t")
+[node name="AlarmSFX" type="AudioStreamPlayer3D" parent="." unique_id=63045965]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17, 0)
+stream = ExtResource("2_nxur8")
+volume_db = -15.0
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2123307736]
-libraries/ = SubResource("AnimationLibrary_nxur8")
-autoplay = &"Hover"
+[node name="ExplosionSFX" type="AudioStreamPlayer" parent="." unique_id=1571095404]
+stream = ExtResource("3_vxc8p")
+volume_db = 18.0
+pitch_scale = 2.0
+
+[node name="FlashParticles" type="GPUParticles3D" parent="." unique_id=1757845721]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17.573198, 0)
+emitting = false
+amount = 30
+lifetime = 3.0
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_ygw56")
+draw_pass_1 = SubResource("SphereMesh_mccwf")
+
+[node name="DebrisParticles" type="GPUParticles3D" parent="." unique_id=1834141744]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17.573198, 0)
+emitting = false
+amount = 20
+lifetime = 3.0
+one_shot = true
+explosiveness = 1.0
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_nxur8")
+draw_pass_1 = SubResource("PrismMesh_nxur8")
+
+[node name="BubbleParticles" type="GPUParticles3D" parent="." unique_id=1464511118]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17.573198, 0)
+emitting = false
+amount = 30
+lifetime = 3.0
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_ygw56")
+draw_pass_1 = SubResource("SphereMesh_vxc8p")
+
+[node name="WhiteBubbleParticles" type="GPUParticles3D" parent="." unique_id=1321247205]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17.573198, 0)
+emitting = false
+amount = 100
+lifetime = 3.0
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_vxc8p")
+draw_pass_1 = SubResource("SphereMesh_ygw56")
+
+[node name="VisibleOnScreenEnabler3D" type="VisibleOnScreenEnabler3D" parent="." unique_id=505569350]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.149017, 0)
+aabb = AABB(-3.279503, -10.573257, -3.3127897, 6.559006, 21.146515, 6.6255794)
+
+[node name="Weight3" type="CollisionShape3D" parent="." unique_id=1195209063]
+shape = SubResource("ConvexPolygonShape3D_wwm4t")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_entered" from="Detonation" to="." method="_on_detonation_body_entered"]
