@@ -32,11 +32,20 @@ var flash_timer : float = 0.0
 @onready var debug_ui = $DebugUI
 @onready var first_person_camera = $FirstPersonCamera
 @onready var periscope_camera = $CameraMount/ThirdPersonCamera
+@onready var scan_light = $CameraMount/ThirdPersonCamera/ScanLight
+
 var periscope_active : bool = false
 var periscope_yaw : float = 0.0
 var periscope_pitch : float = 0.0
 
 @export var max_water_surface_y : float = -1.0
+@export var max_periscope_range : float = 500
+
+@export var mms_range : float = 100.0
+@export var mms_angle_degrees : float = 60.0
+
+@onready var status_label = $PeriscopeUI/GlassScreenThingy/PeriscopeUI/MMScanerstatus
+@onready var readout_label = $PeriscopeUI/GlassScreenThingy/PeriscopeUI/Readoutlabel
 
 @onready var periscope_ui = $PeriscopeUI
 @onready var cracked_glass = $PeriscopeUI/CrackedGlass
@@ -60,6 +69,7 @@ var periscope_pitch : float = 0.0
 @onready var go_up_bubble = $AudioSFX/GoUpBubble
 @onready var go_down_hiss = $AudioSFX/GoDownHiss
 @onready var steering_wheel_audio = $AudioSFX/SteeringWheel
+@onready var mms_scan = $AudioSFX/MMSScan
 
 var warning_played : bool = false
 var target_engine_pitch : float = 0.0
@@ -101,6 +111,8 @@ var is_critical: bool = false
 @export var sway_speed: float  = 4.0
 @onready var camera_mount = $CameraMount
 
+var can_scan : bool = true
+
 var rot_target := Vector3.ZERO
 
 var is_exhausted: bool = false
@@ -137,6 +149,7 @@ func _ready():
 		mat.albedo_texture = viewport_node.get_texture()
 		mat.uv1_scale = Vector3(-2.0, 2.0, 2.0) 
 		print("Texture successfully linked at runtime!")
+
 
 func _physics_process(delta):
 	if is_dead:
@@ -209,8 +222,7 @@ func _process(delta):
 	if marine_snow and marine_snow.process_material:
 		var target_speed = 2.0 if current_state==SubState.SPRINTING else 1.0
 		marine_snow.speed_scale = lerp(marine_snow.speed_scale,target_speed, 3 * delta)
-			
-	
+
 	update_dashboard_ui()
 	if Input.is_key_pressed(KEY_ESCAPE):
 		get_tree().quit()
@@ -402,9 +414,7 @@ func update_stamina(current_stamina: float, max_stamina: float, is_sprinting: bo
 	stamina_bar_bottom_ui.value = current_stamina
 
 func _on_body_entered(body: Node) -> void:
-	
 	var impact_speed = speed_last_frame
-	
 	speed_last_frame = 0
 	
 	if impact_speed > damage_threshold:
@@ -419,7 +429,6 @@ func _on_body_entered(body: Node) -> void:
 			impact_audio.pitch_scale = randf_range(0.9,1.1)
 			impact_audio.play()
 			
-		
 		print("COLLISION DETECTED Hit body: ", body.name,"| Speed: ", impact_speed," | Damage: ", damage)
 		var shake_tween = create_tween()
 		var camera = $FirstPersonCamera
@@ -431,7 +440,13 @@ func _on_body_entered(body: Node) -> void:
 		shake_tween.tween_property(camera, "h_offset", 0.0, 0.05)
 		if current_health <= 0.0 and not is_dead:
 			trigger_submarine_destruction()
-		
+
+func take_damage(amount:float)-> void:
+	current_health -= amount
+	current_health = clamp(current_health,0.0,max_health)
+	if current_health <=0:
+		trigger_submarine_destruction()
+
 func update_hull_health(current_health: float, max_health: float) -> void:
 	if is_dead:
 		return
@@ -524,17 +539,108 @@ func toggle_periscope(enable: bool):
 
 	if periscope_active:
 		periscope_camera.current = true
+		set_process_unhandled_input(false)
 		$AnimationPlayer.play("periscope rise")
 		periscope_camera.fov = 35.0
 		glass_screen.visible = true
+		$PeriscopeUI/GlassScreenThingy/PeriscopeUI.visible = true
+		await $AnimationPlayer.animation_finished
+		set_process_unhandled_input(true)
 		if current_health <= 25:
 			cracked_glass.visible = true
 		else:
 			cracked_glass.visible = false
 	else:
+		$PeriscopeUI/GlassScreenThingy/PeriscopeUI.visible = false
+		set_process_unhandled_input(false)
 		$AnimationPlayer.play("periscope falls")
 		await $AnimationPlayer.animation_finished
 		$FirstPersonCamera.current = true
+		set_process_unhandled_input(true)
 		periscope_camera.fov = 75.0
 		glass_screen.visible = false
 		cracked_glass.visible = false
+
+func _input(event:InputEvent):
+	if event.is_action_pressed("mms_scan"):
+		if periscope_active == true:
+			fire_mms_scan()
+
+func fire_mms_scan():
+	if not can_scan:
+		print("MMS scane on cooldown")
+		return
+	mms_scan.play()
+	can_scan = false
+	scan_light.position = Vector3(0,0,-1.0)
+	scan_light.light_energy = 8.0
+	var tween = create_tween()
+	tween.set_parallel(true)
+	tween.tween_property(scan_light, "position:z", -25.0, 0.6).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tween.tween_property(scan_light, "light_energy", 0.0,0.6)
+	status_label.text = "[ MMS SCANNER - SCANNING... ]"
+	print("MMS scan fired")
+	
+	var relics_found :int = 0
+	var mines_found :int = 0
+	var sharks_found :int = 0
+	var forward_dir = -periscope_camera.global_transform.basis.z.normalized()
+	
+	var relic = get_tree().get_nodes_in_group("Relic")
+	#relics
+	for Relic in relic:
+		var to_target = (Relic.global_position - periscope_camera.global_position)
+		var dist = to_target.length()
+		var angle = rad_to_deg(forward_dir.angle_to(to_target.normalized()))
+		print("Found mine! Distance: ", dist, " Range Limit: ", mms_range, " Angle: ", angle, " Max Angle: ", mms_angle_degrees)
+		if dist <=mms_range and angle <= mms_angle_degrees:
+			relics_found += 1
+			if Relic.has_method("trigger_mms_scan"):
+				Relic.trigger_mms_scan()
+				
+	#mines
+	var mine = get_tree().get_nodes_in_group("seamine")
+	
+	for mines in mine:
+		var to_target = (mines.global_position - periscope_camera.global_position)
+		var dist = to_target.length()
+		var angle = rad_to_deg(forward_dir.angle_to(to_target.normalized()))
+		if dist <=mms_range and angle <= mms_angle_degrees:
+			mines_found += 1
+			
+	#sharks
+	var shark = get_tree().get_nodes_in_group("shark")
+	
+	for sharks in shark:
+		var to_target = (sharks.global_position - periscope_camera.global_position)
+		var dist = to_target.length()
+		var angle = rad_to_deg(forward_dir.angle_to(to_target.normalized()))
+		if dist <=mms_range and angle <= mms_angle_degrees:
+			sharks_found += 1
+	update_readout_note(relics_found,mines_found,sharks_found)
+	
+	await get_tree().create_timer(3.0).timeout
+	status_label.text = "[ MMS SCANNER - READY ]"
+	can_scan = true
+
+func update_readout_note(relics : int, mines : int, sharks : int):
+	var text_out = "=== SCAN RESULTS ===\n"
+	if relics > 0:
+		text_out += "[ ! ] RELICS IN PROX. : " + str(relics) + "\n"
+	else:
+		text_out += "[ ] RELICS: NONE\n"
+	
+	if mines > 0:
+		text_out += "[ WARNING ] MINES IN RANGE : " +str(mines) + "\n"
+	if sharks > 0:
+		text_out += "[ DANGER ] HOSTILE BIOMASS : " + str(sharks) + "\n"
+	
+	readout_label.text = text_out
+
+func apply_camera_shake(shake_intensity:float):
+		var shake_tween = create_tween()
+		var camera = $FirstPersonCamera
+
+		shake_tween.tween_property(camera, "h_offset", shake_intensity, 0.05)
+		shake_tween.tween_property(camera, "h_offset", -shake_intensity, 0.05)
+		shake_tween.tween_property(camera, "h_offset", 0.0, 0.05)

@@ -9,7 +9,9 @@
 [ext_resource type="PackedScene" uid="uid://c8hw1jo4fheqh" path="res://Player(Submarine)/UIScreens/center_ui.tscn" id="5_edi88"]
 [ext_resource type="PackedScene" uid="uid://bo8i5yrm1r2t" path="res://Player(Submarine)/UIScreens/bottom_ui.tscn" id="7_lctq1"]
 [ext_resource type="Texture2D" uid="uid://dlr8ox4fki7qb" path="res://Player(Submarine)/UIScreens/PeriscopePOV.png" id="9_7a4nt"]
+[ext_resource type="Script" uid="uid://b3yovp4upvmmi" path="res://Player(Submarine)/periscope_ui.gd" id="9_7n2uo"]
 [ext_resource type="Texture2D" uid="uid://27w265sgnmhw" path="res://Player(Submarine)/UIScreens/CrackedGlass.png" id="9_htine"]
+[ext_resource type="FontFile" uid="uid://dpums2cf8f1mt" path="res://Fonts/Futureworld-ZGwJ.ttf" id="11_o6sp8"]
 [ext_resource type="AudioStream" uid="uid://gdb618sj15xm" path="res://Audio/EngineHumSFX.mp3" id="11_ws6qs"]
 [ext_resource type="AudioStream" uid="uid://dw4g41aijlvis" path="res://Audio/ImpactThudSFX.mp3" id="12_u6t6h"]
 [ext_resource type="AudioStream" uid="uid://dd7elc2yses5x" path="res://Audio/PeriscopeRise.mp3" id="13_g0hil"]
@@ -24,6 +26,7 @@
 [ext_resource type="AudioStream" uid="uid://1k4ijjsb1dfc" path="res://Audio/GoingDownHissSFX.mp3" id="22_h384w"]
 [ext_resource type="AudioStream" uid="uid://pbmib6oda525" path="res://Audio/SteeringWheelTurn.mp3" id="23_h384w"]
 [ext_resource type="AudioStream" uid="uid://j18hpu5u16t" path="res://Audio/LightSwitch.mp3" id="24_c1fx2"]
+[ext_resource type="AudioStream" uid="uid://bvojacjgiswl0" path="res://Audio/MMSsonarScan.mp3" id="27_nbjrr"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ac5wi"]
 bounce = 0.01
@@ -627,16 +630,17 @@ scale_max = 0.08
 turbulence_enabled = true
 turbulence_noise_strength = 0.2
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h384w"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7n2uo"]
 transparency = 1
 shading_mode = 0
 albedo_color = Color(0.68235296, 0.85490197, 0.9019608, 0.47058824)
 
 [sub_resource type="QuadMesh" id="QuadMesh_h384w"]
-material = SubResource("StandardMaterial3D_h384w")
+material = SubResource("StandardMaterial3D_7n2uo")
 
-[node name="Submarine" type="RigidBody3D" unique_id=2124491561]
-collision_layer = 3
+[node name="Submarine" type="RigidBody3D" unique_id=2124491561 groups=["player"]]
+collision_layer = 7
+collision_mask = 5
 axis_lock_angular_z = true
 physics_material_override = SubResource("PhysicsMaterial_ac5wi")
 gravity_scale = 0.0
@@ -656,11 +660,11 @@ mouse_sensitivity = 0.01
 [node name="Lights" type="SpotLight3D" parent="." unique_id=1844827581]
 transform = Transform3D(1, 0, 0, 0, 0.9823363, -0.18712415, 0, 0.18712415, 0.9823363, 0, -1.0188202, -2.5095205)
 light_color = Color(1, 0.95686275, 0.8784314, 1)
-light_energy = 50.0
+light_energy = 80.0
+light_indirect_energy = 10.0
 light_volumetric_fog_energy = 5.0
 shadow_enabled = true
-spot_range = 50.0
-spot_angle = 20.0
+spot_range = 80.0
 
 [node name="Area3D" type="Area3D" parent="Lights" unique_id=650941520]
 
@@ -707,6 +711,11 @@ transform = Transform3D(1, 0, 0, 0, 0.9942074, -0.10747881, 0, 0.10747881, 0.994
 
 [node name="ThirdPersonCamera" type="Camera3D" parent="CameraMount" unique_id=1126493837]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15.600738, -1.6929967)
+
+[node name="ScanLight" type="OmniLight3D" parent="CameraMount/ThirdPersonCamera" unique_id=1949905007]
+light_color = Color(1, 1, 0.41568628, 1)
+light_volumetric_fog_energy = 4.0
+omni_range = 15.0
 
 [node name="DebugUI" type="CanvasLayer" parent="." unique_id=423904913]
 visible = false
@@ -803,6 +812,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.893127)
 material = SubResource("FogMaterial_lctq1")
 
 [node name="PeriscopeUI" type="CanvasLayer" parent="." unique_id=1082461743]
+layer = 10
+script = ExtResource("9_7n2uo")
 
 [node name="CrackedGlass" type="Sprite2D" parent="PeriscopeUI" unique_id=1300267125]
 visible = false
@@ -823,10 +834,64 @@ mesh = SubResource("SphereMesh_ac5wi")
 texture = SubResource("NoiseTexture2D_0stxb")
 
 [node name="MeshInstance2D2" type="MeshInstance2D" parent="PeriscopeUI/GlassScreenThingy" unique_id=1524721017]
+visible = false
 position = Vector2(580.00006, 332.99997)
 scale = Vector2(571.58636, 578.41016)
 mesh = SubResource("QuadMesh_htine")
 texture = SubResource("NoiseTexture2D_j6uxy")
+
+[node name="PeriscopeUI" type="Control" parent="PeriscopeUI/GlassScreenThingy" unique_id=636060590]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MMScanerstatus" type="Label" parent="PeriscopeUI/GlassScreenThingy/PeriscopeUI" unique_id=918395234]
+texture_filter = 1
+layout_mode = 0
+offset_left = 33.0
+offset_top = 23.0
+offset_right = 496.0
+offset_bottom = 65.0
+theme_override_colors/font_color = Color(0.38431373, 0.6784314, 0.2901961, 1)
+theme_override_colors/font_shadow_color = Color(0.14117648, 0.27058825, 0.09803922, 1)
+theme_override_colors/font_outline_color = Color(0.23921569, 0.43529412, 0.1764706, 1)
+theme_override_constants/outline_size = 8
+theme_override_constants/shadow_outline_size = 11
+theme_override_fonts/font = ExtResource("11_o6sp8")
+theme_override_font_sizes/font_size = 39
+text = "[ MMS SCANNER - READY ]"
+
+[node name="MMScanerRange" type="Label" parent="PeriscopeUI/GlassScreenThingy/PeriscopeUI" unique_id=1964056585]
+texture_filter = 1
+layout_mode = 0
+offset_left = 40.0
+offset_top = 89.0
+offset_right = 223.0
+offset_bottom = 116.0
+theme_override_colors/font_color = Color(0.38431373, 0.6784314, 0.2901961, 1)
+theme_override_colors/font_shadow_color = Color(0.14117648, 0.27058825, 0.09803922, 1)
+theme_override_colors/font_outline_color = Color(0.23921569, 0.43529412, 0.1764706, 1)
+theme_override_constants/outline_size = 8
+theme_override_constants/shadow_outline_size = 11
+theme_override_fonts/font = ExtResource("11_o6sp8")
+theme_override_font_sizes/font_size = 25
+text = "RANGE : 40-50m"
+
+[node name="Readoutlabel" type="Label" parent="PeriscopeUI/GlassScreenThingy/PeriscopeUI" unique_id=783871070]
+texture_filter = 1
+layout_mode = 0
+offset_left = 722.0
+offset_top = 39.0
+offset_right = 930.0
+offset_bottom = 71.0
+theme_override_colors/font_color = Color(0.38431373, 0.6784314, 0.2901961, 1)
+theme_override_colors/font_shadow_color = Color(0.14117648, 0.27058825, 0.09803922, 1)
+theme_override_colors/font_outline_color = Color(0.23921569, 0.43529412, 0.1764706, 1)
+theme_override_constants/outline_size = 8
+theme_override_constants/shadow_outline_size = 11
+theme_override_fonts/font = ExtResource("11_o6sp8")
+theme_override_font_sizes/font_size = 30
+text = "=== SCAN RESULTS ==="
 
 [node name="Ray" type="ShapeCast3D" parent="." unique_id=1752696383]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, -2.2172208)
@@ -866,6 +931,7 @@ stream = ExtResource("18_u6t6h")
 
 [node name="MetalCreaking" type="AudioStreamPlayer" parent="AudioSFX" unique_id=1845363311]
 stream = ExtResource("19_g0hil")
+volume_db = -15.0
 
 [node name="UnderWaterAmb" type="AudioStreamPlayer" parent="AudioSFX" unique_id=1010463506]
 stream = ExtResource("20_eq0fh")
@@ -886,6 +952,9 @@ stream = ExtResource("23_h384w")
 
 [node name="LightSwitch" type="AudioStreamPlayer" parent="AudioSFX" unique_id=1695213283]
 stream = ExtResource("24_c1fx2")
+
+[node name="MMSScan" type="AudioStreamPlayer" parent="AudioSFX" unique_id=1775876197]
+stream = ExtResource("27_nbjrr")
 
 [node name="MarineSnow" type="GPUParticles3D" parent="." unique_id=1662155914]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.3071251)
