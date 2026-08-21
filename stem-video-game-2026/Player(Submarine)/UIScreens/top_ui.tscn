@@ -37,18 +37,18 @@ texture = ExtResource("6_eyqk2")
 
 [node name="RingLabel" type="Label" parent="." unique_id=2069810883]
 layout_mode = 0
-offset_left = 437.0
-offset_top = 39.0
-offset_right = 625.0
-offset_bottom = 69.0
+offset_left = 434.0
+offset_top = 35.0
+offset_right = 615.0
+offset_bottom = 62.0
 theme_override_colors/font_color = Color(0.38536888, 0.6792036, 0.28955394, 1)
 theme_override_colors/font_shadow_color = Color(0.14064342, 0.2705326, 0.099116765, 1)
 theme_override_colors/font_outline_color = Color(0.23921569, 0.43529412, 0.1764706, 1)
 theme_override_constants/outline_size = 8
 theme_override_constants/shadow_outline_size = 11
 theme_override_fonts/font = ExtResource("1_rqunx")
-theme_override_font_sizes/font_size = 28
-text = "RELICS : 12/12"
+theme_override_font_sizes/font_size = 24
+text = "WARHEADS : 6/6"
 
 [node name="PercentageLabel" type="Label" parent="." unique_id=165711587]
 layout_mode = 0

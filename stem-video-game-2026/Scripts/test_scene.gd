@@ -8,7 +8,7 @@ const surface_depth = 3
 const zone_2_depth = 100.0
 const zone_3_depth = 200.0
 
-@warning_ignore("unused_parameter")
+
 func _process(delta):
 	if not submarine or not world_environment or not world_environment.environment:
 		return
@@ -30,13 +30,7 @@ func _process(delta):
 	elif depth >= zone_2_depth and depth < zone_3_depth:
 		var t = (depth-zone_2_depth) / (zone_3_depth - zone_2_depth)
 		if sunlight:
-			sunlight.light_energy = 0.0
+			sunlight.light_energy = 1
 		env.volumetric_fog_density = lerp(0.01,0.04,t)
 		env.volumetric_fog_albedo = lerp(Color("#0b2545"), Color("#020813"), t)
 		
-	else:
-		if sunlight:
-			sunlight.light_energy = 0.0
-			
-		env.volumetric_fog_density  = 0.9
-		env.volumetric_fog_albedo = Color("#020813")

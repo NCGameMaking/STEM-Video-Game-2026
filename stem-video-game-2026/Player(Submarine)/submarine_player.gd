@@ -46,6 +46,8 @@ var periscope_pitch : float = 0.0
 
 @onready var status_label = $PeriscopeUI/GlassScreenThingy/PeriscopeUI/MMScanerstatus
 @onready var readout_label = $PeriscopeUI/GlassScreenThingy/PeriscopeUI/Readoutlabel
+@export var objective_target : Node3D
+@onready var beacon_reader = $PeriscopeUI/GlassScreenThingy/PeriscopeUI/BeaconReader
 
 @onready var periscope_ui = $PeriscopeUI
 @onready var cracked_glass = $PeriscopeUI/CrackedGlass
@@ -581,22 +583,10 @@ func fire_mms_scan():
 	status_label.text = "[ MMS SCANNER - SCANNING... ]"
 	print("MMS scan fired")
 	
-	var relics_found :int = 0
 	var mines_found :int = 0
 	var sharks_found :int = 0
 	var forward_dir = -periscope_camera.global_transform.basis.z.normalized()
-	
-	var relic = get_tree().get_nodes_in_group("Relic")
-	#relics
-	for Relic in relic:
-		var to_target = (Relic.global_position - periscope_camera.global_position)
-		var dist = to_target.length()
-		var angle = rad_to_deg(forward_dir.angle_to(to_target.normalized()))
-		print("Found mine! Distance: ", dist, " Range Limit: ", mms_range, " Angle: ", angle, " Max Angle: ", mms_angle_degrees)
-		if dist <=mms_range and angle <= mms_angle_degrees:
-			relics_found += 1
-			if Relic.has_method("trigger_mms_scan"):
-				Relic.trigger_mms_scan()
+
 				
 	#mines
 	var mine = get_tree().get_nodes_in_group("seamine")
@@ -617,26 +607,59 @@ func fire_mms_scan():
 		var angle = rad_to_deg(forward_dir.angle_to(to_target.normalized()))
 		if dist <=mms_range and angle <= mms_angle_degrees:
 			sharks_found += 1
-	update_readout_note(relics_found,mines_found,sharks_found)
+	update_readout_note(mines_found,sharks_found)
 	
 	await get_tree().create_timer(3.0).timeout
 	status_label.text = "[ MMS SCANNER - READY ]"
 	can_scan = true
 
-func update_readout_note(relics : int, mines : int, sharks : int):
+func update_readout_note(mines : int, sharks : int):
 	var text_out = "=== SCAN RESULTS ===\n"
-	if relics > 0:
-		text_out += "[ ! ] RELICS IN PROX. : " + str(relics) + "\n"
-	else:
-		text_out += "[ ] RELICS: NONE\n"
-	
 	if mines > 0:
 		text_out += "[ WARNING ] MINES IN RANGE : " +str(mines) + "\n"
 	if sharks > 0:
 		text_out += "[ DANGER ] HOSTILE BIOMASS : " + str(sharks) + "\n"
+		
+	var beacon_info = get_beacon_readout(objective_target)
+	
 	
 	readout_label.text = text_out
-
+	beacon_reader.text = beacon_info
+	
+func get_beacon_readout(target_node:Node3D):
+	if not is_instance_valid(target_node):
+		return "\n[ BEACON ] NO SIGNAL DETECTED"
+	var dist = global_position.distance_to(target_node.global_position)
+	var strength_str: String=""
+	if dist > 1000:
+		strength_str = "VERY WEAK"
+	elif dist > 800:
+		strength_str = "WEAK"
+	elif dist > 500.0:
+		strength_str = "MODERATE"
+	else:
+		strength_str = "STRONG (NEARBY)"
+	
+	var forward = -global_transform.basis.z.normalized()
+	var to_target = (target_node.global_position - global_position).normalized()
+	var angle = rad_to_deg(forward.signed_angle_to(to_target, Vector3.UP))
+	
+	var dir_str:String = "AHEAD"
+	if angle > 30.0:
+		dir_str = "STARBOARD (RIGHT)"
+	if angle < -30.0:
+		dir_str = "PORT (LEFT)"
+	elif abs(angle) > 135.0:
+		dir_str = "BEHIND"
+	var y_difference = target_node.global_position.y - global_position.y
+	var vert_str : String = "LEVEL"
+	if y_difference < -15.0:
+		vert_str = "BELOW"
+	elif y_difference > 15.0:
+		vert_str = "ABOVE"
+	return "\n[ BEACON ] SIGNAL : %s | DIRECTION : %s | DEPTH: %s" %[strength_str,dir_str,vert_str]
+	
+	
 func apply_camera_shake(shake_intensity:float):
 		var shake_tween = create_tween()
 		var camera = $FirstPersonCamera

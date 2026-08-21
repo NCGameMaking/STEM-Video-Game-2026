@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://ceohesj4hi6xp" path="res://Player(Submarine)/submarine_player.gd" id="1_ejc7h"]
 [ext_resource type="Script" uid="uid://cnmkbpx38shwi" path="res://Player(Submarine)/debug_ui.gd" id="2_ejc7h"]
+[ext_resource type="Texture2D" uid="uid://dvd8gamaptqxb" path="res://EnvironmentAssets/cookie_14.jpg" id="2_endln"]
+[ext_resource type="Script" uid="uid://bo10kssh0xein" path="res://Player(Submarine)/radio_manager.gd" id="2_etqif"]
 [ext_resource type="PackedScene" uid="uid://bcpmyuccquhjq" path="res://Player(Submarine)/submarine_model.tscn" id="2_ic8dy"]
 [ext_resource type="Shader" uid="uid://25i02nqt7pkw" path="res://Shaders/bubbles.gdshader" id="3_7r4gt"]
 [ext_resource type="Script" uid="uid://c8egmnglriphu" path="res://Player(Submarine)/steering_wheel.gd" id="3_63aei"]
@@ -495,6 +497,27 @@ scale_curve = SubResource("CurveTexture_ic8dy")
 [sub_resource type="FogMaterial" id="FogMaterial_lctq1"]
 density = -100.0
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_etqif"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.12156863, 0.12156863, 0.12156863, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_blend = true
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+corner_detail = 12
+expand_margin_left = 7.0
+expand_margin_top = 7.0
+expand_margin_right = 7.0
+expand_margin_bottom = 7.0
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_htine"]
 albedo_color = Color(0, 0, 0, 0.84705883)
 
@@ -657,20 +680,37 @@ vertical_force = 25.0
 sprint_multiplier = 1.5
 mouse_sensitivity = 0.01
 
+[node name="RadioManager" type="Node3D" parent="." unique_id=988169829 node_paths=PackedStringArray("player_sub")]
+script = ExtResource("2_etqif")
+player_sub = NodePath("..")
+
 [node name="Lights" type="SpotLight3D" parent="." unique_id=1844827581]
 transform = Transform3D(1, 0, 0, 0, 0.9823363, -0.18712415, 0, 0.18712415, 0.9823363, 0, -1.0188202, -2.5095205)
-light_color = Color(1, 0.95686275, 0.8784314, 1)
-light_energy = 80.0
-light_indirect_energy = 10.0
-light_volumetric_fog_energy = 5.0
+light_energy = 15.0
+light_indirect_energy = 0.2
+light_volumetric_fog_energy = 8.0
+light_projector = ExtResource("2_endln")
 shadow_enabled = true
 spot_range = 80.0
+spot_attenuation = 0.3
+spot_angle = 30.0
 
 [node name="Area3D" type="Area3D" parent="Lights" unique_id=650941520]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Lights/Area3D" unique_id=288724770]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.13915539, 3.5335643, -25.031322)
 shape = SubResource("BoxShape3D_c1fx2")
+
+[node name="Lights2" type="SpotLight3D" parent="." unique_id=223579740]
+transform = Transform3D(1, 0, 0, 0, 0.9823363, -0.18712415, 0, 0.18712415, 0.9823363, 0, -1.0188202, -2.5095205)
+light_energy = 25.0
+light_indirect_energy = 0.2
+light_volumetric_fog_energy = 8.0
+light_projector = ExtResource("2_endln")
+shadow_enabled = true
+spot_range = 49.79378
+spot_attenuation = 0.3
+spot_angle = 6.916028
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=892476140]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.003753662, -0.10064888, -1.3223715)
@@ -811,8 +851,40 @@ render_target_update_mode = 4
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.893127)
 material = SubResource("FogMaterial_lctq1")
 
+[node name="RadioUI" type="CanvasLayer" parent="." unique_id=670632746]
+layer = 4
+
+[node name="BannerBackground" type="PanelContainer" parent="RadioUI" unique_id=1239555602]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -66.0
+offset_top = -16.0
+offset_right = 66.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_etqif")
+
+[node name="StatusLabel" type="Label" parent="RadioUI/BannerBackground" unique_id=1151712813]
+custom_minimum_size = Vector2(1000, 100)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38431373, 0.6784314, 0.2901961, 1)
+theme_override_colors/font_shadow_color = Color(0.23921569, 0.43529412, 0.1764706, 1)
+theme_override_colors/font_outline_color = Color(0.14117648, 0.27058825, 0.09803922, 1)
+theme_override_fonts/font = ExtResource("11_o6sp8")
+theme_override_font_sizes/font_size = 30
+text = "[ COMMS ]"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
 [node name="PeriscopeUI" type="CanvasLayer" parent="." unique_id=1082461743]
-layer = 10
+layer = 3
 script = ExtResource("9_7n2uo")
 
 [node name="CrackedGlass" type="Sprite2D" parent="PeriscopeUI" unique_id=1300267125]
@@ -875,15 +947,15 @@ theme_override_constants/outline_size = 8
 theme_override_constants/shadow_outline_size = 11
 theme_override_fonts/font = ExtResource("11_o6sp8")
 theme_override_font_sizes/font_size = 25
-text = "RANGE : 40-50m"
+text = "RANGE : 80-100m"
 
 [node name="Readoutlabel" type="Label" parent="PeriscopeUI/GlassScreenThingy/PeriscopeUI" unique_id=783871070]
 texture_filter = 1
 layout_mode = 0
-offset_left = 722.0
-offset_top = 39.0
-offset_right = 930.0
-offset_bottom = 71.0
+offset_left = 33.0
+offset_top = 546.0
+offset_right = 356.0
+offset_bottom = 578.0
 theme_override_colors/font_color = Color(0.38431373, 0.6784314, 0.2901961, 1)
 theme_override_colors/font_shadow_color = Color(0.14117648, 0.27058825, 0.09803922, 1)
 theme_override_colors/font_outline_color = Color(0.23921569, 0.43529412, 0.1764706, 1)
@@ -893,9 +965,30 @@ theme_override_fonts/font = ExtResource("11_o6sp8")
 theme_override_font_sizes/font_size = 30
 text = "=== SCAN RESULTS ==="
 
+[node name="BeaconReader" type="Label" parent="PeriscopeUI/GlassScreenThingy/PeriscopeUI" unique_id=2052298326]
+texture_filter = 1
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 0
+offset_left = 784.0
+offset_top = 81.0
+offset_right = 1126.0
+offset_bottom = 148.0
+theme_override_colors/font_color = Color(0.38431373, 0.6784314, 0.2901961, 1)
+theme_override_colors/font_shadow_color = Color(0.14117648, 0.27058825, 0.09803922, 1)
+theme_override_colors/font_outline_color = Color(0.23921569, 0.43529412, 0.1764706, 1)
+theme_override_constants/outline_size = 8
+theme_override_constants/shadow_outline_size = 11
+theme_override_fonts/font = ExtResource("11_o6sp8")
+theme_override_font_sizes/font_size = 30
+text = "=== BEACON RESULT ==="
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
 [node name="Ray" type="ShapeCast3D" parent="." unique_id=1752696383]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, -2.2172208)
 shape = SubResource("SphereShape3D_htine")
+collision_mask = 5
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1835465305]
 libraries/ = SubResource("AnimationLibrary_0stxb")
@@ -963,3 +1056,11 @@ lifetime = 6.0
 randomness = 0.5
 process_material = SubResource("ParticleProcessMaterial_h384w")
 draw_pass_1 = SubResource("QuadMesh_h384w")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=523341131]
+light_color = Color(0.70980394, 0.88235295, 1, 1)
+light_energy = 3.0
+omni_range = 20.0
+
+[node name="PauseMenu" type="CanvasLayer" parent="." unique_id=1956778782]
+layer = 5
