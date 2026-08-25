@@ -3,6 +3,7 @@
 [ext_resource type="Shader" uid="uid://bmaj7wosgwa1l" path="res://Player(Submarine)/UIScreens/top_uiFlicker.gdshader" id="1_phrh4"]
 [ext_resource type="FontFile" uid="uid://dpums2cf8f1mt" path="res://Fonts/Futureworld-ZGwJ.ttf" id="1_rqunx"]
 [ext_resource type="Texture2D" uid="uid://ccqtmjkwupaoe" path="res://Player(Submarine)/UIScreens/HealthBarSingleEmpty.png" id="2_srtwg"]
+[ext_resource type="Script" uid="uid://1hi0vjdnhyyp" path="res://Player(Submarine)/UIScreens/ScrollingHints.gd" id="3_2cnjv"]
 [ext_resource type="Texture2D" uid="uid://cb0o4yq3c7o6" path="res://Player(Submarine)/UIScreens/SingleHealthBarUnder.png" id="3_phrh4"]
 [ext_resource type="Texture2D" uid="uid://cnd7b2mxt0dje" path="res://Player(Submarine)/UIScreens/HealthBarGreenFull.png" id="4_eyqk2"]
 [ext_resource type="Texture2D" uid="uid://cu3um2rdfd2l8" path="res://Player(Submarine)/UIScreens/HackingScreen.png" id="6_eyqk2"]
@@ -34,6 +35,26 @@ autoscroll = Vector2(0, -170)
 [node name="HackingScreen" type="Sprite2D" parent="Parallax2D" unique_id=1431533249]
 position = Vector2(407, 60)
 texture = ExtResource("6_eyqk2")
+
+[node name="Parallax2D2" type="Parallax2D" parent="." unique_id=1431469156]
+
+[node name="Panel" type="Panel" parent="Parallax2D2" unique_id=428408264]
+clip_contents = true
+offset_right = 865.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="Parallax2D2/Panel" unique_id=814811378]
+layout_mode = 0
+offset_left = 154.0
+offset_top = 5.0
+offset_right = 947.0
+offset_bottom = 28.0
+theme_override_colors/font_color = Color(0.38431373, 0.6784314, 0.2901961, 1)
+theme_override_colors/font_shadow_color = Color(0.14117648, 0.27058825, 0.09803922, 1)
+theme_override_colors/font_outline_color = Color(0.23921569, 0.43529412, 0.1764706, 1)
+theme_override_fonts/font = ExtResource("1_rqunx")
+text = "[ W / S ]  PITCH  |  [ A / D ]  STEER  |  [ SPACE / CTRL ]  BALLAST /  DIVE   | [ V ] TOGGLE PERISCOPE  |  [ X ] MMS SCAN  |"
+script = ExtResource("3_2cnjv")
 
 [node name="RingLabel" type="Label" parent="." unique_id=2069810883]
 layout_mode = 0

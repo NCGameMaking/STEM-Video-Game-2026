@@ -1,11 +1,13 @@
 extends CanvasLayer
 
 @onready var color_rect = $ColorRect
-@onready var start_button = $StartButton
-@onready var quit = $Quit
+@onready var start_button = $VBoxContainer/StartButton
+@onready var quit = $VBoxContainer/Quit
 
 @onready var brief_label = $BriefLabel
 @onready var accept_button = $AcceptButton
+@onready var help_button = $VBoxContainer/HelpButton
+@onready var help_panel = $HelpPanel
 
 var briefing_text = "OPERATION: ABYSSAL RECOVERY\n\nContact lost with Transport Sub-01. (333m below)\nSix active warheads remain in the wreckage.\nDescend into the trench. Recover the payloads.\n\nBeware of structural collapses."
 
@@ -13,7 +15,7 @@ var debriefing_text = "MISSION ACCOMPLISHED\n\n5 warheads salvaged successfully 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-
+	help_panel.visible = false
 	accept_button.visible = false
 	brief_label.visible = false
 	start_button.visible = true
@@ -71,3 +73,9 @@ func reveal_menu_return_button():
 	accept_button.text = " [   R E T U R N   T O   M A I N   M E N U   ]"
 	var abtn_tween = create_tween()
 	abtn_tween.tween_property(accept_button,"modulate:a",1.0,2.0)
+
+func _on_help_button_mouse_entered():
+	help_panel.visible = true
+
+func _on_help_button_mouse_exited():
+	help_panel.visible = false
