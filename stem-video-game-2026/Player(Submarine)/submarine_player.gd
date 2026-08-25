@@ -38,11 +38,16 @@ var periscope_active : bool = false
 var periscope_yaw : float = 0.0
 var periscope_pitch : float = 0.0
 
+var warheads_collected : int = 0
+const total_warheads : int = 6
 @export var max_water_surface_y : float = -1.0
 @export var max_periscope_range : float = 500
 
-@export var mms_range : float = 100.0
+@export var mms_range : float = 200.0
 @export var mms_angle_degrees : float = 60.0
+
+var is_deploying : bool = true
+var is_evacuating : bool = false
 
 @onready var status_label = $PeriscopeUI/GlassScreenThingy/PeriscopeUI/MMScanerstatus
 @onready var readout_label = $PeriscopeUI/GlassScreenThingy/PeriscopeUI/Readoutlabel
@@ -113,6 +118,11 @@ var is_critical: bool = false
 @export var sway_speed: float  = 4.0
 @onready var camera_mount = $CameraMount
 
+@onready var pause_menu = $PauseMenu
+@onready var resume_button = $PauseMenu/ColorRect/VBoxContainer/ResumeButton
+@onready var quit_button = $PauseMenu/ColorRect/VBoxContainer/QuitButton
+@onready var pause_label = $PauseMenu/ColorRect/PauseLabel
+
 var can_scan : bool = true
 
 var rot_target := Vector3.ZERO
@@ -123,9 +133,9 @@ var mouse_input : float = 0.0
 var is_first_person: bool = false
 var fp_camera_base_pos : Vector3 = Vector3.ZERO
 var mouse_input_x: float = 0.0
+var current_speed = linear_velocity.length()
 
 func _ready():
-	
 	if engine_hum and engine_hum.stream:
 		engine_hum.play()
 	if under_water_amb and under_water_amb.stream:
@@ -226,8 +236,6 @@ func _process(delta):
 		marine_snow.speed_scale = lerp(marine_snow.speed_scale,target_speed, 3 * delta)
 
 	update_dashboard_ui()
-	if Input.is_key_pressed(KEY_ESCAPE):
-		get_tree().quit()
 
 func _unhandled_input(event: InputEvent):
 	if event.is_action_pressed("Toggle_light"):
@@ -322,7 +330,6 @@ func _integrate_forces(state):
 		
 	if state.transform.origin.y > max_water_surface_y:
 		state.transform.origin.y = max_water_surface_y
-		
 		if state.linear_velocity.y > 0:
 			state.linear_velocity.y = 0.0
 	
@@ -394,6 +401,7 @@ func update_dashboard_ui() -> void:
 	
 	top_ui.get_node("PercentageLabel").text = str( "%.0f" % current_health) + "%"
 	
+	top_ui.get_node("RingLabel").text ="WARHEADS : " +str(warheads_collected)+ " / " + str(total_warheads)
 func update_heading(heading_degress: float)-> void:
 	var degrees = posmod(int(360-heading_degress), 360)
 	var index = int(posmod(degrees + 22.5, 360) / 45.0)
@@ -527,9 +535,8 @@ func trigger_submarine_destruction():
 	fade_tween.tween_property(center_ui.get_node("ColorRect"), "modulate:a", 1.0, 1.8)
 	fade_tween.tween_property(top_ui.get_node("ColorRect"), "modulate:a", 1.0, 1.8)
 	fade_tween.tween_property(bottom_ui.get_node("ColorRect"), "modulate:a", 1.0, 1.8)
-		
-	await get_tree().create_timer(3).timeout
-	get_tree().reload_current_scene()
+	await get_tree().create_timer(1).timeout
+	pause_menu.trigger_death()
 
 func toggle_periscope(enable: bool):
 	periscope_active = enable
@@ -667,3 +674,8 @@ func apply_camera_shake(shake_intensity:float):
 		shake_tween.tween_property(camera, "h_offset", shake_intensity, 0.05)
 		shake_tween.tween_property(camera, "h_offset", -shake_intensity, 0.05)
 		shake_tween.tween_property(camera, "h_offset", 0.0, 0.05)
+
+func set_deploying(value:bool):
+	is_deploying = value
+func set_extraction(value:bool):
+	is_evacuating = value

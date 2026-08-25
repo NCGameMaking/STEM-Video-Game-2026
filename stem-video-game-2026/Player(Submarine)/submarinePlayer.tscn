@@ -29,6 +29,7 @@
 [ext_resource type="AudioStream" uid="uid://pbmib6oda525" path="res://Audio/SteeringWheelTurn.mp3" id="23_h384w"]
 [ext_resource type="AudioStream" uid="uid://j18hpu5u16t" path="res://Audio/LightSwitch.mp3" id="24_c1fx2"]
 [ext_resource type="AudioStream" uid="uid://bvojacjgiswl0" path="res://Audio/MMSsonarScan.mp3" id="27_nbjrr"]
+[ext_resource type="Script" uid="uid://4efwtklunp8s" path="res://Player(Submarine)/pause_menu.gd" id="30_71e3a"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ac5wi"]
 bounce = 0.01
@@ -653,13 +654,65 @@ scale_max = 0.08
 turbulence_enabled = true
 turbulence_noise_strength = 0.2
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7n2uo"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_71e3a"]
 transparency = 1
 shading_mode = 0
 albedo_color = Color(0.68235296, 0.85490197, 0.9019608, 0.47058824)
 
 [sub_resource type="QuadMesh" id="QuadMesh_h384w"]
-material = SubResource("StandardMaterial3D_7n2uo")
+material = SubResource("StandardMaterial3D_71e3a")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_71e3a"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.38431373, 0.6784314, 0.2901961, 1)
+border_width_left = 15
+border_width_bottom = 15
+border_color = Color(0.23921569, 0.43529412, 0.1764706, 1)
+border_blend = true
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+corner_detail = 5
+expand_margin_left = 15.0
+expand_margin_bottom = 15.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cbynr"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.23921569, 0.43529412, 0.1764706, 1)
+border_width_left = 15
+border_width_bottom = 15
+border_color = Color(0.23921569, 0.43529412, 0.1764706, 1)
+border_blend = true
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pmlob"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.38431373, 0.6784314, 0.2901961, 1)
+border_width_left = 15
+border_width_bottom = 15
+border_color = Color(0.23921569, 0.43529412, 0.1764706, 1)
+border_blend = true
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+corner_detail = 5
+expand_margin_left = 5.0
+expand_margin_bottom = 5.0
 
 [node name="Submarine" type="RigidBody3D" unique_id=2124491561 groups=["player"]]
 collision_layer = 7
@@ -868,6 +921,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_etqif")
 
 [node name="StatusLabel" type="Label" parent="RadioUI/BannerBackground" unique_id=1151712813]
@@ -878,7 +932,7 @@ theme_override_colors/font_shadow_color = Color(0.23921569, 0.43529412, 0.176470
 theme_override_colors/font_outline_color = Color(0.14117648, 0.27058825, 0.09803922, 1)
 theme_override_fonts/font = ExtResource("11_o6sp8")
 theme_override_font_sizes/font_size = 30
-text = "[ COMMS ]"
+text = "TRANSPORTING SUB. 1 TO RETRIEVAL SITE"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
@@ -1011,7 +1065,8 @@ stream = ExtResource("14_eq0fh")
 
 [node name="HullAlarm" type="AudioStreamPlayer" parent="AudioSFX" unique_id=1584354199]
 stream = ExtResource("15_8x1yf")
-volume_db = -10.0
+volume_db = -15.0
+pitch_scale = 3.0
 
 [node name="Death" type="AudioStreamPlayer" parent="AudioSFX" unique_id=847540247]
 stream = ExtResource("16_8ky85")
@@ -1063,4 +1118,80 @@ light_energy = 3.0
 omni_range = 20.0
 
 [node name="PauseMenu" type="CanvasLayer" parent="." unique_id=1956778782]
-layer = 5
+process_mode = 3
+layer = 20
+script = ExtResource("30_71e3a")
+
+[node name="ColorRect" type="ColorRect" parent="PauseMenu" unique_id=2055927857]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.5882353)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseMenu/ColorRect" unique_id=1962374986]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -6.0
+offset_right = 200.0
+offset_bottom = 134.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 80
+
+[node name="ResumeButton" type="Button" parent="PauseMenu/ColorRect/VBoxContainer" unique_id=1856332905]
+custom_minimum_size = Vector2(400, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("11_o6sp8")
+theme_override_font_sizes/font_size = 40
+theme_override_styles/normal = SubResource("StyleBoxFlat_71e3a")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_cbynr")
+theme_override_styles/hover = SubResource("StyleBoxFlat_pmlob")
+text = "RESUME"
+
+[node name="RestartButton" type="Button" parent="PauseMenu/ColorRect/VBoxContainer" unique_id=206561266]
+custom_minimum_size = Vector2(400, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("11_o6sp8")
+theme_override_font_sizes/font_size = 40
+theme_override_styles/normal = SubResource("StyleBoxFlat_71e3a")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_cbynr")
+theme_override_styles/hover = SubResource("StyleBoxFlat_pmlob")
+text = "RESTART"
+
+[node name="QuitButton" type="Button" parent="PauseMenu/ColorRect/VBoxContainer" unique_id=2007209387]
+custom_minimum_size = Vector2(400, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("11_o6sp8")
+theme_override_font_sizes/font_size = 40
+theme_override_styles/normal = SubResource("StyleBoxFlat_71e3a")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_cbynr")
+theme_override_styles/hover = SubResource("StyleBoxFlat_pmlob")
+text = "QUIT TO MENU"
+
+[node name="PauseLabel" type="Label" parent="PauseMenu/ColorRect" unique_id=863894812]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -320.0
+offset_top = 117.0
+offset_right = 320.0
+offset_bottom = 180.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("11_o6sp8")
+theme_override_font_sizes/font_size = 60
+text = "G A M E    P A U S E D"
+
+[connection signal="pressed" from="PauseMenu/ColorRect/VBoxContainer/ResumeButton" to="PauseMenu" method="_on_resume_button_pressed"]
+[connection signal="pressed" from="PauseMenu/ColorRect/VBoxContainer/RestartButton" to="PauseMenu" method="_on_restart_button_pressed"]
+[connection signal="pressed" from="PauseMenu/ColorRect/VBoxContainer/QuitButton" to="PauseMenu" method="_on_quit_button_pressed"]

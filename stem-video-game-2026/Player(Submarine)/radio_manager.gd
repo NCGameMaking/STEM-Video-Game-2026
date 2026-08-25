@@ -1,12 +1,12 @@
 extends Node3D
 class_name RadioHintManager
-@onready var objective_target = $"../../WaterShaderExamples/VisibilityRangeLodGroup/SubmarineReal"
+@onready var objective_target =$".."
 @onready var status_label = $"../RadioUI/BannerBackground/StatusLabel"
 @onready var banner_bg = $"../RadioUI/BannerBackground"
 @onready var warhead_tracker_label = $"../TopViewport/TopUI/RingLabel"
 
 @export var player_sub : Node3D
-@export var hint_cooldown : float = 60.0
+@export var hint_cooldown : float = 30.0
 
 var is_typing : bool = false
 var idle_timer : float = 0.0
@@ -15,25 +15,30 @@ var current_hint_index : int = 0
 var warheads_collected : int = 0
 var total_warheads : int = 6
 
-var hint_messages : Array[String] = [
-	"[ COMMS ] HQ : 'Sub 1, perform an MMS scan to locate the entrance to the lower trench.'",
-	"[ COMMS ] HQ : 'Radiation pings indicate the warhead is in the lower trench.'",
-	"[ COMMS ] HQ : 'Check your depth gauge. You need to descend into the lower canyon (300m)'"
-]
+var hints_locked:bool = true
 
+var hint_messages : Array[String] = [
+	"[ COMMS ] HQ : 'Approximate angle of trench entrance is 80-90૜° E. Stay cautious of sea mines.'",
+	"[ COMMS ] HQ : 'Press V to enter the periscope, Followed by X to launch an MMS scan.'",
+	"[ COMMS ] HQ : 'Radiation pings indicate the warhead is in the lower trench. Use the MMS scan to find the entrance to it.'",
+	"[ COMMS ] HQ : 'Check your depth gauge. You need to descend into the lower canyon (333m+)'",
+	"[ COMMS ] HQ : 'Depth Mapping shows that there are 3 tunnels leading to the submarine, only 1 is the safe passage'",
+	"[ COMMS ] HQ : 'When you have located the warheads, touch/hover near them to attach the buoy'"
+
+]
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	update_tracker_ui()
-	
-	var all_warheads = get_tree().get_nodes_in_group("warheads")
-	for warhead in all_warheads:
-		warhead.warhead_secured.connect(_on_warhead_secured)
-	
-	show_text_middle("[ MISSION : LOCATE AND RECOVER 6 WARHEADS ]",0.05)
+	pass
+func unlock_hints():
+	hints_locked = false
+	idle_timer = 0
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta :float):
+	if hints_locked:
+		return
+		
 	if not is_instance_valid(player_sub) or not is_instance_valid(objective_target):
 		return
 	var current_dist =player_sub.global_position.distance_to(objective_target.global_position)
@@ -68,15 +73,3 @@ func show_text_middle(full_text:String, speed:float = 0.03):
 	status_label.text = ""
 	banner_bg.visible = false
 	is_typing = false
-
-func _on_warhead_secured():
-	warheads_collected +=1
-	update_tracker_ui()
-	if warheads_collected < total_warheads:
-		var remaining = total_warheads - warheads_collected
-		var msg = "[ COMMS ] HQ : 'Warhead secured. %s remaining in the trench'" % remaining
-	hint_messages.clear()
-	idle_timer = -9999
-	show_text_middle("[ COMMS ] HQ : 'Target secured. Ascend to surface for immediate EVAC'")
-func update_tracker_ui():
-		warhead_tracker_label.text = "WARHEADS: %d / %d" % [warheads_collected, total_warheads]
