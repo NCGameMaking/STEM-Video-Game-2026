@@ -18,12 +18,12 @@ var total_warheads : int = 6
 var hints_locked:bool = true
 
 var hint_messages : Array[String] = [
-	"[ COMMS ] HQ : 'Approximate angle of trench entrance is 80-90૜° E. Stay cautious of sea mines.'",
-	"[ COMMS ] HQ : 'Press V to enter the periscope, Followed by X to launch an MMS scan.'",
-	"[ COMMS ] HQ : 'Radiation pings indicate the warhead is in the lower trench. Use the MMS scan to find the entrance to it.'",
-	"[ COMMS ] HQ : 'Check your depth gauge. You need to descend into the lower canyon (333m+)'",
-	"[ COMMS ] HQ : 'Depth Mapping shows that there are 3 tunnels leading to the submarine, only 1 is the safe passage'",
-	"[ COMMS ] HQ : 'When you have located the warheads, touch/hover near them to attach the buoy'"
+	"[ COMMS ] HQ : ' Approximate angle of trench entrance is 80-90૜° E. Stay cautious of sea mines.'",
+	"[ COMMS ] HQ : ' Press V to enter the periscope, Followed by X to launch an MMS scan.'",
+	"[ COMMS ] HQ : ' Radiation pings indicate the warhead is in the lower trench. Use the MMS scan to find the entrance to it.'",
+	"[ COMMS ] HQ : ' Check your depth gauge. You need to descend into the lower canyon (333m+)'",
+	"[ COMMS ] HQ : ' Depth Mapping shows that there are 3 tunnels leading to the submarine, only 1 is the safe passage'",
+	"[ COMMS ] HQ : ' When you have located the warheads, touch/hover near them to attach the buoy'"
 
 ]
 # Called when the node enters the scene tree for the first time.

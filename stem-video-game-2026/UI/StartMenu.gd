@@ -19,10 +19,12 @@ func _ready():
 	accept_button.visible = false
 	brief_label.visible = false
 	start_button.visible = true
+	help_button.visible = true
 	quit.visible = true
 	color_rect.modulate.a = 0.0
 	start_button.modulate.a = 1.0
 	quit.modulate.a = 1.0
+	help_button.modulate.a = 1.0
 	accept_button.modulate.a = 0.0
 	
 	if Global.show_debrief_on_menu:
@@ -38,6 +40,7 @@ func _on_start_button_pressed():
 	await btn_tween.finished
 	start_button.queue_free()
 	quit.queue_free()
+	help_button.queue_free()
 	brief_label.text = briefing_text
 	brief_label.visible_characters = 0
 	brief_label.visible = true
@@ -60,6 +63,7 @@ func _on_accept_button_pressed():
 func trigger_debrief_sequence():
 	start_button.visible = false
 	quit.visible = false
+	help_button.visible = false
 	color_rect.modulate.a = 1.0
 	brief_label.text = debriefing_text
 	brief_label.visible_characters = 0

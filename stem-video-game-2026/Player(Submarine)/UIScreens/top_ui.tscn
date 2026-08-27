@@ -53,7 +53,7 @@ theme_override_colors/font_color = Color(0.38431373, 0.6784314, 0.2901961, 1)
 theme_override_colors/font_shadow_color = Color(0.14117648, 0.27058825, 0.09803922, 1)
 theme_override_colors/font_outline_color = Color(0.23921569, 0.43529412, 0.1764706, 1)
 theme_override_fonts/font = ExtResource("1_rqunx")
-text = "[ W / S ]  PITCH  |  [ A / D ]  STEER  |  [ SPACE / CTRL ]  BALLAST /  DIVE   | [ V ] TOGGLE PERISCOPE  |  [ X ] MMS SCAN  |"
+text = "[ W / S ]  P I TCH  |  [ A / D ]  STEER  |  [ SPACE / CTRL ]  BALLAST /  D I VE   | [ V ] TOGGLE PERISCOPE  |  [ X ] MMS SCAN  |"
 script = ExtResource("3_2cnjv")
 
 [node name="RingLabel" type="Label" parent="." unique_id=2069810883]

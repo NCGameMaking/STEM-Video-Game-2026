@@ -56,7 +56,7 @@ func start_jammed_warhead_event(warhead_object : Node3D):
 	await radio_manager.show_text_middle("[ WARNING ] : PAYLOAD 6 : MECHANISM JAMMED]",0.05)
 	submarine.apply_camera_shake(.2)
 	rocks_falling.play()
-	await radio_manager.show_text_middle("[ COMMS ] HQ : 'Ceiling collapse imminent! RAM the warhead to force ignition!'",0.05)
+	await radio_manager.show_text_middle("[ COMMS ] HQ : ' Ceiling collapse imminent! RAM the warhead to force ignition!'",0.05)
 	waiting_for_ram = true
 
 func trigger_warhead_ignition(warhead_object : Node3D):
@@ -89,8 +89,8 @@ func trigger_warhead_ignition(warhead_object : Node3D):
 	submarine.apply_camera_shake(.3)
 	await get_tree().create_timer(1.0).timeout
 	color_rect.color = Color(0,0,0,0)
-	color_rect.modulate.a = 1
-	await radio_manager.show_text_middle("[ OBJECTIVE ] ESCAPE THOUGH THE BREACH!")
+	color_rect.modulate.a = 1.0
+	await radio_manager.show_text_middle("[ OBJECTIVE ] ESCAPE THROUGH THE BREACH!")
 
 func run_prologue():
 	var fade_in = create_tween()
@@ -121,11 +121,12 @@ func start_epilogue_extraction():
 	await get_tree().create_timer(2.0).timeout
 	await radio_manager.show_text_middle("[ TUGBOAT COMM ] : Warhead payload confirmed aboard. Great work, operator.", 0.05)
 	await get_tree().create_timer(4.0).timeout
+	color_rect.modulate.a = 1.0
+	color_rect.color = Color(0,0,0,0)
 	var fade_out = create_tween()
 	fade_out.tween_property(color_rect, "color:a",1,2)
 	color_rect.color = Color(0,0,0,1)
 	await get_tree().create_timer(1.5).timeout
-	await get_tree().create_timer(3).timeout
 	Global.show_debrief_on_menu = true
 	get_tree().change_scene_to_file("res://UI/cinematic_menu.tscn")
 	
