@@ -69,7 +69,7 @@ func show_text_middle(full_text:String, speed:float = 0.03):
 		var count = min(full_text.length()-start,step*2)
 		status_label.text = full_text.substr(start,count)
 		await get_tree().create_timer(speed).timeout
-	await get_tree().create_timer(3).timeout
+	await get_tree().create_timer(5).timeout
 	status_label.text = ""
 	banner_bg.visible = false
 	is_typing = false

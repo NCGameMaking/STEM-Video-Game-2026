@@ -44,4 +44,5 @@ func trigger_death():
 	rect_tween.tween_property(color_rect, "color:a",1,1)
 
 func _on_restart_button_pressed():
+	get_tree().paused = false
 	get_tree().reload_current_scene()

@@ -104,7 +104,6 @@ func run_prologue():
 	await get_tree().create_timer(6).timeout
 	await radio_manager.show_text_middle("[ TUGBOAT COMM ] : Deployment cable locked. Lowering into Trench...", 0.05)
 	submarine.set_deploying(false)
-	await radio_manager.show_text_middle("[ SYSTEM ] : Sub entering water. Atmospheric seal verified.", 0.05)
 	await radio_manager.show_text_middle("[ OBJECTIVE ] SECURE ALL 6 WARHEADS", 0.05)
 	radio_manager.unlock_hints()
 
@@ -123,6 +122,7 @@ func start_epilogue_extraction():
 	await get_tree().create_timer(4.0).timeout
 	color_rect.modulate.a = 1.0
 	color_rect.color = Color(0,0,0,0)
+	await animation_player.animation_finished
 	var fade_out = create_tween()
 	fade_out.tween_property(color_rect, "color:a",1,2)
 	color_rect.color = Color(0,0,0,1)

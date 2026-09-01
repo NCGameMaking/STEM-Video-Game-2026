@@ -97,21 +97,17 @@ var creak_timer : float = 0.0
 @onready var stamina_bar_bottom_ui = $BottomViewport/BottomUI/StaminaBar
 @onready var state_label_bottom_ui = $BottomViewport/BottomUI/StateLabel
 
-@onready var left_light_1 = $TopViewport/TopUI/LeftLight1
-@onready var left_light_2 = $TopViewport/TopUI/LeftLight2
 @onready var left_light_3 = $BottomViewport/BottomUI/LeftLight3
 @onready var left_light_4 = $BottomViewport/BottomUI/LeftLight4
 var is_critical: bool = false
 
-@onready var health_bar_top_ui = $TopViewport/TopUI/HullProgressBar
-@onready var hull_label_top_ui = $TopViewport/TopUI/HullLabel
-@onready var health_pct_label_top_ui = $TopViewport/TopUI/PercentageLabel
+@onready var health_bar_top_ui = $BottomViewport/BottomUI/HullProgressBar
+@onready var hull_label_top_ui = $BottomViewport/BottomUI/HullLabel
+@onready var health_pct_label_top_ui = $BottomViewport/BottomUI/PercentageLabel
 
 @onready var steering_wheel = $Submarine/SteeringWheel
 
 @onready var ray = $Ray
-
-@onready var top_screen = $Submarine/TopScreen
 @onready var top_viewport = $TopViewport
 
 @export var sway_amount: float  = 0.5
@@ -153,14 +149,6 @@ func _ready():
 	toggle_periscope(false)
 	fp_camera_base_pos = first_person_camera.position
 
-	var screen_mesh = $Submarine/TopScreen
-	var viewport_node = $TopViewport
-
-	var mat = screen_mesh.get_active_material(0)
-	if mat:
-		mat.albedo_texture = viewport_node.get_texture()
-		mat.uv1_scale = Vector3(-2.0, 2.0, 2.0) 
-		print("Texture successfully linked at runtime!")
 
 
 func _physics_process(delta):
@@ -203,13 +191,9 @@ func _process(delta):
 		
 		var flash_state = sin(flash_timer) > 0.0
 		
-		left_light_1.visible = flash_state
-		left_light_2.visible = flash_state
 		left_light_3.visible = flash_state
 		left_light_4.visible = flash_state
 	else:
-			left_light_1.visible = true
-			left_light_2.visible = true
 			left_light_3.visible = true
 			left_light_4.visible = true
 	var current_speed = linear_velocity.length()
@@ -399,9 +383,9 @@ func update_dashboard_ui() -> void:
 	
 	update_hull_health(current_health, max_health)
 	
-	top_ui.get_node("PercentageLabel").text = str( "%.0f" % current_health) + "%"
+	health_pct_label_top_ui.text = str( "%.0f" % current_health) + "%"
 	
-	top_ui.get_node("RingLabel").text ="WARHEADS : " +str(warheads_collected)+ " / " + str(total_warheads)
+	bottom_ui.get_node("RingLabel").text ="WARHEADS : " +str(warheads_collected)+ " / " + str(total_warheads)
 func update_heading(heading_degress: float)-> void:
 	var degrees = posmod(int(360-heading_degress), 360)
 	var index = int(posmod(degrees + 22.5, 360) / 45.0)
@@ -478,8 +462,6 @@ func update_hull_health(current_health: float, max_health: float) -> void:
 		hull_label_top_ui.text="HULL INTEGRITY: STABLE"
 		health_bar_top_ui.set_tint_progress(Color(1,1,1))
 		
-		left_light_1.modulate = (Color(0,1,0))
-		left_light_2.modulate = (Color(0,1,0))
 		left_light_3.modulate = (Color(0,1,0))
 		left_light_4.modulate = (Color(0,1,0))
 		
@@ -488,8 +470,6 @@ func update_hull_health(current_health: float, max_health: float) -> void:
 		hull_label_top_ui.text="HULL INTEGRITY: DAMAGED"
 		health_bar_top_ui.set_tint_progress(Color(1,.5,0))
 		
-		left_light_1.modulate = (Color(1,.5,0))
-		left_light_2.modulate = (Color(1,.5,0))
 		left_light_3.modulate = (Color(1,.5,0))
 		left_light_4.modulate = (Color(1,.5,0))
 	else:
@@ -497,8 +477,6 @@ func update_hull_health(current_health: float, max_health: float) -> void:
 		hull_label_top_ui.text="HULL INTEGRITY: CRITICAL"
 		health_bar_top_ui.set_tint_progress(Color(1,0,0))
 		
-		left_light_1.modulate = (Color(1,0,0))
-		left_light_2.modulate = (Color(1,0,0))
 		left_light_3.modulate = (Color(1,0,0))
 		left_light_4.modulate = (Color(1,0,0))
 
@@ -520,13 +498,11 @@ func trigger_submarine_destruction():
 
 	freeze = true
 
-	if has_node("TopViewport/TopUI/HullLabel"):
+	if has_node("BottomViewport/BottomUI/HullLabel"):
 		hull_label_top_ui.text = "ERROR : HULL BREACHED"
 	if has_node("BottomViewport/BottomUI/StateLabel"):
 		state_label_bottom_ui.text = "FAILURE : POWER LOST"
 	
-	left_light_1.visible = false
-	left_light_2.visible = false
 	left_light_3.visible = false
 	left_light_4.visible = false
 	

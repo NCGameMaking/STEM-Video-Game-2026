@@ -24,8 +24,9 @@ Global="*uid://guekhl6qcwt5"
 
 [display]
 
+window/size/mode=2
 window/size/extend_to_title=true
-window/stretch/mode="viewport"
+window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 window/vsync/vsync_mode=0
 

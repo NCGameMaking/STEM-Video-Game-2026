@@ -19,6 +19,7 @@ shader = ExtResource("1_phrh4")
 shader = ExtResource("1_phrh4")
 
 [node name="TopUI" type="Control" unique_id=148449744]
+texture_filter = 1
 material = SubResource("ShaderMaterial_eyqk2")
 layout_mode = 3
 anchors_preset = 15
@@ -75,8 +76,8 @@ text = "WARHEADS : 6/6"
 layout_mode = 0
 offset_left = 390.0
 offset_top = 56.0
-offset_right = 558.0
-offset_bottom = 89.0
+offset_right = 424.0
+offset_bottom = 72.0
 theme_override_colors/font_color = Color(0.38536888, 0.6792036, 0.28955394, 1)
 theme_override_colors/font_shadow_color = Color(0.14064342, 0.2705326, 0.099116765, 1)
 theme_override_colors/font_outline_color = Color(0.23921569, 0.43529412, 0.1764706, 1)
