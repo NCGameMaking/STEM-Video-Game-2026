@@ -4,6 +4,7 @@ class_name RadioHintManager
 @onready var status_label = $"../RadioUI/BannerBackground/StatusLabel"
 @onready var banner_bg = $"../RadioUI/BannerBackground"
 @onready var warhead_tracker_label = $"../TopViewport/TopUI/RingLabel"
+@onready var engine_hum = $"../AudioSFX/EngineHum"
 
 @export var player_sub : Node3D
 @export var hint_cooldown : float = 30.0
@@ -60,8 +61,13 @@ func show_text_middle(full_text:String, speed:float = 0.03):
 	if is_typing:
 		return
 	is_typing = true
+	$"../RadioUI/BorderFrame".visible = true
 	banner_bg.visible = true
+	play_radio_alert()
 	status_label.text=""
+	var flash_tween = create_tween().set_loops(4)
+	flash_tween.tween_property($"../RadioUI/BorderFrame","modulate",Color(1,0.8,0),0.2)
+	flash_tween.tween_property($"../RadioUI/BorderFrame","modulate",Color(0,0,0),0.2)
 	var mid = full_text.length()/2
 	var max_steps = max(mid,full_text.length() - mid) +1
 	for step in range(1,max_steps + 1):
@@ -70,6 +76,15 @@ func show_text_middle(full_text:String, speed:float = 0.03):
 		status_label.text = full_text.substr(start,count)
 		await get_tree().create_timer(speed).timeout
 	await get_tree().create_timer(5).timeout
+	$"../RadioUI/BorderFrame".visible = false
 	status_label.text = ""
 	banner_bg.visible = false
 	is_typing = false
+
+func play_radio_alert():
+	if engine_hum:
+		var tween = create_tween()
+		tween.tween_property(engine_hum,"volume_db",-15.0,0.2)
+		await get_tree().create_timer(4.0).timeout
+		var return_tween = create_tween()
+		return_tween.tween_property(engine_hum,"volume_db",0.0,0.5)

@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://ceohesj4hi6xp" path="res://Player(Submarine)/submarine_player.gd" id="1_ejc7h"]
 [ext_resource type="Script" uid="uid://cnmkbpx38shwi" path="res://Player(Submarine)/debug_ui.gd" id="2_ejc7h"]
-[ext_resource type="Texture2D" uid="uid://dvd8gamaptqxb" path="res://EnvironmentAssets/cookie_14.jpg" id="2_endln"]
 [ext_resource type="Script" uid="uid://bo10kssh0xein" path="res://Player(Submarine)/radio_manager.gd" id="2_etqif"]
 [ext_resource type="PackedScene" uid="uid://bcpmyuccquhjq" path="res://Player(Submarine)/submarine_model.tscn" id="2_ic8dy"]
 [ext_resource type="Shader" uid="uid://25i02nqt7pkw" path="res://Shaders/bubbles.gdshader" id="3_7r4gt"]
@@ -19,6 +18,7 @@
 [ext_resource type="AudioStream" uid="uid://dd7elc2yses5x" path="res://Audio/PeriscopeRise.mp3" id="13_g0hil"]
 [ext_resource type="AudioStream" uid="uid://cctvgocudad75" path="res://Audio/PeriscopeRotate.mp3" id="14_eq0fh"]
 [ext_resource type="AudioStream" uid="uid://da00blu5w1uh5" path="res://Audio/HullHealthAlarmSFX.mp3" id="15_8x1yf"]
+[ext_resource type="Script" uid="uid://c2nx1aw3qyjc5" path="res://Player(Submarine)/sonar_scan.gd" id="15_cbynr"]
 [ext_resource type="AudioStream" uid="uid://bwfkm5hx2unks" path="res://Audio/DeathSFX.mp3" id="16_8ky85"]
 [ext_resource type="AudioStream" uid="uid://db8aj124mmfbp" path="res://Audio/SwitchPOVsSFX.mp3" id="17_h384w"]
 [ext_resource type="AudioStream" uid="uid://brsuf7u8hlrpr" path="res://Audio/WarningUISFX.mp3" id="18_u6t6h"]
@@ -30,6 +30,7 @@
 [ext_resource type="AudioStream" uid="uid://j18hpu5u16t" path="res://Audio/LightSwitch.mp3" id="24_c1fx2"]
 [ext_resource type="AudioStream" uid="uid://bvojacjgiswl0" path="res://Audio/MMSsonarScan.mp3" id="27_nbjrr"]
 [ext_resource type="Script" uid="uid://4efwtklunp8s" path="res://Player(Submarine)/pause_menu.gd" id="30_71e3a"]
+[ext_resource type="Script" uid="uid://b00ghde6sbhbu" path="res://Player(Submarine)/mini_map_ui_rader.gd" id="31_cbynr"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ac5wi"]
 bounce = 0.01
@@ -701,15 +702,17 @@ player_sub = NodePath("..")
 transform = Transform3D(1, 0, 0, 0, 0.9823363, -0.18712415, 0, 0.18712415, 0.9823363, 0, -1.0188202, -2.5095205)
 light_energy = 25.0
 light_indirect_energy = 0.2
-light_volumetric_fog_energy = 8.0
-light_projector = ExtResource("2_endln")
+light_volumetric_fog_energy = 2.0
 shadow_enabled = true
-spot_range = 49.79378
+shadow_bias = 0.07
+shadow_normal_bias = 2.0
+spot_range = 150.0
 spot_attenuation = 0.3
-spot_angle = 6.916028
+spot_angle = 32.05
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Lights" unique_id=1433053510]
 transform = Transform3D(1, 0, 0, 0, 0.018272579, -0.99983317, 0, 0.99983317, 0.018272579, 0, 0.21602261, -7.178622)
+visible = false
 mesh = SubResource("CylinderMesh_pmlob")
 skeleton = NodePath("")
 
@@ -742,11 +745,13 @@ skeleton = NodePath("")
 
 [node name="FirstPersonCamera" type="Camera3D" parent="." unique_id=1826677329]
 transform = Transform3D(1, 0, 0, 0, 0.9942074, -0.10747881, 0, 0.10747881, 0.9942074, 0, 0.41521108, -1.6383755)
+cull_mask = 1048571
 
 [node name="CameraMount" type="Node3D" parent="." unique_id=477535279]
 
 [node name="ThirdPersonCamera" type="Camera3D" parent="CameraMount" unique_id=1126493837]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15.600738, -1.6929967)
+cull_mask = 1048571
 
 [node name="ScanLight" type="OmniLight3D" parent="CameraMount/ThirdPersonCamera" unique_id=1949905007]
 light_color = Color(1, 1, 0.41568628, 1)
@@ -851,16 +856,27 @@ material = SubResource("FogMaterial_lctq1")
 [node name="RadioUI" type="CanvasLayer" parent="." unique_id=670632746]
 layer = 4
 
+[node name="BorderFrame" type="ColorRect" parent="RadioUI" unique_id=877158597]
+modulate = Color(0, 0, 0, 1)
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -449.0
+offset_top = 11.0
+offset_right = 571.0
+offset_bottom = 131.0
+grow_horizontal = 2
+
 [node name="BannerBackground" type="PanelContainer" parent="RadioUI" unique_id=1239555602]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -500.0
-offset_top = -310.0
-offset_right = 500.0
-offset_bottom = -210.0
+offset_left = -439.0
+offset_top = -311.635
+offset_right = 561.0
+offset_bottom = -211.63501
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
@@ -916,9 +932,8 @@ scale = Vector2(1180.4999, 172.00005)
 mesh = SubResource("BoxMesh_71e3a")
 
 [node name="PeriscopeUI" type="Control" parent="PeriscopeUI/GlassScreenThingy" unique_id=636060590]
+layout_mode = 1
 anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
 
 [node name="MMScanerstatus" type="Label" parent="PeriscopeUI/GlassScreenThingy/PeriscopeUI" unique_id=918395234]
 texture_filter = 1
@@ -972,10 +987,10 @@ text = "=== SCAN RESULTS ==="
 texture_filter = 1
 custom_minimum_size = Vector2(200, 50)
 layout_mode = 0
-offset_left = 784.0
-offset_top = 81.0
-offset_right = 1126.0
-offset_bottom = 148.0
+offset_left = 803.0
+offset_top = 117.0
+offset_right = 1145.0
+offset_bottom = 184.0
 theme_override_colors/font_color = Color(0.38431373, 0.6784314, 0.2901961, 1)
 theme_override_colors/font_shadow_color = Color(0.14117648, 0.27058825, 0.09803922, 1)
 theme_override_colors/font_outline_color = Color(0.23921569, 0.43529412, 0.1764706, 1)
@@ -987,6 +1002,14 @@ text = "=== BEACON RESULT ==="
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
+
+[node name="SonarScan" type="Control" parent="PeriscopeUI/GlassScreenThingy" unique_id=430246891]
+anchors_preset = 0
+offset_left = 829.0
+offset_top = 318.0
+offset_right = 1138.0
+offset_bottom = 627.0
+script = ExtResource("15_cbynr")
 
 [node name="Ray" type="ShapeCast3D" parent="." unique_id=1752696383]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, -2.2172208)
@@ -1141,6 +1164,27 @@ grow_horizontal = 2
 theme_override_fonts/font = ExtResource("11_o6sp8")
 theme_override_font_sizes/font_size = 60
 text = "G A M E    P A U S E D"
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=1383070780 node_paths=PackedStringArray("target_sub")]
+texture_filter = 1
+clip_contents = true
+offset_right = 150.0
+offset_bottom = 150.0
+stretch = true
+script = ExtResource("31_cbynr")
+target_sub = NodePath("..")
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=362717019]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(150, 150)
+render_target_update_mode = 4
+
+[node name="MiniMapCamera" type="Camera3D" parent="SubViewportContainer/SubViewport" unique_id=2044163105]
+transform = Transform3D(-4.371139e-08, 1, 4.371139e-08, 0, -4.371139e-08, 1, 1, 4.371139e-08, 1.9106855e-15, 0, 0, 0)
+cull_mask = 1048571
+projection = 1
+size = 60.0
 
 [connection signal="pressed" from="PauseMenu/ColorRect/VBoxContainer/ResumeButton" to="PauseMenu" method="_on_resume_button_pressed"]
 [connection signal="pressed" from="PauseMenu/ColorRect/VBoxContainer/RestartButton" to="PauseMenu" method="_on_restart_button_pressed"]

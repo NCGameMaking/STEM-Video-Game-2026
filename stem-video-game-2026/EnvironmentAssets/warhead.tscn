@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://ddtg38al1cln0" path="res://Scripts/warhead.gd" id="1_be6n1"]
 [ext_resource type="Texture2D" uid="uid://cnk0r8ekgdsud" path="res://EnvironmentAssets/RuinedShips/submarine_low_poly_0.png" id="1_lbkif"]
 [ext_resource type="AudioStream" uid="uid://dw4g41aijlvis" path="res://Audio/ImpactThudSFX.mp3" id="3_b3bry"]
+[ext_resource type="Texture2D" uid="uid://cdn80l21wkplr" path="res://Player(Submarine)/UIScreens/RadiationSymbol.png" id="4_gg55p"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3tbso"]
 resource_name = "Rakete"
@@ -145,6 +146,13 @@ top_radius = 2.0
 bottom_radius = 2.0
 height = 5.0
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d8vvk"]
+albedo_texture = ExtResource("4_gg55p")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_mtabr"]
+material = SubResource("StandardMaterial3D_d8vvk")
+size = Vector2(5, 5)
+
 [node name="Warhead" type="Area3D" unique_id=1474510312]
 script = ExtResource("1_be6n1")
 
@@ -182,3 +190,35 @@ draw_pass_1 = SubResource("CylinderMesh_d8vvk")
 stream = ExtResource("3_b3bry")
 volume_db = 15.0
 max_db = 6.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1715064748]
+transform = Transform3D(-1.9670125e-07, 4.5, 0, -4.5, -1.9670125e-07, 0, 0, 0, 4.5, 19.83614, -68.10242, 0)
+mesh = SubResource("PlaneMesh_mtabr")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=2072912954]
+transform = Transform3D(1.9670125e-07, -4.5, -3.934025e-07, -4.5, -1.9670125e-07, 0, -1.719617e-14, 3.934025e-07, -4.5, -19.748817, -68.10242, 0)
+mesh = SubResource("PlaneMesh_mtabr")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="." unique_id=1239224214]
+transform = Transform3D(8.598085e-15, -1.9670125e-07, -4.5, -4.5, -1.9670125e-07, 0, -1.9670125e-07, 4.5, -1.9670125e-07, 0.043660253, -68.10242, 19.792479)
+mesh = SubResource("PlaneMesh_mtabr")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="." unique_id=728971631]
+transform = Transform3D(8.598085e-15, -1.9670125e-07, 4.5, -4.5, -1.9670125e-07, 0, 1.9670125e-07, -4.5, -1.9670125e-07, 0.04366198, -68.10242, -19.792479)
+mesh = SubResource("PlaneMesh_mtabr")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="." unique_id=1621963399]
+transform = Transform3D(-1.9670125e-07, 4.5, 0, -4.5, -1.9670125e-07, 0, 0, 0, 4.5, 19.83614, 39.711945, 0)
+mesh = SubResource("PlaneMesh_mtabr")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="." unique_id=1574435033]
+transform = Transform3D(1.9670125e-07, -4.5, -3.934025e-07, -4.5, -1.9670125e-07, 0, -1.719617e-14, 3.934025e-07, -4.5, -19.748817, 39.711945, 0)
+mesh = SubResource("PlaneMesh_mtabr")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="." unique_id=1780817751]
+transform = Transform3D(8.598085e-15, -1.9670125e-07, -4.5, -4.5, -1.9670125e-07, 0, -1.9670125e-07, 4.5, -1.9670125e-07, 0.043660253, 39.711945, 19.792479)
+mesh = SubResource("PlaneMesh_mtabr")
+
+[node name="MeshInstance3D8" type="MeshInstance3D" parent="." unique_id=798079188]
+transform = Transform3D(8.598085e-15, -1.9670125e-07, 4.5, -4.5, -1.9670125e-07, 0, 1.9670125e-07, -4.5, -1.9670125e-07, 0.04366198, 39.711945, -19.792479)
+mesh = SubResource("PlaneMesh_mtabr")

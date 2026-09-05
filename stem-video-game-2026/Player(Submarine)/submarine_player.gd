@@ -118,6 +118,8 @@ var is_critical: bool = false
 @onready var resume_button = $PauseMenu/ColorRect/VBoxContainer/ResumeButton
 @onready var quit_button = $PauseMenu/ColorRect/VBoxContainer/QuitButton
 @onready var pause_label = $PauseMenu/ColorRect/PauseLabel
+@onready var sonar_scan = $PeriscopeUI/GlassScreenThingy/SonarScan
+
 
 var can_scan : bool = true
 
@@ -194,8 +196,8 @@ func _process(delta):
 		left_light_3.visible = flash_state
 		left_light_4.visible = flash_state
 	else:
-			left_light_3.visible = true
-			left_light_4.visible = true
+		left_light_3.visible = true
+		left_light_4.visible = true
 	var current_speed = linear_velocity.length()
 	var speed_ratio = clamp(current_speed / 15, 0, 1)
 	
@@ -222,6 +224,8 @@ func _process(delta):
 	update_dashboard_ui()
 
 func _unhandled_input(event: InputEvent):
+	if is_deploying or is_evacuating:
+		return
 	if event.is_action_pressed("Toggle_light"):
 		if lights:
 			lights.visible = !lights.visible
@@ -565,31 +569,37 @@ func fire_mms_scan():
 	tween.tween_property(scan_light, "light_energy", 0.0,0.6)
 	status_label.text = "[ MMS SCANNER - SCANNING... ]"
 	print("MMS scan fired")
-	
+	var detected_targets:Array = []
 	var mines_found :int = 0
 	var sharks_found :int = 0
 	var forward_dir = -periscope_camera.global_transform.basis.z.normalized()
 
-				
 	#mines
 	var mine = get_tree().get_nodes_in_group("seamine")
 	
 	for mines in mine:
 		var to_target = (mines.global_position - periscope_camera.global_position)
-		var dist = to_target.length()
-		var angle = rad_to_deg(forward_dir.angle_to(to_target.normalized()))
-		if dist <=mms_range and angle <= mms_angle_degrees:
-			mines_found += 1
+		if to_target.length()<=mms_range and rad_to_deg(forward_dir.angle_to(to_target.normalized())) <= mms_angle_degrees:
+			detected_targets.append(mines)
+			mines_found +=1
 			
 	#sharks
 	var shark = get_tree().get_nodes_in_group("shark")
 	
 	for sharks in shark:
 		var to_target = (sharks.global_position - periscope_camera.global_position)
-		var dist = to_target.length()
-		var angle = rad_to_deg(forward_dir.angle_to(to_target.normalized()))
-		if dist <=mms_range and angle <= mms_angle_degrees:
-			sharks_found += 1
+		if to_target.length()<=mms_range and rad_to_deg(forward_dir.angle_to(to_target.normalized())) <= mms_angle_degrees:
+			detected_targets.append(sharks)
+			sharks_found +=1
+	var warhead = get_tree().get_nodes_in_group("warhead")
+
+	for warheads in warhead:
+		var to_target = (warheads.global_position - periscope_camera.global_position)
+		if to_target.length()<=mms_range and rad_to_deg(forward_dir.angle_to(to_target.normalized())) <= mms_angle_degrees:
+			detected_targets.append(warheads)
+			
+	if sonar_scan and sonar_scan.has_method("update_sonar_blips"):
+		sonar_scan.update_sonar_blips(detected_targets,periscope_camera.global_transform)
 	update_readout_note(mines_found,sharks_found)
 	
 	await get_tree().create_timer(3.0).timeout
