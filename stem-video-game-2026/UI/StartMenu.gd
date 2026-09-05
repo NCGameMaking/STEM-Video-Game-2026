@@ -38,9 +38,9 @@ func _on_start_button_pressed():
 	var btn_tween = create_tween()
 	btn_tween.tween_property(color_rect,"modulate:a",1.0,2.0)
 	await btn_tween.finished
-	start_button.queue_free()
-	quit.queue_free()
-	help_button.queue_free()
+	start_button.hide()
+	quit.hide()
+	help_button.hide()
 	brief_label.text = briefing_text
 	brief_label.visible_characters = 0
 	brief_label.visible = true

@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://bo8i5yrm1r2t"]
 
 [ext_resource type="Texture2D" uid="uid://cu3um2rdfd2l8" path="res://Player(Submarine)/UIScreens/HackingScreen.png" id="1_lxxsk"]
-[ext_resource type="FontFile" uid="uid://dpums2cf8f1mt" path="res://Fonts/Futureworld-ZGwJ.ttf" id="2_m18ea"]
 [ext_resource type="Texture2D" uid="uid://ccqtmjkwupaoe" path="res://Player(Submarine)/UIScreens/HealthBarSingleEmpty.png" id="3_hxxh4"]
 [ext_resource type="Texture2D" uid="uid://cb0o4yq3c7o6" path="res://Player(Submarine)/UIScreens/SingleHealthBarUnder.png" id="4_pyup6"]
 [ext_resource type="Texture2D" uid="uid://djexecw38o0h0" path="res://Player(Submarine)/UIScreens/StaminaBarOrangeFull.png" id="5_lxxsk"]
@@ -18,6 +17,7 @@ shader = ExtResource("6_jnok3")
 [sub_resource type="Theme" id="Theme_hxxh4"]
 
 [node name="BottomUI" type="Control" unique_id=148449744]
+texture_filter = 1
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -45,37 +45,34 @@ theme_override_colors/font_shadow_color = Color(0.14064342, 0.2705326, 0.0991167
 theme_override_colors/font_outline_color = Color(0.23921569, 0.43529412, 0.1764706, 1)
 theme_override_constants/outline_size = 8
 theme_override_constants/shadow_outline_size = 11
-theme_override_fonts/font = ExtResource("2_m18ea")
 theme_override_font_sizes/font_size = 12
 text = "SYSTEM STATE : SPRINTING"
 
 [node name="HeadingLabel" type="Label" parent="." unique_id=1877733496]
 layout_mode = 0
-offset_left = 169.0
+offset_left = 165.0
 offset_top = 8.0
-offset_right = 300.0
-offset_bottom = 23.0
+offset_right = 308.0
+offset_bottom = 28.0
 theme_override_colors/font_color = Color(0.38536888, 0.6792036, 0.28955394, 1)
 theme_override_colors/font_shadow_color = Color(0.14064342, 0.2705326, 0.099116765, 1)
 theme_override_colors/font_outline_color = Color(0.23921569, 0.43529412, 0.1764706, 1)
 theme_override_constants/outline_size = 8
 theme_override_constants/shadow_outline_size = 11
-theme_override_fonts/font = ExtResource("2_m18ea")
 theme_override_font_sizes/font_size = 14
 text = "HEADING : 180 ° { W }"
 
 [node name="CollisionWarning" type="Label" parent="." unique_id=187851779]
 layout_mode = 0
-offset_left = 298.0
+offset_left = 302.0
 offset_top = 8.0
-offset_right = 417.0
-offset_bottom = 23.0
+offset_right = 451.0
+offset_bottom = 28.0
 theme_override_colors/font_color = Color(0.38431373, 0.6784314, 0.2901961, 1)
 theme_override_colors/font_shadow_color = Color(0.14117648, 0.27058825, 0.09803922, 1)
 theme_override_colors/font_outline_color = Color(0.23921569, 0.43529412, 0.1764706, 1)
 theme_override_constants/outline_size = 8
 theme_override_constants/shadow_outline_size = 11
-theme_override_fonts/font = ExtResource("2_m18ea")
 theme_override_font_sizes/font_size = 14
 text = "COLLISION WARNING!"
 
@@ -95,13 +92,13 @@ texture_progress = ExtResource("5_lxxsk")
 
 [node name="LeftLight3" type="MeshInstance2D" parent="." unique_id=1110600368]
 modulate = Color(1, 0, 0, 1)
-position = Vector2(191.99998, 37)
+position = Vector2(202.99998, 43)
 scale = Vector2(22.775517, 22.775517)
 mesh = SubResource("SphereMesh_srtwg")
 
 [node name="LeftLight4" type="MeshInstance2D" parent="." unique_id=277537811]
 modulate = Color(1, 0, 0, 1)
-position = Vector2(867, 25)
+position = Vector2(866, 45)
 scale = Vector2(22.775517, 22.775517)
 mesh = SubResource("SphereMesh_srtwg")
 
@@ -143,7 +140,6 @@ theme_override_colors/font_shadow_color = Color(0.14064342, 0.2705326, 0.0991167
 theme_override_colors/font_outline_color = Color(0.23921569, 0.43529412, 0.1764706, 1)
 theme_override_constants/outline_size = 8
 theme_override_constants/shadow_outline_size = 11
-theme_override_fonts/font = ExtResource("2_m18ea")
 theme_override_font_sizes/font_size = 14
 text = "WARHEADS : 6/6"
 
@@ -158,7 +154,6 @@ theme_override_colors/font_shadow_color = Color(0.14064342, 0.2705326, 0.0991167
 theme_override_colors/font_outline_color = Color(0.23921569, 0.43529412, 0.1764706, 1)
 theme_override_constants/outline_size = 8
 theme_override_constants/shadow_outline_size = 11
-theme_override_fonts/font = ExtResource("2_m18ea")
 theme_override_font_sizes/font_size = 14
 text = "100%"
 
@@ -173,7 +168,6 @@ theme_override_colors/font_shadow_color = Color(0.14064342, 0.2705326, 0.0991167
 theme_override_colors/font_outline_color = Color(0.23921569, 0.43529412, 0.1764706, 1)
 theme_override_constants/outline_size = 8
 theme_override_constants/shadow_outline_size = 11
-theme_override_fonts/font = ExtResource("2_m18ea")
 theme_override_font_sizes/font_size = 14
 text = "HULL INTEGRITY : STABLE"
 
