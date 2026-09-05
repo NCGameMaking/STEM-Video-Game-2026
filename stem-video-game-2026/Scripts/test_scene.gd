@@ -57,10 +57,12 @@ func start_jammed_warhead_event(warhead_object : Node3D):
 	submarine.apply_camera_shake(.2)
 	rocks_falling.play()
 	await radio_manager.show_text_middle("[ COMMS ] HQ : ' Ceiling collapse imminent! RAM the warhead to force ignition!'",0.05)
+	$SingleArrowSignHint.visible = true
 	waiting_for_ram = true
 
 func trigger_warhead_ignition(warhead_object : Node3D):
 	await radio_manager.show_text_middle("[ CRITICAL ] HULL BREACH IGNITION!")
+	$SingleArrowSignHint.visible=false
 	await get_tree().create_timer(1.0).timeout
 	color_rect.modulate.a = 0.0
 	color_rect.color = Color(1,1,1,1)
@@ -102,10 +104,17 @@ func run_prologue():
 		animation_player.play("prologue_drop")
 	#await animation_player.animation_finished
 	await get_tree().create_timer(6).timeout
-	await radio_manager.show_text_middle("[ TUGBOAT COMM ] : Deployment cable locked. Lowering into Trench...", 0.05)
-	submarine.set_deploying(false)
+	await radio_manager.show_text_middle("[ TUGBOAT COMM ] : Transport Cables secured : Lowering into ocean", 0.05)
+	$CameraCut.make_current()
+	animation_player.play("CameraPan")
+	radio_manager.show_text_middle("[ TUGBOAT COMM ] :OBJECTIVE — Descend into lower canyon, locate payload warheads, and clear the tunnel route.", 0.05)
+	await animation_player.animation_finished
+	$Submarine/FirstPersonCamera.make_current()
 	await radio_manager.show_text_middle("[ OBJECTIVE ] SECURE ALL 6 WARHEADS", 0.05)
-	radio_manager.unlock_hints()
+
+	submarine.set_deploying(false)
+	await radio_manager.show_text_middle("[ OBJECTIVE ] Lower Canyon Entrance is about 80°-90° East (E) Good luck Operator", 0.05)
+	#radio_manager.unlock_hints()
 
 func _on_surface_reached(body: Node3D):
 	if body.is_in_group("player"):
@@ -119,14 +128,12 @@ func start_epilogue_extraction():
 	await radio_manager.show_text_middle("[ TUGBOAT COMM ] : Visual on your ascent. Securing recovery cables...", 0.05)
 	await get_tree().create_timer(2.0).timeout
 	await radio_manager.show_text_middle("[ TUGBOAT COMM ] : Warhead payload confirmed aboard. Great work, operator.", 0.05)
-	await get_tree().create_timer(4.0).timeout
+	await get_tree().create_timer(3.0).timeout
 	color_rect.modulate.a = 1.0
 	color_rect.color = Color(0,0,0,0)
-	await animation_player.animation_finished
 	var fade_out = create_tween()
 	fade_out.tween_property(color_rect, "color:a",1,2)
 	color_rect.color = Color(0,0,0,1)
-	await get_tree().create_timer(1.5).timeout
 	Global.show_debrief_on_menu = true
 	get_tree().change_scene_to_file("res://UI/cinematic_menu.tscn")
 	

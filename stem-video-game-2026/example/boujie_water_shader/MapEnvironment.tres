@@ -23,3 +23,4 @@ fog_aerial_perspective = 1.0
 volumetric_fog_enabled = true
 volumetric_fog_density = 0.0
 volumetric_fog_length = 500.39
+volumetric_fog_sky_affect = 0.0
