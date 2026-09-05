@@ -64,10 +64,10 @@ text = "HEADING : 180 ° { W }"
 
 [node name="CollisionWarning" type="Label" parent="." unique_id=187851779]
 layout_mode = 0
-offset_left = 302.0
-offset_top = 8.0
-offset_right = 451.0
-offset_bottom = 28.0
+offset_left = 314.0
+offset_top = 10.0
+offset_right = 463.0
+offset_bottom = 30.0
 theme_override_colors/font_color = Color(0.38431373, 0.6784314, 0.2901961, 1)
 theme_override_colors/font_shadow_color = Color(0.14117648, 0.27058825, 0.09803922, 1)
 theme_override_colors/font_outline_color = Color(0.23921569, 0.43529412, 0.1764706, 1)
