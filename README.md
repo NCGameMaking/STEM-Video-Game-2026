@@ -47,7 +47,7 @@ A secret weapons mission gone wrong. A submarine has sunk to the bottom and high
 
 - All music and sound effects: pixabay (CC0 free to use, no attribution required)
 - Most 3D models, code, UI, and shaders (aside from the Boujie Water Shader add-on): original work by Neil Choudhary
-- The submarine on the front page and container ship was taken from public domain
+- The submarine was from sketchfab. https://sketchfab.com/3d-models/submarine-low-poly-e363d3575d23495aa79fc8f3d9b88a67 and container ship was taken from public domain
 - Fonts: sourced externally from fontspace.com
 
 ## Development log
