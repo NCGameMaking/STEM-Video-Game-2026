@@ -27,12 +27,19 @@ A secret weapons mission gone wrong. A submarine has sunk to the bottom and high
 ## Controls for submarine
 
 WASD : MOVE
+
 SPACE : ASCEND
+
 CTRL / C : DESCEND
-SHIFT : BOOSY
+
+SHIFT : BOOST
+
 F : Toggle Flashlight
+
 V : Toggle periscope view
+
 X (in periscope) : Fire MMS sonar scan
+
 ESCAPE : Pause
 
 ## I made this game with...
