@@ -22,7 +22,7 @@ A real circular sonar readout (not just a compass bearing) showing the mines and
 ### Minimap:
 Just used a camera on top of the player and made a minimap, testers just felt lost and gives a wider view
 ### Dynamic Hull settings
-The classis colour-coded setting (green for good, orange for caution, red for danger), also there using the `ShapeCast3D` node to give collision warnings.
+The classic colour-coded setting (green for good, orange for caution, red for danger), also there using the `ShapeCast3D` node to give collision warnings.
 ### Audio systems:
 The background audio reacts to your speed and state like idle, moving engine, going up, ballast hiss while going down and hull creaks.
 ### A scripted finale:
@@ -32,13 +32,13 @@ Most of these models like the submarine, mines, sharks, wreck, ruins were hand-b
 
 ## Controls for submarine
 
-WASD : MOVE
+WASD : Move
 
-SPACE : ASCEND
+SPACE : Ascend
 
-CTRL / C : DESCEND
+CTRL / C : Descend
 
-SHIFT : BOOST
+SHIFT : Boost
 
 F : Toggle Flashlight
 
